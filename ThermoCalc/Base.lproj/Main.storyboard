@@ -22,9 +22,13 @@
                             <outlet property="delegate" destination="IvD-ai-6zP" id="wRY-Yi-Lby"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem systemItem="trash" id="l7n-1d-YmI"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Water" id="G2B-I4-Xfz">
                         <barButtonItem key="rightBarButtonItem" title="Substance" id="AYU-Jl-MXi"/>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d9T-8B-NS4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -33,12 +37,13 @@
         <!--Navigation Controller-->
         <scene sceneID="zsf-PZ-RK3">
             <objects>
-                <navigationController id="f3d-0j-S90" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="f3d-0j-S90" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="odK-gD-KtU">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="55V-yt-kic">
+                        <rect key="frame" x="0.0" y="729" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
