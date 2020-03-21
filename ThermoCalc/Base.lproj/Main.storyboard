@@ -23,10 +23,10 @@
                         </connections>
                     </tableView>
                     <toolbarItems>
-                        <barButtonItem systemItem="trash" id="l7n-1d-YmI"/>
+                        <barButtonItem title="Substance" id="AYU-Jl-MXi"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Water" id="G2B-I4-Xfz">
-                        <barButtonItem key="rightBarButtonItem" title="Substance" id="AYU-Jl-MXi"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="l7n-1d-YmI"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
