@@ -20,6 +20,7 @@ class TableViewController: UITableViewController{
             let controllers = splitViewController.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
+        
         self.navigationItem.searchController = UISearchController(searchResultsController: nil)
         self.navigationItem.hidesSearchBarWhenScrolling = true
         // Uncomment the following line to preserve selection between presentations
@@ -45,7 +46,6 @@ class TableViewController: UITableViewController{
         // #warning Incomplete implementation, return the number of rows
         return Results.count
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
@@ -55,6 +55,16 @@ class TableViewController: UITableViewController{
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "DELETE") { (action, actionIndexPath) in
+            self.Results.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
+        }
+        let otherAction = UITableViewRowAction(style: .destructive, title: "OTHER") { (action, actionIndexPath) in
+            //其他操作
+        }
+        return [deleteAction]
+    }
     
     // MARK: - Navigation
 
