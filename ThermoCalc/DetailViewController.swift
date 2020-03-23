@@ -8,9 +8,36 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
-
+class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 6
+    }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Property", for: indexPath)
+        if(indexPath.row == 0) {
+            cell.textLabel!.text = "State:"
+            cell.detailTextLabel!.text = detailResult?.calculated_result.State
+        } else if (indexPath.row == 1) {
+            cell.textLabel!.text = "Pressure:"
+            cell.detailTextLabel!.text = detailResult?.calculated_result.p
+        } else if (indexPath.row == 2) {
+            cell.textLabel!.text = "Specific Volume:"
+            cell.detailTextLabel!.text = detailResult?.calculated_result.v
+        } else if (indexPath.row == 3) {
+            cell.textLabel!.text = "Temperature:"
+            cell.detailTextLabel!.text = detailResult?.calculated_result.T
+        } else if (indexPath.row == 4) {
+            cell.textLabel!.text = "Internal Energy:"
+            cell.detailTextLabel!.text = detailResult?.calculated_result.u
+        } else if (indexPath.row == 5) {
+            cell.textLabel!.text = "Enthalpy:"
+            cell.detailTextLabel!.text = detailResult?.calculated_result.h
+        }
+        return cell
+    }
+    
+
     var detailResult: Result? {
         didSet {
             configureView()
@@ -33,15 +60,6 @@ class DetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
 
 }
