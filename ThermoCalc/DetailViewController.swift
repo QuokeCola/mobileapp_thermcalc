@@ -9,6 +9,28 @@
 import UIKit
 
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    var detailResult: Result? {
+        didSet {
+            configureView()
+        }
+    }
+    
+    func configureView() {
+        if let DetailResult = detailResult {
+            title = DetailResult.property1+", "+DetailResult.property2
+        }
+    }
+    override func viewDidLoad() {
+        configureView()
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
@@ -55,30 +77,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         }
         return cell
     }
-    
-
-    var detailResult: Result? {
-        didSet {
-            configureView()
-        }
+    // CANCEL THE HIGHLIGHT AFTER TOUCHING
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView .deselectRow(at: indexPath, animated: true)
     }
-    
-    func configureView() {
-        if let DetailResult = detailResult {
-            title = DetailResult.property1+", "+DetailResult.property2
-        }
-    }
-    override func viewDidLoad() {
-        configureView()
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-
 }

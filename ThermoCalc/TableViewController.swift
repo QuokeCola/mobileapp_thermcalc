@@ -36,17 +36,17 @@ class TableViewController: UITableViewController{
     }
 
     // MARK: - Table view data source
-
+    // ONLY ONE SECTION
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    // GET CELL COUNT
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return Results.count
     }
-    
+    // GET CELL
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let result = Results[indexPath.row]
@@ -54,16 +54,19 @@ class TableViewController: UITableViewController{
         cell.detailTextLabel!.text = result.calculated_result.get_result()
         return cell
     }
-
+    // DELETE ACTION
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let deleteAction = UITableViewRowAction(style: .destructive, title: "DELETE") { (action, actionIndexPath) in
             self.Results.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .left)
         }
         let otherAction = UITableViewRowAction(style: .destructive, title: "OTHER") { (action, actionIndexPath) in
-            //其他操作
         }
         return [deleteAction]
+    }
+    // CANCEL THE HIGHLIGHT AFTER TOUCHING
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView .deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - Navigation
