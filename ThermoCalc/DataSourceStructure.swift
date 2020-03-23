@@ -8,19 +8,20 @@
 
 import Foundation
 
+struct calculatedRes {
+    let p: String
+    let v: String
+    let T: String
+    let h: String
+    let u: String
+    let State: String
+    func get_result()->String{
+        return "State:\(State), P:\(p), V:\(v), T:\(T), h:\(h), u:\(u)"
+    }
+}
+
 struct Result{
     let property1: String
     let property2: String
-    struct calculatedRes {
-        let p: String
-        let v: String
-        let T: String
-        let h: String
-        let u: String
-        let State: String
-        func get_result()->String{
-            return "State:\(State), P:\(p), V:\(v), T:\(T), h:\(h), u:\(u)"
-        }
-    }
     let calculated_result: calculatedRes
 }

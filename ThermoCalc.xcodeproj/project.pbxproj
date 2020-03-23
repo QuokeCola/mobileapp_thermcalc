@@ -23,6 +23,7 @@
 		D050C0432420D3D600A6ACB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D050C0462420D3D600A6ACB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D050C0482420D3D600A6ACB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D068B9132428B5830031EBEF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D06D5F72242662F600C2B2E7 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		D0AB856B242861A300BB50A1 /* DataSourceStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceStructure.swift; sourceTree = "<group>"; };
 		D0AB856D242865D300BB50A1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -42,6 +43,7 @@
 		D050C02E2420D3D500A6ACB8 = {
 			isa = PBXGroup;
 			children = (
+				D068B9132428B5830031EBEF /* README.md */,
 				D050C0392420D3D500A6ACB8 /* ThermoCalc */,
 				D050C0382420D3D500A6ACB8 /* Products */,
 			);

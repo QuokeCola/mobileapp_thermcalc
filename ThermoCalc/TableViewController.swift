@@ -11,18 +11,30 @@ import UIKit
 class TableViewController: UITableViewController{
     
     var Results = [Result]()
+    var filterResults: [Result] = []
+    
+    // COMPONENTS CONFIGURATION
     var detailViewController: DetailViewController? = nil
+    let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
-        Results = [Result(property1: "Hello", property2: "World", calculated_result: Result.calculatedRes(p: "1", v: "1", T: "1", h: "1", u: "1", State: "1"))]
+        // A data for test.
+        Results = [Result(property1: "Hello", property2: "World", calculated_result: calculatedRes(p: "1", v: "1", T: "1", h: "1", u: "1", State: "1"))]
         super.viewDidLoad()
+        
+        // Search controller configuration
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "ENTER ANY THERMO STATE"
+        self.navigationItem.searchController = searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = true
+        definesPresentationContext = true
+        
         if let splitViewController = splitViewController {
             let controllers = splitViewController.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
         
-        self.navigationItem.searchController = UISearchController(searchResultsController: nil)
-        self.navigationItem.hidesSearchBarWhenScrolling = true
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -60,8 +72,6 @@ class TableViewController: UITableViewController{
             self.Results.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .left)
         }
-        let otherAction = UITableViewRowAction(style: .destructive, title: "OTHER") { (action, actionIndexPath) in
-        }
         return [deleteAction]
     }
     // CANCEL THE HIGHLIGHT AFTER TOUCHING
@@ -85,6 +95,9 @@ class TableViewController: UITableViewController{
             }
         }
     }
-    
-
+}
+extension TableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        // TODO
+    }
 }
