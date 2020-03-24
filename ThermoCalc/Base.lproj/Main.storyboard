@@ -63,7 +63,7 @@
                     <navigationItem key="navigationItem" title="Water" id="C1I-jq-cry">
                         <rightBarButtonItems>
                             <barButtonItem systemItem="trash" id="Q4l-4m-snG"/>
-                            <barButtonItem style="plain" id="Mec-Wb-qPU">
+                            <barButtonItem id="Mec-Wb-qPU">
                                 <textField key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" id="2mt-zl-keP">
                                     <rect key="frame" x="238" y="7" width="83" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -81,7 +81,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vin-C7-J3t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1887.2" y="-47.290640394088669"/>
+            <point key="canvasLocation" x="-2047" y="-46"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="n8O-wP-Hdo">
@@ -134,7 +134,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ufU-5B-7FH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2735" y="675"/>
+            <point key="canvasLocation" x="-2736" y="957"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="aMw-Pe-1KR">
@@ -181,7 +181,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vIb-Da-VYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1887.2" y="674.6305418719212"/>
+            <point key="canvasLocation" x="-2046" y="957"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
