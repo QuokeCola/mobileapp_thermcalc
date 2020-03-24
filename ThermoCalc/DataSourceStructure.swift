@@ -15,6 +15,7 @@ struct calculatedRes {
     let h: String
     let u: String
     let State: String
+    let Substance: String
     func get_result()->String{
         return "State:\(State), P:\(p), V:\(v), T:\(T), h:\(h), u:\(u)"
     }

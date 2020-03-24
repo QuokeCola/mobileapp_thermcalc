@@ -10,17 +10,55 @@ import UIKit
 
 class TableViewController: UITableViewController{
     
+    enum substance_t {
+        case Water
+        case Refrigerant_22
+        case Refrigerant_134a
+        case Ammonia
+        case Propane
+    }
+    func ChangeSubstance(substance: substance_t) {
+        Substance = substance
+        var MainViewTitle: String = ""
+        
+        switch Substance {
+        case .Water:
+            MainViewTitle = "Water"
+        case .Ammonia:
+            MainViewTitle = "Ammonia"
+        case .Propane:
+            MainViewTitle = "Propane"
+        case .Refrigerant_134a:
+            MainViewTitle = "Refrigerant 134a"
+        case .Refrigerant_22:
+            MainViewTitle = "Refrigerant 22"
+        default:
+            title = "Water"
+        }
+        self.title = MainViewTitle
+    }
+    
+    var Substance: substance_t = .Water
     var Results = [Result]()
     var filterResults: [Result] = []
+    
+    // Interaction of choosing substance
+    @IBAction func SubstanceClk(_ sender: Any) {
+        self.PickerViewTextField.becomeFirstResponder()
+    }
     
     // COMPONENTS CONFIGURATION
     var detailViewController: DetailViewController? = nil
     let searchController = UISearchController(searchResultsController: nil)
+    var PickerViewTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     
     override func viewDidLoad() {
         // A data for test.
-        Results = [Result(property1: "Hello", property2: "World", calculated_result: calculatedRes(p: "1", v: "1", T: "1", h: "1", u: "1", State: "1"))]
+        Results = [Result(property1: "Hello", property2: "World", calculated_result: calculatedRes(p: "1", v: "1", T: "1", h: "1", u: "1", State: "1", Substance: "Water"))]
         super.viewDidLoad()
+        // Search Condition Configuration
+        self.ChangeSubstance(substance: .Water)
+        //self.PickerViewTextField.inputView
         
         // Search controller configuration
         searchController.searchResultsUpdater = self
@@ -62,7 +100,7 @@ class TableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let result = Results[indexPath.row]
-        cell.textLabel!.text = result.property1+", "+result.property2
+        cell.textLabel!.text = result.calculated_result.Substance+": "+result.property1+", "+result.property2
         cell.detailTextLabel!.text = result.calculated_result.get_result()
         return cell
     }
