@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -60,9 +61,23 @@
                         </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Water" id="C1I-jq-cry">
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="Q4l-4m-snG"/>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="trash" id="Q4l-4m-snG"/>
+                            <barButtonItem style="plain" id="Mec-Wb-qPU">
+                                <textField key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" id="2mt-zl-keP">
+                                    <rect key="frame" x="238" y="7" width="83" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="1"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="PickerViewTextField" destination="2mt-zl-keP" id="kLt-hf-py2"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vin-C7-J3t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

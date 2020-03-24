@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PickerView: UIPickerView, UIPickerViewDelegate {
+class PickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     
     /*
     // Only override draw() if you perform custom drawing.
@@ -17,15 +17,48 @@ class PickerView: UIPickerView, UIPickerViewDelegate {
         // Drawing code
     }
     */
-
+    public func initialize(){
+        self.delegate = self
+        self.dataSource = self
+        self.reloadAllComponents()
+    }
+    public func get_selected_item()->substance_t{
+        switch self.selectedRow(inComponent: 0) {
+        case 0:
+            return .Water
+        case 1:
+            return .Ammonia
+        case 2:
+            return .Propane
+        case 3:
+            return .Refrigerant_134a
+        case 4:
+            return .Refrigerant_22
+        default:
+            return .Water
+        }
+    }
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
+        return 5
     }
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
+        switch row {
+        case 0:
+            return "Water"
+        case 1:
+            return "Ammonia"
+        case 2:
+            return "Propane"
+        case 3:
+            return "Refrigerant 134a"
+        case 4:
+            return "Refrigerant 22"
+        default:
+            return "Water"
+        }
     }
 }

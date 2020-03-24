@@ -26,3 +26,11 @@ struct Result{
     let property2: String
     let calculated_result: calculatedRes
 }
+
+enum substance_t {
+    case Water
+    case Refrigerant_22
+    case Refrigerant_134a
+    case Ammonia
+    case Propane
+}

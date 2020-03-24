@@ -9,14 +9,6 @@
 import UIKit
 
 class TableViewController: UITableViewController{
-    
-    enum substance_t {
-        case Water
-        case Refrigerant_22
-        case Refrigerant_134a
-        case Ammonia
-        case Propane
-    }
     func ChangeSubstance(substance: substance_t) {
         Substance = substance
         var MainViewTitle: String = ""
@@ -32,8 +24,6 @@ class TableViewController: UITableViewController{
             MainViewTitle = "Refrigerant 134a"
         case .Refrigerant_22:
             MainViewTitle = "Refrigerant 22"
-        default:
-            title = "Water"
         }
         self.title = MainViewTitle
     }
@@ -42,23 +32,57 @@ class TableViewController: UITableViewController{
     var Results = [Result]()
     var filterResults: [Result] = []
     
+    @IBOutlet var PickerViewTextField: UITextField!
     // Interaction of choosing substance
+    
     @IBAction func SubstanceClk(_ sender: Any) {
         self.PickerViewTextField.becomeFirstResponder()
     }
     
+    var pickerAccessory: UIToolbar?
+    
     // COMPONENTS CONFIGURATION
+    @objc func cancelBtnClicked(_ button: UIBarButtonItem?) {
+        PickerViewTextField?.resignFirstResponder()
+    }
+    
+    /**
+     Called when the done button of the `pickerAccessory` was clicked. Dismisses the picker and puts the selected value into the textField
+     */
+    @objc func doneBtnClicked(_ button: UIBarButtonItem?) {
+        PickerViewTextField?.resignFirstResponder()
+        ChangeSubstance(substance: SubstancePicker.get_selected_item())
+    }
+    
+    
     var detailViewController: DetailViewController? = nil
     let searchController = UISearchController(searchResultsController: nil)
-    var PickerViewTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+    
+    var SubstancePicker = PickerView()
     
     override func viewDidLoad() {
         // A data for test.
         Results = [Result(property1: "Hello", property2: "World", calculated_result: calculatedRes(p: "1", v: "1", T: "1", h: "1", u: "1", State: "1", Substance: "Water"))]
         super.viewDidLoad()
+        // Picker View Configuration
+        
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(TableViewController.cancelBtnClicked(_:)))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(TableViewController.doneBtnClicked(_:)))
+        
+        pickerAccessory = UIToolbar()
+        pickerAccessory?.autoresizingMask = .flexibleHeight
+        pickerAccessory?.isTranslucent = true
+        var frame = pickerAccessory?.frame
+        frame?.size.height = 44.0
+        pickerAccessory?.frame = frame!
+        pickerAccessory?.items = [cancelButton, flexSpace, doneButton]
+        PickerViewTextField.inputAccessoryView = pickerAccessory
+        
         // Search Condition Configuration
         self.ChangeSubstance(substance: .Water)
-        //self.PickerViewTextField.inputView
+        SubstancePicker.initialize()
+        PickerViewTextField.inputView = SubstancePicker
         
         // Search controller configuration
         searchController.searchResultsUpdater = self
