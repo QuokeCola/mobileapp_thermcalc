@@ -14,6 +14,7 @@ struct calculatedRes {
     let T: String
     let h: String
     let u: String
+    let x: String
     let State: String
     let Substance: String
     func get_result()->String{
@@ -33,4 +34,20 @@ enum substance_t {
     case Refrigerant_134a
     case Ammonia
     case Propane
+}
+
+var Results = [Result]()
+
+private enum searchCondition_t{
+    case p
+    case v
+    case t
+    case h
+    case u
+}
+
+func search(searchCommand: String) {
+    var commandStrings = searchCommand.split(separator: ",")
+    var SearchResult: Result
+    //return SearchResult
 }

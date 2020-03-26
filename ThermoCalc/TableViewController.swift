@@ -29,7 +29,7 @@ class TableViewController: UITableViewController{
     }
     
     var Substance: substance_t = .Water
-    var Results = [Result]()
+    
     var filterResults: [Result] = []
     
     @IBOutlet var PickerViewTextField: UITextField!
@@ -54,6 +54,19 @@ class TableViewController: UITableViewController{
         ChangeSubstance(substance: SubstancePicker.get_selected_item())
     }
     
+    @IBAction func deleteButtonClk(_ sender: Any) {
+        let alertController = UIAlertController(title: "YOU WILL DELETE ALL RECORDS", message: "IT WILL NOT BE INVERTIBLE", preferredStyle: UIAlertControllerStyle.actionSheet)
+        let cancelAction = UIAlertAction(title: "CANCEL", style: UIAlertActionStyle.cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "DELETE", style: UIAlertActionStyle.destructive, handler: deleteButtonConfirmed)
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func deleteButtonConfirmed(_ sender: UIAlertAction) {
+        Results.removeAll()
+        self.tableView.reloadData()
+    }
     
     var detailViewController: DetailViewController? = nil
     let searchController = UISearchController(searchResultsController: nil)
@@ -62,14 +75,16 @@ class TableViewController: UITableViewController{
     
     override func viewDidLoad() {
         // A data for test.
-        Results = [Result(property1: "Hello", property2: "World", calculated_result: calculatedRes(p: "1", v: "1", T: "1", h: "1", u: "1", State: "1", Substance: "Water"))]
+        Results = [Result(property1: "Hello", property2: "World", calculated_result: calculatedRes(p: "1", v: "1", T: "1", h: "1", u: "1", x: "1", State: "1", Substance: "Water"))]
+        for idx in 0...3 {
+            Results.append(Result(property1: "\(idx)", property2: "World", calculated_result: calculatedRes(p: "1", v: "1", T: "1", h: "1", u: "1", x: "1", State: "1", Substance: "Water")))
+        }
         super.viewDidLoad()
-        // Picker View Configuration
         
+        // Picker View Configuration
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(TableViewController.cancelBtnClicked(_:)))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(TableViewController.doneBtnClicked(_:)))
-        
         pickerAccessory = UIToolbar()
         pickerAccessory?.autoresizingMask = .flexibleHeight
         pickerAccessory?.isTranslucent = true
@@ -79,12 +94,12 @@ class TableViewController: UITableViewController{
         pickerAccessory?.items = [cancelButton, flexSpace, doneButton]
         PickerViewTextField.inputAccessoryView = pickerAccessory
         
-        // Search Condition Configuration
+        // Search Substance Configuration
         self.ChangeSubstance(substance: .Water)
         SubstancePicker.initialize()
         PickerViewTextField.inputView = SubstancePicker
         
-        // Search controller configuration
+        // Search Controller configuration
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "ENTER ANY THERMO STATE"
@@ -92,10 +107,14 @@ class TableViewController: UITableViewController{
         self.navigationItem.hidesSearchBarWhenScrolling = true
         definesPresentationContext = true
         
+        // Splitview Controller configuration
         if let splitViewController = splitViewController {
             let controllers = splitViewController.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
+        self.tableView.estimatedRowHeight = 0;
+        self.tableView.estimatedSectionHeaderHeight = 0;
+        self.tableView.estimatedSectionFooterHeight = 0;
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -115,11 +134,13 @@ class TableViewController: UITableViewController{
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
+    
     // GET CELL COUNT
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return Results.count
     }
+    
     // GET CELL
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
@@ -128,14 +149,22 @@ class TableViewController: UITableViewController{
         cell.detailTextLabel!.text = result.calculated_result.get_result()
         return cell
     }
+    
     // DELETE ACTION
-    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "DELETE") { (action, actionIndexPath) in
-            self.Results.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .left)
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if(tableView.contentSize.height<=tableView.bounds.height+100.0  && tableView.contentSize.height>tableView.bounds.height) {
+                tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            }
+            Results.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-        return [deleteAction]
     }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100.0
+    }
+    
     // CANCEL THE HIGHLIGHT AFTER TOUCHING
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView .deselectRow(at: indexPath, animated: true)

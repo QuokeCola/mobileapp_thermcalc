@@ -36,7 +36,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return 7
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if (section == 0) {
@@ -45,6 +45,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             return 15.0
         }
     }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if(section == 0) {
             return "STATE"
@@ -56,8 +57,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             return "TEMPERATURE"
         } else if (section == 4) {
             return "INTERNAL ENERGY"
-        } else {
+        } else if (section == 5){
             return "ENTHALPY"
+        } else if (section == 6){
+            return "MASS FACTOR X"
+        } else {
+            return "NULL"
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,6 +79,10 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             cell.textLabel!.text = detailResult?.calculated_result.u
         } else if (indexPath.section == 5) {
             cell.textLabel!.text = detailResult?.calculated_result.h
+        } else if (indexPath.section == 6) {
+            cell.textLabel!.text = detailResult?.calculated_result.x
+        } else {
+            cell.textLabel!.text = "NULL"
         }
         return cell
     }

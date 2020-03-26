@@ -15,27 +15,27 @@
         <scene sceneID="Ic6-lr-xUr">
             <objects>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="oFT-y5-zwA" customClass="TableViewController" customModule="ThermoCalc" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="HeY-u0-5Qu">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" contentInsetAdjustmentBehavior="always" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" estimatedRowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" id="HeY-u0-5Qu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="ghp-Xw-4EH" detailTextLabel="mXO-Mf-Q3l" rowHeight="103" style="IBUITableViewCellStyleSubtitle" id="ZZG-kf-Xf9">
-                                <rect key="frame" x="0.0" y="28" width="375" height="103"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="ghp-Xw-4EH" detailTextLabel="mXO-Mf-Q3l" rowHeight="100" style="IBUITableViewCellStyleSubtitle" id="ZZG-kf-Xf9">
+                                <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZZG-kf-Xf9" id="wQt-lz-gR5">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="102.66666666666667"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.666666666666671"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ghp-Xw-4EH">
-                                            <rect key="frame" x="16.000000000000004" y="24.666666666666671" width="51.333333333333336" height="30"/>
+                                            <rect key="frame" x="16.000000000000004" y="23.666666666666671" width="51.333333333333336" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mXO-Mf-Q3l">
-                                            <rect key="frame" x="15.999999999999996" y="58.999999999999993" width="46.666666666666664" height="15.666666666666666"/>
+                                            <rect key="frame" x="15.999999999999996" y="57.999999999999993" width="46.666666666666664" height="15.666666666666666"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <nil key="textColor"/>
@@ -62,7 +62,11 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Water" id="C1I-jq-cry">
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="trash" id="Q4l-4m-snG"/>
+                            <barButtonItem systemItem="trash" id="Q4l-4m-snG">
+                                <connections>
+                                    <action selector="deleteButtonClk:" destination="oFT-y5-zwA" id="CZA-kL-cvG"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem id="Mec-Wb-qPU">
                                 <textField key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" id="2mt-zl-keP">
                                     <rect key="frame" x="238" y="7" width="83" height="30"/>
@@ -81,7 +85,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vin-C7-J3t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2047" y="-46"/>
+            <point key="canvasLocation" x="-1898" y="-47"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="n8O-wP-Hdo">
@@ -134,7 +138,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ufU-5B-7FH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2736" y="957"/>
+            <point key="canvasLocation" x="-2735" y="684"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="aMw-Pe-1KR">
@@ -144,20 +148,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleAspectFit" fixedFrame="YES" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="kXS-qE-vlg">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="kXS-qE-vlg">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Property" textLabel="DLh-VM-s2u" rowHeight="62" style="IBUITableViewCellStyleDefault" id="yDK-pG-h3l">
-                                        <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="62"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Property" textLabel="DLh-VM-s2u" rowHeight="70" style="IBUITableViewCellStyleDefault" id="yDK-pG-h3l">
+                                        <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yDK-pG-h3l" id="pPa-gz-13D">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="69.666666666666671"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DLh-VM-s2u">
-                                                    <rect key="frame" x="15" y="0.0" width="345" height="62"/>
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="69.666666666666671"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                                     <nil key="textColor"/>
@@ -181,7 +185,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vIb-Da-VYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2046" y="957"/>
+            <point key="canvasLocation" x="-1898.4000000000001" y="682.75862068965523"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
