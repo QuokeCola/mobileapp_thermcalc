@@ -54,12 +54,17 @@ class TableViewController: UITableViewController {
         ChangeSubstance(substance: SubstancePicker.get_selected_item())
     }
     
+    @IBOutlet weak var DeleteButton: UIBarButtonItem!
     @IBAction func deleteButtonClk(_ sender: Any) {
         let alertController = UIAlertController(title: "YOU WILL DELETE ALL RECORDS", message: "IT WILL NOT BE INVERTIBLE", preferredStyle: UIAlertControllerStyle.actionSheet)
         let cancelAction = UIAlertAction(title: "CANCEL", style: UIAlertActionStyle.cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "DELETE", style: UIAlertActionStyle.destructive, handler: deleteButtonConfirmed)
         alertController.addAction(cancelAction)
         alertController.addAction(deleteAction)
+        if(UIDevice.current.model.contains("iPad")) {
+            alertController.popoverPresentationController?.sourceView = splitViewController?.view;
+            alertController.popoverPresentationController?.sourceRect = CGRect(x: tableView.bounds.width-27, y: 0, width: 0, height: 60)
+        }
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -76,7 +81,7 @@ class TableViewController: UITableViewController {
     override func viewDidLoad() {
         // A data for test.
         Results = [Result(property1: "Hello", property2: "World", calculated_result: calculatedRes(p: "1", v: "1", T: "1", h: "1", u: "1", x: "1", State: "1", Substance: "Water"))]
-        for idx in 0...3 {
+        for idx in 0...9 {
             Results.append(Result(property1: "\(idx)", property2: "World", calculated_result: calculatedRes(p: "1", v: "1", T: "1", h: "1", u: "1", x: "1", State: "1", Substance: "Water")))
         }
         super.viewDidLoad()
@@ -173,24 +178,39 @@ class TableViewController: UITableViewController {
     // CANCEL THE HIGHLIGHT AFTER TOUCHING
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if(Results.count != 0) {
+            let result = Results[indexPath.row]
+            let controller = self.storyboard?.instantiateViewController(withIdentifier: "DetailView") as! DetailViewController
+            controller.detailResult = result
+            controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+            controller.navigationItem.leftItemsSupplementBackButton = true
+            if(!UIDevice.current.model.contains("iPad")) {
+                show(controller, sender: self)
+            } else {
+                let navcontroller = splitViewController?.viewControllers[(splitViewController?.viewControllers.count)!-1] as! UINavigationController
+                navcontroller.viewControllers[0] = controller
+                splitViewController?.viewControllers[(splitViewController?.viewControllers.count)!-1] = navcontroller
+            }
+        }
     }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        if segue.identifier == "showDetail" {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                let result = Results[indexPath.row]
-                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                controller.detailResult = result
-                controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-                controller.navigationItem.leftItemsSupplementBackButton = true
-            }
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        // Get the new view controller using segue.destinationViewController.
+//        // Pass the selected object to the new view controller.
+//        if segue.identifier == "showDetail" && UIDevice.current.model.contains("iPad") {
+//            print("hello")
+//            if let indexPath = tableView.indexPathForSelectedRow {
+//                let result = Results[indexPath.row]
+//                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+//                controller.detailResult = result
+//                controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+//                controller.navigationItem.leftItemsSupplementBackButton = true
+//            }
+//        }
+//    }
 }
 // 3D touch
 extension TableViewController: UIViewControllerPreviewingDelegate {

@@ -43,9 +43,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="E7H-ju-JZ3" kind="showDetail" identifier="showDetail" id="Jr6-gc-kGm"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -80,6 +77,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="DeleteButton" destination="Q4l-4m-snG" id="ChJ-RS-toC"/>
                         <outlet property="PickerViewTextField" destination="2mt-zl-keP" id="kLt-hf-py2"/>
                     </connections>
                 </tableViewController>
@@ -128,11 +126,10 @@
                 <navigationController toolbarHidden="NO" id="E7H-ju-JZ3" sceneMemberID="viewController">
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="iRO-Sr-qwu">
-                        <rect key="frame" x="0.0" y="44" width="375" height="96"/>
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="52A-Ii-wQV">
-                        <rect key="frame" x="0.0" y="729" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -191,7 +188,4 @@
             <point key="canvasLocation" x="-1898.4000000000001" y="682.75862068965523"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="Jr6-gc-kGm"/>
-    </inferredMetricsTieBreakers>
 </document>
