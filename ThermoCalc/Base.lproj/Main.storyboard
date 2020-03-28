@@ -78,7 +78,6 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="DeleteButton" destination="Q4l-4m-snG" id="ChJ-RS-toC"/>
                         <outlet property="PickerViewTextField" destination="2mt-zl-keP" id="kLt-hf-py2"/>
                     </connections>
                 </tableViewController>

@@ -40,7 +40,7 @@ class TableViewController: UITableViewController {
     
     var pickerAccessory: UIToolbar?
     
-    // COMPONENTS CONFIGURATION
+    // DELETE ALL COMPONENTS CONFIGURATION
     @objc func cancelBtnClicked(_ button: UIBarButtonItem?) {
         PickerViewTextField?.resignFirstResponder()
     }
@@ -53,7 +53,6 @@ class TableViewController: UITableViewController {
         ChangeSubstance(substance: SubstancePicker.get_selected_item())
     }
     
-    @IBOutlet weak var DeleteButton: UIBarButtonItem!
     @IBAction func deleteButtonClk(_ sender: Any) {
         let alertController = UIAlertController(title: "YOU WILL DELETE ALL RECORDS", message: "IT WILL NOT BE INVERTIBLE", preferredStyle: UIAlertControllerStyle.actionSheet)
         let cancelAction = UIAlertAction(title: "CANCEL", style: UIAlertActionStyle.cancel, handler: nil)
@@ -72,9 +71,9 @@ class TableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
+    // COMPONENTS CONFIGURATION
     var detailViewController: DetailViewController? = nil
     let searchController = UISearchController(searchResultsController: nil)
-    
     var SubstancePicker = PickerView()
     
     override func viewDidLoad() {
@@ -98,7 +97,7 @@ class TableViewController: UITableViewController {
         pickerAccessory?.items = [cancelButton, flexSpace, doneButton]
         PickerViewTextField.inputAccessoryView = pickerAccessory
         
-        // Search Substance Configuration
+        // Search Substance Picker Configuration
         self.ChangeSubstance(substance: .Water)
         SubstancePicker.initialize()
         PickerViewTextField.inputView = SubstancePicker
@@ -107,6 +106,7 @@ class TableViewController: UITableViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "ENTER ANY THERMO STATE"
+        searchController.searchBar.delegate = self
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = true
         definesPresentationContext = true
@@ -141,29 +141,68 @@ class TableViewController: UITableViewController {
     // ONLY ONE SECTION
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        if(isFiltering()) {
+            return 2
+        } else {
+            return 1
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if(isFiltering()) {
+            if (section == 0){
+                return "CALCULATING RESULT"
+            } else {
+                return "EXIST RESULTS"
+            }
+        } else {
+            return ""
+        }
     }
     
     // GET CELL COUNT
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return Results.count
+        if(isFiltering()) {
+            if(section == 0) {
+                return 1
+            } else {
+                return filterResults.count
+            }
+        } else {
+            return Results.count
+        }
     }
     
     // GET CELL
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let result = Results[indexPath.row]
-        cell.textLabel!.text = result.calculated_result.Substance+": "+result.property1+", "+result.property2
-        cell.detailTextLabel!.text = result.calculated_result.get_result()
+        if(isFiltering()) {
+            if(indexPath.section == 0) {
+                cell.textLabel!.text = searchController.searchBar.text
+                cell.detailTextLabel?.text = "Searching..."// TODO: add calculated Results.
+            } else {
+                let result = filterResults[indexPath.row]
+                cell.textLabel!.text = result.calculated_result.Substance+": "+result.property1+", "+result.property2
+                cell.detailTextLabel!.text = result.calculated_result.get_result()
+            }
+        } else {
+            let result = Results[indexPath.row]
+            cell.textLabel!.text = result.calculated_result.Substance+": "+result.property1+", "+result.property2
+            cell.detailTextLabel!.text = result.calculated_result.get_result()
+            
+        }
         return cell
     }
     
     // DELETE ACTION
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            if(tableView.contentSize.height<=tableView.bounds.height+100.0  && tableView.contentSize.height>tableView.bounds.height) {
-                tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            // HIDE the glitch by deleting rows.
+            if(tableView.contentSize.height<=tableView.bounds.height+100.0  && tableView.contentSize.height>tableView.bounds.height-100.0) {
+                DispatchQueue.main.async {
+                    tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                }
             }
             Results.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -215,8 +254,39 @@ extension TableViewController: UIViewControllerPreviewingDelegate {
         show(viewControllerToCommit, sender: self)
     }
 }
+
 extension TableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        // TODO
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filterResults = Results.filter({(result:Result) -> Bool in
+            let splitedText = searchText.split(separator: ",")
+            for subString in splitedText {
+                if (subString == "") {
+                    continue
+                }
+                if (!result.calculated_result.get_result().contains(String(subString).trimmingCharacters(in: .whitespaces))) {
+                    return false
+                }
+            }
+            return true
+        })
+        tableView.reloadData()
+    }
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+}
+
+extension TableViewController: UISearchBarDelegate{
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("Event Recieved.")
     }
 }
