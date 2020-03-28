@@ -12,7 +12,6 @@ class TableViewController: UITableViewController {
     func ChangeSubstance(substance: substance_t) {
         Substance = substance
         var MainViewTitle: String = ""
-        
         switch Substance {
         case .Water:
             MainViewTitle = "Water"
@@ -193,24 +192,6 @@ class TableViewController: UITableViewController {
             }
         }
     }
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destinationViewController.
-//        // Pass the selected object to the new view controller.
-//        if segue.identifier == "showDetail" && UIDevice.current.model.contains("iPad") {
-//            print("hello")
-//            if let indexPath = tableView.indexPathForSelectedRow {
-//                let result = Results[indexPath.row]
-//                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-//                controller.detailResult = result
-//                controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
-//                controller.navigationItem.leftItemsSupplementBackButton = true
-//            }
-//        }
-//    }
 }
 // 3D touch
 extension TableViewController: UIViewControllerPreviewingDelegate {
