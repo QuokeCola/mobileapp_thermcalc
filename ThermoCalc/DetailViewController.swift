@@ -16,7 +16,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func configureView() {
-        if let DetailResult = detailResult {
+        if let DetailResult = self.detailResult {
             title = DetailResult.property1+", "+DetailResult.property2
         }
     }
@@ -88,6 +88,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     // CANCEL THE HIGHLIGHT AFTER TOUCHING
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView .deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

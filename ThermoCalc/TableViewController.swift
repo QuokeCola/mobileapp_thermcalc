@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TableViewController: UITableViewController{
+class TableViewController: UITableViewController {
     func ChangeSubstance(substance: substance_t) {
         Substance = substance
         var MainViewTitle: String = ""
@@ -116,13 +116,18 @@ class TableViewController: UITableViewController{
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
         
+        // 3D touch
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: tableView)
+        }
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -167,7 +172,7 @@ class TableViewController: UITableViewController{
     
     // CANCEL THE HIGHLIGHT AFTER TOUCHING
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView .deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     // MARK: - Navigation
@@ -186,6 +191,30 @@ class TableViewController: UITableViewController{
             }
         }
     }
+}
+// 3D touch
+extension TableViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard
+            let indexPath = tableView.indexPathForRow(at: location),
+            let cell = tableView.cellForRow(at: indexPath)
+            else {
+                return nil
+        }
+        previewingContext.sourceRect = cell.frame
+        let result = Results[indexPath.row]
+        let controller = self.storyboard?.instantiateViewController(withIdentifier: "DetailView") as! DetailViewController
+        controller.detailResult = result
+        controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+        controller.navigationItem.leftItemsSupplementBackButton = true
+        return controller
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
+    }
+    
+    
 }
 extension TableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {

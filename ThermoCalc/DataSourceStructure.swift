@@ -46,6 +46,33 @@ private enum searchCondition_t{
     case u
 }
 
+fileprivate struct sat_dataSource_t{
+    let Temp: Float
+    let Pressure: Double
+    let vf: Double
+    let vg: Double
+    let uf: Float
+    let ug: Float
+    let hf: Float
+    let hg: Float
+    let sf: Float
+    let sg: Float
+}
+
+fileprivate struct state_t {
+    let p: Double
+    let t: Float
+    let v: Double
+    let u: Float
+    let h: Float
+    let s: Float
+}
+
+fileprivate var Water_Sat_Temp_Table = [sat_dataSource_t]() // A2
+fileprivate var Water_Sat_Pres_Table = [sat_dataSource_t]() // A3
+fileprivate var Sup_Water_Vap_Table = [state_t]() //A4
+fileprivate var Com_Water_Liq_Table = [state_t]() //A5
+
 func search(searchCommand: String) {
     var commandStrings = searchCommand.split(separator: ",")
     var SearchResult: Result

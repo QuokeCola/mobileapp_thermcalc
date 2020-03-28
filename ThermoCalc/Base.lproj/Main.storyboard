@@ -91,6 +91,7 @@
         <scene sceneID="n8O-wP-Hdo">
             <objects>
                 <navigationController toolbarHidden="NO" id="diW-oX-AaB" sceneMemberID="viewController">
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="NRm-hk-ozv">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -110,7 +111,8 @@
         <!--Split View Controller-->
         <scene sceneID="5uA-qn-tI5">
             <objects>
-                <splitViewController id="rpb-9S-Hlg" sceneMemberID="viewController">
+                <splitViewController automaticallyAdjustsScrollViewInsets="NO" id="rpb-9S-Hlg" sceneMemberID="viewController">
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <segue destination="diW-oX-AaB" kind="relationship" relationship="masterViewController" id="SGw-EZ-Rd1"/>
                         <segue destination="E7H-ju-JZ3" kind="relationship" relationship="detailViewController" id="vKP-wQ-CVb"/>
@@ -124,6 +126,7 @@
         <scene sceneID="1xV-sf-6Z4">
             <objects>
                 <navigationController toolbarHidden="NO" id="E7H-ju-JZ3" sceneMemberID="viewController">
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="iRO-Sr-qwu">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -143,7 +146,7 @@
         <!--Detail View Controller-->
         <scene sceneID="aMw-Pe-1KR">
             <objects>
-                <viewController id="CtK-aj-UKi" customClass="DetailViewController" customModule="ThermoCalc" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailView" id="CtK-aj-UKi" customClass="DetailViewController" customModule="ThermoCalc" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cz1-u6-kqF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
