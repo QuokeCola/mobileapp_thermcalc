@@ -8,26 +8,28 @@ Just enter e.g."p=1bar, v=0.012m^3/kg" then press enter, you could get the answe
 
 The Main Menu is simple, like all apple stock apps.
 
-![mainmenu](/ThermoCalc/ScreenShots/main_screen.png)
+<img src="ThermoCalc/ScreenShots/main_screen.png" width = "30%" height = "30%" div align=center />
 
 Using the SearchBar to search. It will provide calculated results as well has search history.
 
-![Search](/ThermoCalc/ScreenShots/Search.png)
+<img src="ThermoCalc/ScreenShots/Search.png" width = "30%" height = "30%" div align=center />
 
 Using Substance Picker allows you to change the substance to search.
 
-![Substance Picker](/ThermoCalc/ScreenShots/Substance_Picker.png)
+<img src="ThermoCalc/ScreenShots/Substance_Picker.png" width = "30%" height = "30%" div align=center />
 
 And it is compatible with 3D touch Peek&Pop operations.
 
-![3D touch](/ThermoCalc/ScreenShots/3D_touch.png)
+<img src="ThermoCalc/ScreenShots/3D_touch.png" width = "30%" height = "30%" div align=center />
 
 Using swipe to delete search records. Also you could use the delete button to clear all search results.
-![Delete Action](/ThermoCalc/ScreenShots/DeleteAction.png)
+
+<img src="ThermoCalc/ScreenShots/DeleteAction.png" width = "30%" height = "30%" div align=center />
 
 The App is also compatible to iPad, with providing a large view.
 
-![iPad](/ThermoCalc/ScreenShots/iPad.png)
+<img src="ThermoCalc/ScreenShots/iPad.png" width = "30%" height = "30%" div align=center />
+
 # Progress
 - [x] UI Configuration
 
