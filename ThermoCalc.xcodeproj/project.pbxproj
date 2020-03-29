@@ -29,6 +29,12 @@
 		D068B9132428B5830031EBEF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D06D5F72242662F600C2B2E7 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		D07AE5CB2429BF8800BFCC45 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		D093971924306B450014D3F4 /* DeleteAction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeleteAction.png; sourceTree = "<group>"; };
+		D093971A24306B450014D3F4 /* Search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search.png; sourceTree = "<group>"; };
+		D093971B24306B450014D3F4 /* iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPad.png; sourceTree = "<group>"; };
+		D093971C24306B450014D3F4 /* main_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = main_screen.png; sourceTree = "<group>"; };
+		D093971D24306B450014D3F4 /* Substance_Picker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Substance_Picker.png; sourceTree = "<group>"; };
+		D093971E24306B450014D3F4 /* 3D_touch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3D_touch.png; sourceTree = "<group>"; };
 		D0AB856B242861A300BB50A1 /* DataSourceStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceStructure.swift; sourceTree = "<group>"; };
 		D0AB856D242865D300BB50A1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -73,6 +79,7 @@
 		D050C0392420D3D500A6ACB8 /* ThermoCalc */ = {
 			isa = PBXGroup;
 			children = (
+				D093971824306B350014D3F4 /* ScreenShots */,
 				D03A1C3E243061A700AE8FA6 /* DataSource */,
 				D050C03A2420D3D500A6ACB8 /* AppDelegate.swift */,
 				D050C0402420D3D500A6ACB8 /* Main.storyboard */,
@@ -85,6 +92,19 @@
 				D050C0482420D3D600A6ACB8 /* Info.plist */,
 			);
 			path = ThermoCalc;
+			sourceTree = "<group>";
+		};
+		D093971824306B350014D3F4 /* ScreenShots */ = {
+			isa = PBXGroup;
+			children = (
+				D093971E24306B450014D3F4 /* 3D_touch.png */,
+				D093971924306B450014D3F4 /* DeleteAction.png */,
+				D093971B24306B450014D3F4 /* iPad.png */,
+				D093971C24306B450014D3F4 /* main_screen.png */,
+				D093971A24306B450014D3F4 /* Search.png */,
+				D093971D24306B450014D3F4 /* Substance_Picker.png */,
+			);
+			path = ScreenShots;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
