@@ -18,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D03A1C3F243061BD00AE8FA6 /* SITableA2.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = SITableA2.csv; sourceTree = "<group>"; };
+		D03B76A724306522008AFD21 /* SITableA3.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = SITableA3.csv; sourceTree = "<group>"; };
 		D050C0372420D3D500A6ACB8 /* ThermoCalc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ThermoCalc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D050C03A2420D3D500A6ACB8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D050C0412420D3D500A6ACB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -42,6 +44,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D03A1C3E243061A700AE8FA6 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				D03A1C3F243061BD00AE8FA6 /* SITableA2.csv */,
+				D03B76A724306522008AFD21 /* SITableA3.csv */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
 		D050C02E2420D3D500A6ACB8 = {
 			isa = PBXGroup;
 			children = (
@@ -62,6 +73,7 @@
 		D050C0392420D3D500A6ACB8 /* ThermoCalc */ = {
 			isa = PBXGroup;
 			children = (
+				D03A1C3E243061A700AE8FA6 /* DataSource */,
 				D050C03A2420D3D500A6ACB8 /* AppDelegate.swift */,
 				D050C0402420D3D500A6ACB8 /* Main.storyboard */,
 				D07AE5CB2429BF8800BFCC45 /* PickerView.swift */,
