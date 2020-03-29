@@ -1,0 +1,3 @@
+[submodule "ThermoCalculatorDataSourceConventer"]
+	path = ThermoCalculatorDataSourceConventer
+	url = https://github.com/QuokeCola/ThermoCalculatorDataSourceConventer
