@@ -2,7 +2,7 @@
 An iOS APP that could calculate certain state of certain substance.
 It's based on the text books chart, with a linearly Linear interpolation.
 
-As I wrote this app on macOS High Sierra, tt is developed on XCode9, iOS 11, while if someone could help me update it to newest IDE?
+As I wrote this app on macOS High Sierra, it is developed on XCode9, iOS 11, while if someone could help me update it to newest IDE?
 # Usage
 Just enter e.g."p=1bar, v=0.012m^3/kg" then press enter, you could get the answer.
 
@@ -28,7 +28,7 @@ Using swipe to delete search records. Also you could use the delete button to cl
 
 The App is also compatible to iPad, with providing a large view.
 
-<div div align=center><img src="ThermoCalc/ScreenShots/iPad.png" width = "30%" height = "30%" />
+<div div align=center><img src="ThermoCalc/ScreenShots/iPad.png" width = "30%" height = "30%" /></div>
 
 # Progress
 - [x] UI Configuration
