@@ -10,18 +10,15 @@ import UIKit
 
 class PickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    /*
+    
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-    public func initialize(){
         self.delegate = self
         self.dataSource = self
         self.reloadAllComponents()
     }
+ 
     public func get_selected_item()->substance_t{
         switch self.selectedRow(inComponent: 0) {
         case 0:

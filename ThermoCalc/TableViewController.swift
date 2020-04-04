@@ -9,6 +9,7 @@
 import UIKit
 
 class TableViewController: UITableViewController {
+    
     func ChangeSubstance(substance: substance_t) {
         Substance = substance
         var MainViewTitle: String = ""
@@ -29,30 +30,29 @@ class TableViewController: UITableViewController {
     
     var Substance: substance_t = .Water
     
-    var filterResults: [Result] = []
-    
-    @IBOutlet var PickerViewTextField: UITextField!
+    @IBOutlet var PickerViewTextField: SubstancePicker!
     // Interaction of choosing substance
     
     @IBAction func SubstanceClk(_ sender: Any) {
         self.PickerViewTextField.becomeFirstResponder()
     }
     
-    var pickerAccessory: UIToolbar?
-    
-    // DELETE ALL COMPONENTS CONFIGURATION
+    /**
+     Called when the cancel button of the `pickerAccessory` was clicked. Dismisses the picker. The call is implemented in the SubstancePicker (A textfield) and using notification center to call this function.
+     */
     @objc func cancelBtnClicked(_ button: UIBarButtonItem?) {
         PickerViewTextField?.resignFirstResponder()
     }
     
     /**
-     Called when the done button of the `pickerAccessory` was clicked. Dismisses the picker and puts the selected value into the textField
+     Called when the done button of the `pickerAccessory` was clicked. Dismisses the picker and puts the selected value into the textField. The call is implemented in the SubstancePicker (A textfield) and using notification center to call this function.
      */
     @objc func doneBtnClicked(_ button: UIBarButtonItem?) {
         PickerViewTextField?.resignFirstResponder()
-        ChangeSubstance(substance: SubstancePicker.get_selected_item())
+        ChangeSubstance(substance: PickerViewTextField.get_selected_item())
     }
     
+    // Delete all records
     @IBAction func deleteButtonClk(_ sender: Any) {
         let alertController = UIAlertController(title: "YOU WILL DELETE ALL RECORDS", message: "IT WILL NOT BE INVERTIBLE", preferredStyle: UIAlertControllerStyle.actionSheet)
         let cancelAction = UIAlertAction(title: "CANCEL", style: UIAlertActionStyle.cancel, handler: nil)
@@ -73,8 +73,7 @@ class TableViewController: UITableViewController {
     
     // COMPONENTS CONFIGURATION
     var detailViewController: DetailViewController? = nil
-    let searchController = UISearchController(searchResultsController: nil)
-    var SubstancePicker = PickerView()
+    let searchController = SearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         // A data for test.
@@ -85,32 +84,20 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
         
         // Picker View Configuration
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(TableViewController.cancelBtnClicked(_:)))
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(TableViewController.doneBtnClicked(_:)))
-        pickerAccessory = UIToolbar()
-        pickerAccessory?.autoresizingMask = .flexibleHeight
-        pickerAccessory?.isTranslucent = true
-        var frame = pickerAccessory?.frame
-        frame?.size.height = 44.0
-        pickerAccessory?.frame = frame!
-        pickerAccessory?.items = [cancelButton, flexSpace, doneButton]
-        PickerViewTextField.inputAccessoryView = pickerAccessory
+        NotificationCenter.default.addObserver(self, selector: #selector(self.cancelBtnClicked), name: NSNotification.Name(rawValue: NotificationPickerViewCancelKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.doneBtnClicked), name: NSNotification.Name(rawValue: NotificationPickerViewDoneKey), object: nil)
         
         // Search Substance Picker Configuration
         self.ChangeSubstance(substance: .Water)
-        SubstancePicker.initialize()
-        PickerViewTextField.inputView = SubstancePicker
+
         
         // Search Controller configuration
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "ENTER ANY THERMO STATE"
-        searchController.searchBar.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTableView), name: NSNotification.Name(rawValue: NotificationSearchBarInputKey), object: nil)
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = true
         definesPresentationContext = true
         
+        // Search Imagin Configuration
         // Splitview Controller configuration
         if let splitViewController = splitViewController {
             let controllers = splitViewController.viewControllers
@@ -167,7 +154,7 @@ class TableViewController: UITableViewController {
             if(section == 0) {
                 return 1
             } else {
-                return filterResults.count
+                return searchFilterResults.count
             }
         } else {
             return Results.count
@@ -177,12 +164,12 @@ class TableViewController: UITableViewController {
     // GET CELL
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        if(isFiltering()) {
+        if(searchController.isFiltering()) {
             if(indexPath.section == 0) {
                 cell.textLabel!.text = searchController.searchBar.text
                 cell.detailTextLabel?.text = "Searching..."// TODO: add calculated Results.
             } else {
-                let result = filterResults[indexPath.row]
+                let result = searchFilterResults[indexPath.row]
                 cell.textLabel!.text = result.calculated_result.Substance+": "+result.property1+", "+result.property2
                 cell.detailTextLabel!.text = result.calculated_result.get_result()
             }
@@ -231,6 +218,10 @@ class TableViewController: UITableViewController {
             }
         }
     }
+    
+    @objc func updateTableView() {
+        self.tableView.reloadData()
+    }
 }
 // 3D touch
 extension TableViewController: UIViewControllerPreviewingDelegate {
@@ -253,40 +244,7 @@ extension TableViewController: UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         show(viewControllerToCommit, sender: self)
     }
-}
-
-extension TableViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
-    }
-    
-    func searchBarIsEmpty() -> Bool {
-        // Returns true if the text is empty or nil
-        return searchController.searchBar.text?.isEmpty ?? true
-    }
-    
-    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        filterResults = Results.filter({(result:Result) -> Bool in
-            let splitedText = searchText.split(separator: ",")
-            for subString in splitedText {
-                if (subString == "") {
-                    continue
-                }
-                if (!result.calculated_result.get_result().contains(String(subString).trimmingCharacters(in: .whitespaces))) {
-                    return false
-                }
-            }
-            return true
-        })
-        tableView.reloadData()
-    }
-    func isFiltering() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
-    }
-}
-
-extension TableViewController: UISearchBarDelegate{
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("Event Recieved.")
+    func isFiltering()->Bool{
+        return self.searchController.isFiltering()
     }
 }

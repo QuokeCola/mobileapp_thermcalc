@@ -37,6 +37,7 @@ enum substance_t {
 }
 
 var Results = [Result]()
+var searchFilterResults: [Result] = []
 
 private enum searchCondition_t{
     case p
