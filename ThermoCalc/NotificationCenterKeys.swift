@@ -12,3 +12,6 @@ let NotificationSearchBarInputKey = "com.QuokeCola.SearchBarInputKey"
 let NotificationSearchBarSearchKey = "com.QuokeCola.SearchBarSearchKey"
 let NotificationPickerViewCancelKey = "com.QuokeCola.PickerViewCancelKey"
 let NotificationPickerViewDoneKey = "com.QuokeCola.PickerViewDoneKey"
+let NotificationDeleteBottomRecordKey = "com.QuokeCola.DeleteBottomRecordKey"
+let NotificationDeleteOversizedRecordKey = "com.QuokeCola.DeleteOversizedRecordKey"
+

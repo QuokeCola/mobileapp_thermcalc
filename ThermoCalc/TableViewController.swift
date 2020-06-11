@@ -52,6 +52,17 @@ class TableViewController: UITableViewController {
         ChangeSubstance(substance: PickerViewTextField.get_selected_item())
     }
     
+    @objc func scrollOneLineUp(_ button: UIBarButtonItem?) {
+        UIView.animate(withDuration: 0.4, animations: {self.tableView.contentInset.bottom=0}, completion: {finished in self.tableView.contentOffset.y+=100})
+    }
+    @objc func scrollToTop(_ button: UIBarButtonItem?) {
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+            self.tableView.contentInset.bottom = 0
+        }
+    }
+    
     // Delete all records
     @IBAction func deleteButtonClk(_ sender: Any) {
         let alertController = UIAlertController(title: "YOU WILL DELETE ALL RECORDS", message: "IT WILL NOT BE INVERTIBLE", preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -86,6 +97,8 @@ class TableViewController: UITableViewController {
         // Picker View Configuration
         NotificationCenter.default.addObserver(self, selector: #selector(self.cancelBtnClicked), name: NSNotification.Name(rawValue: NotificationPickerViewCancelKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.doneBtnClicked), name: NSNotification.Name(rawValue: NotificationPickerViewDoneKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.scrollOneLineUp), name: NSNotification.Name(rawValue: NotificationDeleteBottomRecordKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.scrollToTop), name: NSNotification.Name(rawValue: NotificationDeleteOversizedRecordKey), object: nil)
         
         // Search Substance Picker Configuration
         self.ChangeSubstance(substance: .Water)
@@ -177,22 +190,54 @@ class TableViewController: UITableViewController {
             let result = Results[indexPath.row]
             cell.textLabel!.text = result.calculated_result.Substance+": "+result.property1+", "+result.property2
             cell.detailTextLabel!.text = result.calculated_result.get_result()
-            
         }
         return cell
     }
     
-    // DELETE ACTION
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if(isFiltering()) {
+            return false
+        } else {
+            if(indexPath.row < Results.count) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
+    // DELETE Action
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // HIDE the glitch by deleting rows.
-            if(tableView.contentSize.height<=tableView.bounds.height+100.0  && tableView.contentSize.height>tableView.bounds.height-100.0) {
-                DispatchQueue.main.async {
-                    tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-                }
+        
+        if (editingStyle == .delete && indexPath.row < Results.count) {
+            // HIDE the glitch when deleting rows.
+            let totalheight = self.tableView.frame.size.height
+            let contentOffsetY = self.tableView.contentOffset.y
+            let bottomOffset = self.tableView.contentSize.height - contentOffsetY
+            let onlyOnBottom = (self.tableView.contentSize.height > self.tableView.frame.size.height)
+            let SizeShrinkage = (self.tableView.contentSize.height > self.tableView.frame.size.height-200)
+
+            // Delete Rows Action.
+            tableView.beginUpdates()
+            print(tableView.contentSize.height)
+            print(tableView.visibleSize.height)
+            print(bottomOffset)
+            print(totalheight)
+            if (bottomOffset <= totalheight && (onlyOnBottom || SizeShrinkage)) {
+                tableView.contentInset.bottom+=100
             }
             Results.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+            
+            if (bottomOffset <= totalheight) {
+                if onlyOnBottom {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationDeleteBottomRecordKey), object: self)
+                } else if SizeShrinkage {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationDeleteOversizedRecordKey), object: self)
+                }
+            }
+            
         }
     }
     
