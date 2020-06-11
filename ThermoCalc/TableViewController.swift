@@ -219,10 +219,6 @@ class TableViewController: UITableViewController {
 
             // Delete Rows Action.
             tableView.beginUpdates()
-            print(tableView.contentSize.height)
-            print(tableView.visibleSize.height)
-            print(bottomOffset)
-            print(totalheight)
             if (bottomOffset <= totalheight && (onlyOnBottom || SizeShrinkage)) {
                 tableView.contentInset.bottom+=100
             }
