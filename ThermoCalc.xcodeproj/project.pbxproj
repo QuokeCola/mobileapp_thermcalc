@@ -21,6 +21,7 @@
 		D072D6E424383FC100133EFA /* DecimalKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = D072D6E324383FC100133EFA /* DecimalKeyboard.xib */; };
 		D072D6E624383FCF00133EFA /* StateKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = D072D6E524383FCF00133EFA /* StateKeyboard.xib */; };
 		D07AE5CC2429BF8800BFCC45 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AE5CB2429BF8800BFCC45 /* PickerView.swift */; };
+		D08FC6F024936DD500A19EDE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08FC6EF24936DD500A19EDE /* Extensions.swift */; };
 		D0AB856C242861A300BB50A1 /* DataSourceStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB856B242861A300BB50A1 /* DataSourceStructure.swift */; };
 		D0AB856E242865D300BB50A1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB856D242865D300BB50A1 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
@@ -45,6 +46,7 @@
 		D072D6E324383FC100133EFA /* DecimalKeyboard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DecimalKeyboard.xib; sourceTree = "<group>"; };
 		D072D6E524383FCF00133EFA /* StateKeyboard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StateKeyboard.xib; sourceTree = "<group>"; };
 		D07AE5CB2429BF8800BFCC45 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		D08FC6EF24936DD500A19EDE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D093971924306B450014D3F4 /* DeleteAction.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeleteAction.png; sourceTree = "<group>"; };
 		D093971A24306B450014D3F4 /* Search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search.png; sourceTree = "<group>"; };
 		D093971B24306B450014D3F4 /* iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPad.png; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				D050C0402420D3D500A6ACB8 /* Main.storyboard */,
 				D072D6D524383B3400133EFA /* PickerComponents */,
 				D06D5F72242662F600C2B2E7 /* TableViewController.swift */,
+				D08FC6EF24936DD500A19EDE /* Extensions.swift */,
 				D0AB856D242865D300BB50A1 /* DetailViewController.swift */,
 				D0AB856B242861A300BB50A1 /* DataSourceStructure.swift */,
 				D072D6CF2438319400133EFA /* NotificationCenterKeys.swift */,
@@ -227,6 +230,7 @@
 				D072D6DE24383F7F00133EFA /* StateKeyboard.swift in Sources */,
 				D072D6DC24383F7700133EFA /* DecimalKeyboard.swift in Sources */,
 				D06D5F73242662F600C2B2E7 /* TableViewController.swift in Sources */,
+				D08FC6F024936DD500A19EDE /* Extensions.swift in Sources */,
 				D07AE5CC2429BF8800BFCC45 /* PickerView.swift in Sources */,
 				D072D6DA24383F4700133EFA /* KeyboardButton.swift in Sources */,
 				D072D6D4243835DF00133EFA /* SubstancePicker.swift in Sources */,
@@ -377,6 +381,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S8386U5CPV;
 				INFOPLIST_FILE = ThermoCalc/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -395,6 +400,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S8386U5CPV;
 				INFOPLIST_FILE = ThermoCalc/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
