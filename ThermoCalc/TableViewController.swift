@@ -12,7 +12,6 @@ import UIKit
 fileprivate func getToolbarHeight()->CGFloat {
     let DeviceModel = UIDevice.modelName
     let Orientation = UIApplication.shared.statusBarOrientation
-    print((DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"))
     switch Orientation {
     case .landscapeLeft:
         if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
@@ -186,11 +185,9 @@ class TableViewController: UITableViewController {
     }
     
     @objc func scrollOneLineUp(_ button: UIBarButtonItem?) {
-        print("Oneline")
         UIView.animate(withDuration: 0.4, animations: {self.tableView.contentInset.bottom=0}, completion: {finished in self.tableView.contentOffset.y += CGFloat(self.MovingOffset)})
     }
     @objc func scrollToTop(_ button: UIBarButtonItem?) {
-        print("Top")
         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
