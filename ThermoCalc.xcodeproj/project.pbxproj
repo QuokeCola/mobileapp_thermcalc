@@ -24,6 +24,7 @@
 		D08FC6F024936DD500A19EDE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08FC6EF24936DD500A19EDE /* Extensions.swift */; };
 		D0AB856C242861A300BB50A1 /* DataSourceStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB856B242861A300BB50A1 /* DataSourceStructure.swift */; };
 		D0AB856E242865D300BB50A1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB856D242865D300BB50A1 /* DetailViewController.swift */; };
+		D0ED29A824967E6900CE8BF0 /* ImagineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ED29A724967E6900CE8BF0 /* ImagineButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		D093971E24306B450014D3F4 /* 3D_touch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3D_touch.png; sourceTree = "<group>"; };
 		D0AB856B242861A300BB50A1 /* DataSourceStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceStructure.swift; sourceTree = "<group>"; };
 		D0AB856D242865D300BB50A1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		D0ED29A724967E6900CE8BF0 /* ImagineButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagineButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				D072D6D924383F4700133EFA /* KeyboardButton.swift */,
+				D0ED29A724967E6900CE8BF0 /* ImagineButton.swift */,
 				D072D6DB24383F7700133EFA /* DecimalKeyboard.swift */,
 				D072D6DD24383F7F00133EFA /* StateKeyboard.swift */,
 				D072D6E324383FC100133EFA /* DecimalKeyboard.xib */,
@@ -225,6 +228,7 @@
 			files = (
 				D072D6D02438319400133EFA /* NotificationCenterKeys.swift in Sources */,
 				D050C03B2420D3D500A6ACB8 /* AppDelegate.swift in Sources */,
+				D0ED29A824967E6900CE8BF0 /* ImagineButton.swift in Sources */,
 				D072D6CE2438290600133EFA /* SearchController.swift in Sources */,
 				D0AB856C242861A300BB50A1 /* DataSourceStructure.swift in Sources */,
 				D072D6DE24383F7F00133EFA /* StateKeyboard.swift in Sources */,

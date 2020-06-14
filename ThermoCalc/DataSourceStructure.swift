@@ -29,6 +29,8 @@ struct Result{
 }
 
 enum substance_t {
+    case Air
+    case Nitrogen
     case Water
     case Refrigerant_22
     case Refrigerant_134a

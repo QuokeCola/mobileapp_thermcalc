@@ -31,12 +31,16 @@ class PickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
             return .Refrigerant_134a
         case 4:
             return .Refrigerant_22
+        case 5:
+            return .Air
+        case 6:
+            return .Nitrogen
         default:
             return .Water
         }
     }
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 5
+        return 7
     }
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -54,6 +58,10 @@ class PickerView: UIPickerView, UIPickerViewDelegate, UIPickerViewDataSource {
             return "Refrigerant 134a"
         case 4:
             return "Refrigerant 22"
+        case 5:
+            return "Air"
+        case 6:
+            return "Nitrogen"
         default:
             return "Water"
         }

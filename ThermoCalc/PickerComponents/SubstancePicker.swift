@@ -30,7 +30,6 @@ class SubstancePicker: UITextField {
         
         self.inputAccessoryView = self.pickerAccessory
         self.inputView = self.substancePicker
-        print("cool")
     }
     
     @objc func PickerCancelClk(_ button: UIBarButtonItem?) {

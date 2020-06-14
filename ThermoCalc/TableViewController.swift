@@ -8,137 +8,6 @@
 
 import UIKit
 
-
-fileprivate func getToolbarHeight()->CGFloat {
-    let DeviceModel = UIDevice.modelName
-    let Orientation = UIApplication.shared.statusBarOrientation
-    switch Orientation {
-    case .landscapeLeft:
-        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
-            return 53.0
-        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
-            return 70.0
-        } else if (DeviceModel.contains("Plus")) {
-            return 49.0
-        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
-            return 70.0
-        } else if DeviceModel.contains("iPad") {
-            return 50.0
-        } else {
-            return 32.0
-        }
-    case .landscapeRight:
-        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
-            return 53.0
-        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
-            return 70.0
-        } else if (DeviceModel.contains("Plus")) {
-            return 49.0
-        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
-            return 70.0
-        } else if DeviceModel.contains("iPad") {
-            return 50.0
-        } else {
-            return 32.0
-        }
-    case .portrait:
-        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
-            return 83.0
-        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
-            return 83.0
-        } else if (DeviceModel.contains("Plus")) {
-            return 49.0
-        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
-            return 70.0
-        } else if DeviceModel.contains("iPad") {
-            return 50.0
-        } else {
-            return 49.0
-        }
-    case .portraitUpsideDown:
-        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
-            return 83.0
-        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
-            return 83.0
-        } else if (DeviceModel.contains("Plus")) {
-            return 49.0
-        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
-            return 70.0
-        } else if DeviceModel.contains("iPad") {
-            return 50.0
-        } else {
-            return 49.0
-        }
-    case .unknown:
-        return 50.0
-    }
-}
-
-fileprivate func getTitleBarHeight()->CGFloat {
-    let DeviceModel = UIDevice.modelName
-    let Orientation = UIApplication.shared.statusBarOrientation
-    switch Orientation {
-    case .landscapeLeft:
-        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
-            return 32.0
-        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
-            return 32.0
-        } else if (DeviceModel.contains("Plus")) {
-            return 64.0
-        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
-            return 74.0
-        } else if DeviceModel.contains("iPad") {
-            return 70.0
-        } else {
-            return 52.0
-        }
-    case .landscapeRight:
-        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
-            return 32.0
-        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
-            return 32.0
-        } else if (DeviceModel.contains("Plus")) {
-            return 64.0
-        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
-            return 74.0
-        } else if DeviceModel.contains("iPad") {
-            return 70.0
-        } else {
-            return 52.0
-        }
-    case .portrait:
-        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
-            return 88.0
-        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
-            return 88.0
-        } else if (DeviceModel.contains("Plus")) {
-            return 64.0
-        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
-            return 74.0
-        } else if DeviceModel.contains("iPad") {
-            return 70.0
-        } else {
-            return 64.0
-        }
-    case .portraitUpsideDown:
-        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
-            return 88.0
-        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
-            return 88.0
-        } else if (DeviceModel.contains("Plus")) {
-            return 64.0
-        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
-            return 74.0
-        } else if DeviceModel.contains("iPad") {
-            return 70.0
-        } else {
-            return 64.0
-        }
-    case .unknown:
-        return 64.0
-    }
-}
-
 class TableViewController: UITableViewController {
     
     func ChangeSubstance(substance: substance_t) {
@@ -155,12 +24,16 @@ class TableViewController: UITableViewController {
             MainViewTitle = "Refrigerant 134a"
         case .Refrigerant_22:
             MainViewTitle = "Refrigerant 22"
+        case .Air:
+            MainViewTitle = "Air"
+        case .Nitrogen:
+            MainViewTitle = "Nitrogen"
         }
         self.title = MainViewTitle
     }
     
     var Substance: substance_t = .Water
-    private var MovingOffset = 0.0
+    private var MovingOffset = CGFloat(0.0)
     
     @IBOutlet var PickerViewTextField: SubstancePicker!
     // Interaction of choosing substance
@@ -184,10 +57,10 @@ class TableViewController: UITableViewController {
         ChangeSubstance(substance: PickerViewTextField.get_selected_item())
     }
     
-    @objc func scrollOneLineUp(_ button: UIBarButtonItem?) {
+    func scrollOneLineUp() {
         UIView.animate(withDuration: 0.4, animations: {self.tableView.contentInset.bottom=0}, completion: {finished in self.tableView.contentOffset.y += CGFloat(self.MovingOffset)})
     }
-    @objc func scrollToTop(_ button: UIBarButtonItem?) {
+    func scrollToTop() {
         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
@@ -217,6 +90,7 @@ class TableViewController: UITableViewController {
     // COMPONENTS CONFIGURATION
     var detailViewController: DetailViewController? = nil
     let searchController = SearchController(searchResultsController: nil)
+    var decimalKeyboard: DecimalKeyboardView!
     
     override func viewDidLoad() {
         // A data for test.
@@ -229,8 +103,6 @@ class TableViewController: UITableViewController {
         // Picker View Configuration
         NotificationCenter.default.addObserver(self, selector: #selector(self.cancelBtnClicked), name: NSNotification.Name(rawValue: NotificationPickerViewCancelKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.doneBtnClicked), name: NSNotification.Name(rawValue: NotificationPickerViewDoneKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.scrollOneLineUp), name: NSNotification.Name(rawValue: NotificationDeleteBottomRecordKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.scrollToTop), name: NSNotification.Name(rawValue: NotificationDeleteOversizedRecordKey), object: nil)
         
         // Search Substance Picker Configuration
         self.ChangeSubstance(substance: .Water)
@@ -241,6 +113,16 @@ class TableViewController: UITableViewController {
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = true
         definesPresentationContext = true
+        
+        let nib = UINib(nibName: "DecimalKeyboard", bundle: nil)
+        let objects = nib.instantiate(withOwner: nil, options: nil)
+        decimalKeyboard = objects.first as? DecimalKeyboardView
+        
+        let keyboardContainerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5))
+        keyboardContainerView.addSubview(decimalKeyboard)
+        
+        let searchTextField = searchController.searchBar.value(forKey: "_searchField") as! UITextField
+        searchTextField.inputView = keyboardContainerView
         
         // Search Imagin Configuration
         // Splitview Controller configuration
@@ -340,29 +222,44 @@ class TableViewController: UITableViewController {
     
     // DELETE Action
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
         if (editingStyle == .delete && indexPath.row < Results.count) {
-            // HIDE the glitch when deleting rows.
-            let totalheight = self.tableView.frame.size.height
-            let contentOffsetY = self.tableView.contentOffset.y
-            let SizeShrinkage = (self.tableView.contentSize.height-100 < self.tableView.frame.size.height-getToolbarHeight()-getTitleBarHeight()) && (self.tableView.contentSize.height > self.tableView.frame.size.height-getToolbarHeight()-getTitleBarHeight())
-            let currentHeight = contentOffsetY + totalheight - getToolbarHeight()
-            let contentHeight = self.tableView.contentSize.height
-            MovingOffset = Double(currentHeight - contentHeight + 100)
-            let onlyOnBottom = (MovingOffset <= 100 && MovingOffset > 0)
-            // Delete Rows Action.
-            tableView.beginUpdates()
-            if (onlyOnBottom || SizeShrinkage) {
-                tableView.contentInset.bottom += (currentHeight-contentHeight+100)
-            }
-            Results.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            tableView.endUpdates()
-            
-            if SizeShrinkage {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationDeleteOversizedRecordKey), object: self)
-            } else if onlyOnBottom {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationDeleteBottomRecordKey), object: self)
+            if #available(iOS 13, *) { // iOS 13
+                tableView.beginUpdates()
+                Results.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.endUpdates()
+            } else if #available(iOS 12, *){ // iOS 12
+                let cellHeight = tableView.cellForRow(at: indexPath)!.bounds.height
+                // HIDE the glitch when deleting rows.
+                let totalheight = self.tableView.frame.size.height
+                let contentOffsetY = self.tableView.contentOffset.y
+                let SizeShrinkage = (self.tableView.contentSize.height-cellHeight < self.tableView.frame.size.height-tableView.safeAreaInsets.bottom-tableView.safeAreaInsets.top) && (self.tableView.contentSize.height > self.tableView.frame.size.height-tableView.safeAreaInsets.bottom-tableView.safeAreaInsets.top)
+                let currentHeight = contentOffsetY + totalheight - tableView.safeAreaInsets.bottom
+                let contentHeight = self.tableView.contentSize.height
+                MovingOffset = currentHeight - contentHeight + cellHeight
+                let onlyOnBottom = (MovingOffset <= cellHeight && MovingOffset > 0)
+                // Delete Rows Action.
+                tableView.beginUpdates()
+                if (onlyOnBottom || SizeShrinkage) {
+                    tableView.contentInset.bottom += (currentHeight-contentHeight + cellHeight)
+                }
+                Results.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.endUpdates()
+                if SizeShrinkage {
+                    self.scrollToTop()
+                } else if onlyOnBottom {
+                    self.scrollOneLineUp()
+                }
+            } else { // iOS 11
+                let cellHeight = tableView.cellForRow(at: indexPath)!.bounds.height
+                tableView.beginUpdates()
+                Results.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.endUpdates()
+                if(tableView.contentSize.height<=tableView.bounds.height+cellHeight && tableView.contentSize.height>tableView.bounds.height) {
+                    tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                }
             }
         }
     }

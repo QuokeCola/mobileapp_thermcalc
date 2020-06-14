@@ -96,3 +96,198 @@ extension String {
         return self.range(of: find, options: .caseInsensitive) != nil
     }
 }
+
+func getToolbarHeight()->CGFloat {
+    let DeviceModel = UIDevice.modelName
+    let Orientation = UIApplication.shared.statusBarOrientation
+    switch Orientation {
+    case .landscapeLeft:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 53.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 70.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 49.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 70.0
+        } else if DeviceModel.contains("iPad") {
+            return 50.0
+        } else {
+            return 32.0
+        }
+    case .landscapeRight:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 53.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 70.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 49.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 70.0
+        } else if DeviceModel.contains("iPad") {
+            return 50.0
+        } else {
+            return 32.0
+        }
+    case .portrait:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 83.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 83.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 49.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 70.0
+        } else if DeviceModel.contains("iPad") {
+            return 50.0
+        } else {
+            return 49.0
+        }
+    case .portraitUpsideDown:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 83.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 83.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 49.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 70.0
+        } else if DeviceModel.contains("iPad") {
+            return 50.0
+        } else {
+            return 49.0
+        }
+    case .unknown:
+        return 50.0
+    }
+}
+
+func getTitleBarHeight()->CGFloat {
+    let DeviceModel = UIDevice.modelName
+    let Orientation = UIApplication.shared.statusBarOrientation
+    switch Orientation {
+    case .landscapeLeft:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 32.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 32.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 64.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 74.0
+        } else if DeviceModel.contains("iPad") {
+            return 70.0
+        } else {
+            return 52.0
+        }
+    case .landscapeRight:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 32.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 32.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 64.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 74.0
+        } else if DeviceModel.contains("iPad") {
+            return 70.0
+        } else {
+            return 52.0
+        }
+    case .portrait:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 88.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 88.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 64.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 74.0
+        } else if DeviceModel.contains("iPad") {
+            return 70.0
+        } else {
+            return 64.0
+        }
+    case .portraitUpsideDown:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 88.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 88.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 64.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 74.0
+        } else if DeviceModel.contains("iPad") {
+            return 70.0
+        } else {
+            return 64.0
+        }
+    case .unknown:
+        return 64.0
+    }
+}
+
+func getBottomHeight()->CGFloat {
+    let DeviceModel = UIDevice.modelName
+    let Orientation = UIApplication.shared.statusBarOrientation
+    switch Orientation {
+    case .landscapeLeft:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 21.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 21.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 0.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 15.0
+        } else if DeviceModel.contains("iPad") {
+            return 0.0
+        } else {
+            return 0.0
+        }
+    case .landscapeRight:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 21.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 21.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 0.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 15.0
+        } else if DeviceModel.contains("iPad") {
+            return 0.0
+        } else {
+            return 0.0
+        }
+    case .portrait:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 34.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 34.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 0.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 15.0
+        } else if DeviceModel.contains("iPad") {
+            return 0.0
+        } else {
+            return 0.0
+        }
+    case .portraitUpsideDown:
+        if(DeviceModel == "iPhone XS" || DeviceModel == "iPhone X" || DeviceModel == "iPhone 11 Pro") {
+            return 34.0
+        } else if (DeviceModel == "iPhone XS Max" || DeviceModel == "iPhone XR" || DeviceModel == "iPhone 11 Pro Max" || DeviceModel == "iPhone 11") {
+            return 34.0
+        } else if (DeviceModel.contains("Plus")) {
+            return 0.0
+        } else if (DeviceModel.contains("iPad Pro (11-inch)") || DeviceModel == "iPad Pro (12.9-inch) (3rd generation)" || DeviceModel == "iPad Pro (12.9-inch) (4th generation)"){
+            return 15.0
+        } else if DeviceModel.contains("iPad") {
+            return 0.0
+        } else {
+            return 0.0
+        }
+    case .unknown:
+        return 0.0
+    }
+}

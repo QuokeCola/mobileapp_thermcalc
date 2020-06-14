@@ -1,17 +1,18 @@
 //
-//  KeyboardButton.swift
+//  ImagineButton.swift
 //  ThermoCalc
 //
-//  Created by 钱晨 on 2020/4/4.
+//  Created by 钱晨 on 2020/6/14.
 //  Copyright © 2020年 钱晨. All rights reserved.
 //
 
 import UIKit
 
-class KeyboardButton: UIButton {
-    var defaultBG: UIColor = .white
-    var pressedBG: UIColor = .lightGray
+class ImagineButton: UIButton {
 
+    var defaultBG: UIColor = UIColor(red: 192/255, green: 193/255, blue: 198/255, alpha: 1.0)
+    var pressedBG: UIColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 1.0)
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setButton()
@@ -25,14 +26,13 @@ class KeyboardButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         backgroundColor = isHighlighted ? pressedBG : defaultBG
+        setTitleColor(isHighlighted ? .white : .black, for: .normal)
     }
     
     fileprivate func setButton(){
         layer.cornerRadius = 5.0
         layer.masksToBounds = false
-        layer.shadowOffset = CGSize(width: 0, height: 1.0)
-        layer.shadowRadius = 0.0
-        layer.shadowOpacity = 0.35
         self.setTitleColor(UIColor.black, for: .normal)
     }
+    
 }

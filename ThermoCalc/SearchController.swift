@@ -9,8 +9,6 @@
 import UIKit
 
 class SearchController: UISearchController {
-
-    var decimalKeyboard: DecimalKeyboard!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,16 +16,6 @@ class SearchController: UISearchController {
         self.searchBar.placeholder = "ENTER ANY THERMO STATE"
         self.searchBar.delegate = self
         self.obscuresBackgroundDuringPresentation = false
-        
-        let nib = UINib(nibName: "DecimalKeyboard", bundle: nil)
-        let objects = nib.instantiate(withOwner: nil, options: nil)
-        decimalKeyboard = objects.first as! DecimalKeyboard
-        
-        let keyboardContainerView = UIView(frame: decimalKeyboard.frame)
-        keyboardContainerView.addSubview(decimalKeyboard)
-        
-        let searchTextField = searchBar.value(forKey: "_searchField") as! UITextField
-        searchTextField.inputView = keyboardContainerView
         
         // decimalKeyboard.delegate = self
         // Do any additional setup after loading the view.
@@ -48,18 +36,8 @@ class SearchController: UISearchController {
         // Pass the selected object to the new view controller.
     }
     */
-    @objc func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let keyboardHeight = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.height,
-            let animationDurarion = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval else {
-                return
-        }
-        
-        UIView.animate(withDuration: animationDurarion) {
-            self.view.layoutIfNeeded()
-        }
-    }
 }
+
 extension SearchController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
@@ -85,6 +63,7 @@ extension SearchController: UISearchResultsUpdating {
             return true
         })
     }
+    
     func isFiltering() -> Bool {
         return self.isActive && !searchBarIsEmpty()
     }
