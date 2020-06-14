@@ -11,7 +11,7 @@ import UIKit
 class DecimalKeyboardView: UIView {
     
     var BGColor = UIColor(red: 214/255, green: 215/255, blue: 220/255, alpha: 1.0)
-    var imagineUnits = [String](repeating: "Unit", count: 10)
+    var imagineWordSet = [String](repeating: "Unit", count: 10)
     var totalHeight = CGFloat(0.0)
     var totalWidth  = CGFloat(0.0)
     var DecimalButton = [KeyboardButton?](repeating: nil, count: 10)
@@ -54,14 +54,14 @@ class DecimalKeyboardView: UIView {
         self.ImagineView.showsVerticalScrollIndicator = false
         self.ImagineView.showsHorizontalScrollIndicator = false
         ImagineView.subviews.map { $0.removeFromSuperview() }
-        var imagineButtons = [ImagineButton?](repeating: nil, count: imagineUnits.count)
+        var imagineButtons = [ImagineButton?](repeating: nil, count: imagineWordSet.count)
         let imagineButtonHeight = CGFloat(35.0)
         let imagineSpacingX = CGFloat(20.0)
         let imagineSpacingY = (ImagineView.bounds.height - imagineButtonHeight)/2.0
         var x = imagineSpacingX
         for i in 0...imagineButtons.count-1 {
-            imagineButtons[i] = ImagineButton(frame: CGRect(x: x, y: imagineSpacingY, width: CGFloat(imagineUnits[i].count)*20.0, height: imagineButtonHeight))
-            imagineButtons[i]?.setTitle(imagineUnits[i], for: .normal)
+            imagineButtons[i] = ImagineButton(frame: CGRect(x: x, y: imagineSpacingY, width: CGFloat(imagineWordSet[i].count)*20.0+20.0, height: imagineButtonHeight))
+            imagineButtons[i]?.setTitle(imagineWordSet[i], for: .normal)
             x += (imagineButtons[i]!.bounds.width + imagineSpacingX)
         }
         ImagineView.contentSize = CGSize(width: x, height: ImagineView.bounds.height)
@@ -114,4 +114,12 @@ class DecimalKeyboardView: UIView {
         self.addSubview(DotButton)
     }
     
+    /**
+     Change the imaginary word set
+     @params imagineWordSet: a group of string contains imaginary words.
+     */
+    func updateImaginaryWords(stringSet: [String]) {
+        self.imagineWordSet = stringSet
+        self.reloadImagineWords()
+    }
 }
