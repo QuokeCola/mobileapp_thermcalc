@@ -10,8 +10,8 @@ import UIKit
 
 class ImagineButton: UIButton {
 
-    var defaultBG: UIColor = UIColor(red: 192/255, green: 193/255, blue: 198/255, alpha: 1.0)
-    var pressedBG: UIColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 1.0)
+    var defaultBG: UIColor = UIColor(red: 192/255, green: 193/255, blue: 198/255, alpha: 0.5)
+    var pressedBG: UIColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 0.9)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

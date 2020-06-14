@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -186,8 +185,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="zG4-pZ-mg9"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="IUM-Wu-IAE"/>
+                        <barButtonItem title="Change Unit" id="SVW-dD-y4L"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="6kB-kt-H0M"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" id="atr-qf-bta"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vIb-Da-VYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

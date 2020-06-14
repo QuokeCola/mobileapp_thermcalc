@@ -10,41 +10,26 @@ import UIKit
 
 class DecimalKeyboardView: UIView {
     
-    var BGColor = UIColor(red: 214/255, green: 215/255, blue: 220/255, alpha: 1.0)
-    var imagineWordSet = [String](repeating: "Unit", count: 10)
-    var totalHeight = CGFloat(0.0)
-    var totalWidth  = CGFloat(0.0)
-    var DecimalButton = [KeyboardButton?](repeating: nil, count: 10)
-    var ImagineView = UIScrollView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: CGFloat(55.0)))
+    private var BGColor = UIColor(red: 214/255, green: 215/255, blue: 220/255, alpha: 0.0)
+    private var imagineWordSet = [String](repeating: "Unit", count: 10)
+    private var totalHeight = CGFloat(0.0)
+    private var totalWidth  = CGFloat(0.0)
+    private var DecimalButton = [KeyboardButton?](repeating: nil, count: 10)
+    private var ImagineView = UIScrollView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: CGFloat(55.0)))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        if(UIDevice.modelName.contains(find: "iPad") || UIApplication.shared.statusBarOrientation == .landscapeLeft || UIApplication.shared.statusBarOrientation == .landscapeRight) {
-            
-        } else {
-            PortraitSetup()
-            reloadImagineWords()
-        }
+        updateKeyboardPlacement()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        if(UIDevice.modelName.contains(find: "iPad") || UIApplication.shared.statusBarOrientation == .landscapeLeft || UIApplication.shared.statusBarOrientation == .landscapeRight) {
-            
-        } else {
-            PortraitSetup()
-            reloadImagineWords()
-        }
+        updateKeyboardPlacement()
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        if(UIDevice.modelName.contains(find: "iPad") || UIApplication.shared.statusBarOrientation == .landscapeLeft || UIApplication.shared.statusBarOrientation == .landscapeRight) {
-            
-        } else {
-            PortraitSetup()
-            reloadImagineWords()
-        }
+        updateKeyboardPlacement()
     }
     
     // Set up imagine box.
@@ -76,9 +61,9 @@ class DecimalKeyboardView: UIView {
         totalHeight = self.frame.height - getBottomHeight() - ImagineView.bounds.height
         totalWidth  = UIScreen.main.bounds.width
         
-        let buttonWidth  = totalWidth  * 0.3
+        let buttonWidth  = totalWidth  * 0.28
         let buttonHeight = totalHeight * 0.2
-        let spacingX = totalWidth * 0.025
+        let spacingX = totalWidth * 0.04
         let spacingY = totalHeight * 0.04
         
         // Set up buttons from 0 to 9
@@ -121,5 +106,18 @@ class DecimalKeyboardView: UIView {
     func updateImaginaryWords(stringSet: [String]) {
         self.imagineWordSet = stringSet
         self.reloadImagineWords()
+    }
+    
+    /**
+     Update the KeyboardPlacement.
+     It should be used when rotating.
+     */
+    func updateKeyboardPlacement() {
+        if(UIDevice.modelName.contains(find: "iPad") || UIApplication.shared.statusBarOrientation == .landscapeLeft || UIApplication.shared.statusBarOrientation == .landscapeRight) {
+            
+        } else {
+            PortraitSetup()
+            reloadImagineWords()
+        }
     }
 }
