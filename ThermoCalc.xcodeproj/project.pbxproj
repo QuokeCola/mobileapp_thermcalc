@@ -11,6 +11,7 @@
 		D050C0422420D3D500A6ACB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D050C0402420D3D500A6ACB8 /* Main.storyboard */; };
 		D050C0442420D3D600A6ACB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D050C0432420D3D600A6ACB8 /* Assets.xcassets */; };
 		D050C0472420D3D600A6ACB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D050C0452420D3D600A6ACB8 /* LaunchScreen.storyboard */; };
+		D05CE07224971BF1009DE240 /* PlaceHolderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05CE07124971BF1009DE240 /* PlaceHolderButton.swift */; };
 		D06D5F73242662F600C2B2E7 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06D5F72242662F600C2B2E7 /* TableViewController.swift */; };
 		D072D6CE2438290600133EFA /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072D6CD2438290600133EFA /* SearchController.swift */; };
 		D072D6D02438319400133EFA /* NotificationCenterKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072D6CF2438319400133EFA /* NotificationCenterKeys.swift */; };
@@ -36,6 +37,7 @@
 		D050C0432420D3D600A6ACB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D050C0462420D3D600A6ACB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D050C0482420D3D600A6ACB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D05CE07124971BF1009DE240 /* PlaceHolderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderButton.swift; sourceTree = "<group>"; };
 		D068B9132428B5830031EBEF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D06D5F72242662F600C2B2E7 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		D072D6CD2438290600133EFA /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				D072D6DD24383F7F00133EFA /* StateKeyboard.swift */,
 				D072D6E324383FC100133EFA /* DecimalKeyboard.xib */,
 				D072D6E524383FCF00133EFA /* StateKeyboard.xib */,
+				D05CE07124971BF1009DE240 /* PlaceHolderButton.swift */,
 			);
 			path = Keyboard;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 				D06D5F73242662F600C2B2E7 /* TableViewController.swift in Sources */,
 				D08FC6F024936DD500A19EDE /* Extensions.swift in Sources */,
 				D07AE5CC2429BF8800BFCC45 /* PickerView.swift in Sources */,
+				D05CE07224971BF1009DE240 /* PlaceHolderButton.swift in Sources */,
 				D072D6DA24383F4700133EFA /* KeyboardButton.swift in Sources */,
 				D072D6D4243835DF00133EFA /* SubstancePicker.swift in Sources */,
 				D0AB856E242865D300BB50A1 /* DetailViewController.swift in Sources */,

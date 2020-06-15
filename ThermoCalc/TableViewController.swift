@@ -86,11 +86,10 @@ class TableViewController: UITableViewController {
         Results.removeAll()
         self.tableView.reloadData()
     }
-    
+
     // COMPONENTS CONFIGURATION
     var detailViewController: DetailViewController? = nil
     let searchController = SearchController(searchResultsController: nil)
-    var decimalKeyboard: DecimalKeyboardView!
     
     override func viewDidLoad() {
         // A data for test.
@@ -107,24 +106,12 @@ class TableViewController: UITableViewController {
         // Search Substance Picker Configuration
         self.ChangeSubstance(substance: .Water)
 
-        
         // Search Controller configuration
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTableView), name: NSNotification.Name(rawValue: NotificationSearchBarInputKey), object: nil)
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = true
         definesPresentationContext = true
         
-        let nib = UINib(nibName: "DecimalKeyboard", bundle: nil)
-        let objects = nib.instantiate(withOwner: nil, options: nil)
-        decimalKeyboard = objects.first as? DecimalKeyboardView
-        
-        let keyboardContainerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5))
-        keyboardContainerView.addSubview(decimalKeyboard)
-        
-        let searchTextField = searchController.searchBar.value(forKey: "_searchField") as! UITextField
-        searchTextField.inputView = keyboardContainerView
-        
-        // Search Imagin Configuration
         // Splitview Controller configuration
         if let splitViewController = splitViewController {
             let controllers = splitViewController.viewControllers
@@ -138,6 +125,7 @@ class TableViewController: UITableViewController {
         if traitCollection.forceTouchCapability == .available {
             registerForPreviewing(with: self, sourceView: tableView)
         }
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

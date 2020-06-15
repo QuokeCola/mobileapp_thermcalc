@@ -88,6 +88,33 @@ public extension UIDevice {
     
 }
 
+// Allows searchbar's Textfield's placeholders detect touch.
+extension UITextField {
+    
+    override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+
+        for subview in subviews.reversed() {
+            let convertedPoint = subview.convert(point, from: self)
+            if let candidate = subview.hitTest(convertedPoint, with: event) {
+                if subview.tag != 0 {
+                    return candidate
+                }
+            }
+        }
+        return self
+    }
+    
+}
+
+// Detect searchbar size change for hiding the placeholders.
+extension UISearchBar {
+    override open var bounds: CGRect {
+        didSet {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationSearchBarSizeChangeKey), object: bounds)
+        }
+    }
+}
+
 extension String {
     func contains(find: String) -> Bool{
         return self.range(of: find) != nil
