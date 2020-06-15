@@ -57,36 +57,6 @@ class TableViewController: UITableViewController {
         ChangeSubstance(substance: PickerViewTextField.get_selected_item())
     }
     
-    func scrollOneLineUp() {
-        UIView.animate(withDuration: 0.4, animations: {self.tableView.contentInset.bottom=0}, completion: {finished in self.tableView.contentOffset.y += CGFloat(self.MovingOffset)})
-    }
-    func scrollToTop() {
-        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            self.tableView.contentInset.bottom = 0
-        }
-    }
-    
-    // Delete all records
-    @IBAction func deleteButtonClk(_ sender: Any) {
-        let alertController = UIAlertController(title: "YOU WILL DELETE ALL RECORDS", message: "IT WILL NOT BE INVERTIBLE", preferredStyle: UIAlertControllerStyle.actionSheet)
-        let cancelAction = UIAlertAction(title: "CANCEL", style: UIAlertActionStyle.cancel, handler: nil)
-        let deleteAction = UIAlertAction(title: "DELETE", style: UIAlertActionStyle.destructive, handler: deleteButtonConfirmed)
-        alertController.addAction(cancelAction)
-        alertController.addAction(deleteAction)
-        if(UIDevice.current.model.contains("iPad")) {
-            alertController.popoverPresentationController?.sourceView = splitViewController?.view;
-            alertController.popoverPresentationController?.sourceRect = CGRect(x: tableView.bounds.width-27, y: 0, width: 0, height: 60)
-        }
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    @objc func deleteButtonConfirmed(_ sender: UIAlertAction) {
-        Results.removeAll()
-        self.tableView.reloadData()
-    }
-
     // COMPONENTS CONFIGURATION
     var detailViewController: DetailViewController? = nil
     let searchController = SearchController(searchResultsController: nil)
@@ -107,6 +77,7 @@ class TableViewController: UITableViewController {
         self.ChangeSubstance(substance: .Water)
 
         // Search Controller configuration
+        searchController.manualInitialize()
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTableView), name: NSNotification.Name(rawValue: NotificationSearchBarInputKey), object: nil)
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = true
@@ -251,6 +222,37 @@ class TableViewController: UITableViewController {
             }
         }
     }
+    
+    func scrollOneLineUp() {
+        UIView.animate(withDuration: 0.4, animations: {self.tableView.contentInset.bottom=0}, completion: {finished in self.tableView.contentOffset.y += CGFloat(self.MovingOffset)})
+    }
+    func scrollToTop() {
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+            self.tableView.contentInset.bottom = 0
+        }
+    }
+    
+    // Delete all records
+    @IBAction func deleteButtonClk(_ sender: Any) {
+        let alertController = UIAlertController(title: "YOU WILL DELETE ALL RECORDS", message: "IT WILL NOT BE INVERTIBLE", preferredStyle: UIAlertControllerStyle.actionSheet)
+        let cancelAction = UIAlertAction(title: "CANCEL", style: UIAlertActionStyle.cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "DELETE", style: UIAlertActionStyle.destructive, handler: deleteButtonConfirmed)
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        if(UIDevice.current.model.contains("iPad")) {
+            alertController.popoverPresentationController?.sourceView = splitViewController?.view;
+            alertController.popoverPresentationController?.sourceRect = CGRect(x: tableView.bounds.width-27, y: 0, width: 0, height: 60)
+        }
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func deleteButtonConfirmed(_ sender: UIAlertAction) {
+        Results.removeAll()
+        self.tableView.reloadData()
+    }
+
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100.0
