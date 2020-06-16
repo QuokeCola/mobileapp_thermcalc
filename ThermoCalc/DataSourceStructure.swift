@@ -23,6 +23,7 @@ struct calculatedRes {
 }
 
 struct Result{
+    let SearchCondition = [searchCondition?](repeating: nil, count: 2)
     let property1: String
     let property2: String
     let calculated_result: calculatedRes
@@ -41,12 +42,10 @@ enum substance_t {
 var Results = [Result]()
 var searchFilterResults: [Result] = []
 
-private enum searchCondition_t{
-    case p
-    case v
-    case t
-    case h
-    case u
+struct searchCondition {
+    let state: state_t
+    let amount: String
+    let unit: String
 }
 
 fileprivate struct sat_dataSource_t{
@@ -62,7 +61,7 @@ fileprivate struct sat_dataSource_t{
     let sg: Float
 }
 
-fileprivate struct state_t {
+struct state_t {
     let p: Double
     let t: Float
     let v: Double
@@ -77,7 +76,5 @@ fileprivate var Sup_Water_Vap_Table = [state_t]() //A4
 fileprivate var Com_Water_Liq_Table = [state_t]() //A5
 
 func search(searchCommand: String) {
-    var commandStrings = searchCommand.split(separator: ",")
-    var SearchResult: Result
     //return SearchResult
 }

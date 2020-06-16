@@ -48,7 +48,7 @@ class PlaceHolderTextField: UITextField {
     
     func getWidth(text: String) -> CGFloat {
         let txtField = UITextField(frame: .zero)
-        txtField.text = "   "+text
+        txtField.text = ",  "+text
         txtField.font = self.font
         txtField.sizeToFit()
         return txtField.frame.size.width

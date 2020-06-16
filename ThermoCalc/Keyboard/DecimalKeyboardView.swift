@@ -20,7 +20,7 @@ class DecimalKeyboardView: UIView {
     private var DecimalButton = [KeyboardButton?](repeating: nil, count: 12)
     private var StateButton = [KeyboardButton?](repeating: nil, count: 8)
     private var ImagineView = UIScrollView(frame: CGRect(x: UIScreen.main.bounds.width, y: 0.0, width: UIScreen.main.bounds.width, height: CGFloat(55.0)))
-    private var StateKeys:[String] = ["State","Pressure","Spc.Vol","Temp","Int.Engy","Enthalpy","MassFac"]
+    private var StateKeys:[String] = ["Pressure","Spc.Vol","Temp","Int.Engy","Enthalpy","MassFac","Entropy"]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,6 +35,21 @@ class DecimalKeyboardView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         updateKeyboardPlacement()
+        NotificationCenter.default.addObserver(self, selector: #selector(StateKeyAnalysis), name: NSNotification.Name(rawValue: NotificationKeyboardStatePressedKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DecimalKeyAnalysis(info:)), name: NSNotification.Name(rawValue: NotificationKeyboardDecimalPressedKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ImagineKeyAnalysis), name: NSNotification.Name(rawValue: NotificationKeyboardImaginePressedKey), object: nil)
+    }
+    
+    @IBAction func DecimalKeyPressed(sender: KeyboardButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationKeyboardDecimalPressedKey), object: sender)
+    }
+    
+    @IBAction func ImagineKeyPressed(sender: ImagineButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationKeyboardImaginePressedKey), object: sender)
+    }
+    
+    @IBAction func StateKeyPressed(sender: KeyboardButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(NotificationKeyboardStatePressedKey), object: sender)
     }
     
     // Set up imagine box.
@@ -56,6 +71,7 @@ class DecimalKeyboardView: UIView {
         }
         ImagineView.contentSize = CGSize(width: x, height: ImagineView.bounds.height)
         for i in 0...imagineButtons.count-1 {
+            imagineButtons[i]?.addTarget(self, action: #selector(ImagineKeyPressed), for: .touchUpInside)
             ImagineView.addSubview(imagineButtons[i]!)
         }
     }
@@ -75,20 +91,20 @@ class DecimalKeyboardView: UIView {
         let stateSpacingY = (UIScreen.main.bounds.height * 0.5 - getBottomHeight()) * 0.0625
         
         for i in 0...StateKeys.count-1 {
-            print(StateKeys[i])
             x = (stateSpacingX + stateButtonWidth ) * CGFloat(i%3) + stateSpacingX
             y = (stateSpacingY + stateButtonHeight) * CGFloat(i/3) + stateSpacingY
             StateButton[i] = KeyboardButton(frame: CGRect(x: x, y: y, width: stateButtonWidth, height: stateButtonHeight))
             StateButton[i]?.setTitle(StateKeys[i], for: .normal)
             StateButton[i]?.Key = StateKeys[i]
+            StateButton[i]?.addTarget(self, action: #selector(StateKeyPressed), for: .touchUpInside)
             self.addSubview(StateButton[i]!)
         }
         let StateDeleteButton = KeyboardButton(frame: CGRect(x: (stateSpacingX+stateButtonWidth)+stateSpacingX, y: (stateSpacingY+stateButtonHeight)*2+stateSpacingY, width: stateButtonWidth*2+stateSpacingX, height: stateButtonHeight))
         StateDeleteButton.setImage(#imageLiteral(resourceName: "Backspace"), for: .normal)
         StateDeleteButton.imageView?.tintColor = UIColor.black
         StateDeleteButton.Key = "StateDelete"
-        StateDeleteButton.addTarget(self, action: #selector(swdecimal), for: .touchUpInside)
         StateButton[7] = StateDeleteButton
+        StateButton[7]?.addTarget(self, action: #selector(StateKeyPressed), for: .touchUpInside)
         self.addSubview(StateButton[7]!)
         let decimalButtonWidth  = totalWidth  * 0.28
         let decimalButtonHeight = totalHeight * 0.2
@@ -113,6 +129,7 @@ class DecimalKeyboardView: UIView {
             DecimalButton[i]?.setTitle("\(i)", for: .normal)
             DecimalButton[i]?.titleLabel!.font = UIFont.boldSystemFont(ofSize: (DecimalButton[i]?.bounds.height)! * 0.5)
             DecimalButton[i]?.Key = "\(i)"
+            DecimalButton[i]?.addTarget(self, action: #selector(DecimalKeyPressed), for: .touchUpInside)
             self.addSubview(DecimalButton[i]!)
         }
         self.addSubview(ImagineView)
@@ -121,7 +138,6 @@ class DecimalKeyboardView: UIView {
         DecimalDeleteButton.setImage(#imageLiteral(resourceName: "Backspace"), for: .normal)
         DecimalDeleteButton.imageView?.tintColor = UIColor.black
         DecimalDeleteButton.Key = "DecimalDelete"
-        DecimalDeleteButton.addTarget(self, action: #selector(swstate), for: .touchUpInside)
         DecimalButton[10] = DecimalDeleteButton
         let DotButton = KeyboardButton(frame: CGRect(x: decimalSpacingX + totalWidth, y: (decimalSpacingY+decimalButtonHeight)*3+decimalSpacingY+ImagineView.bounds.height, width: decimalButtonWidth, height: decimalButtonHeight))
         DotButton.setTitle(".", for: .normal)
@@ -129,6 +145,8 @@ class DecimalKeyboardView: UIView {
         DotButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: decimalButtonHeight*0.5)
         DotButton.Key = "."
         DecimalButton[11] = DotButton
+        DecimalButton[10]?.addTarget(self, action: #selector(DecimalKeyPressed), for: .touchUpInside)
+        DecimalButton[11]?.addTarget(self, action: #selector(DecimalKeyPressed), for: .touchUpInside)
         self.addSubview(DecimalButton[10]!)
         self.addSubview(DecimalButton[11]!)
     }
@@ -159,7 +177,6 @@ class DecimalKeyboardView: UIView {
             case .Decimal:
                 if oldValue != keyboardType {
                     UIView.animate(withDuration: 0.4, animations: {
-                        UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                         for i in 0...self.DecimalButton.count - 1 {
                             var newFrameOrigin = self.DecimalButton[i]?.frame.origin
                             newFrameOrigin!.x -= UIScreen.main.bounds.width
@@ -178,7 +195,6 @@ class DecimalKeyboardView: UIView {
             case .State:
                 if oldValue != keyboardType {
                     UIView.animate(withDuration: 0.4, animations: {
-                        UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                         for i in 0...self.DecimalButton.count - 1 {
                             var newFrameOrigin = self.DecimalButton[i]?.frame.origin
                             newFrameOrigin!.x += UIScreen.main.bounds.width
@@ -197,10 +213,20 @@ class DecimalKeyboardView: UIView {
             }
         }
     }
-    @objc func swdecimal() {
-        keyboardType = .Decimal
+    
+    @objc func StateKeyAnalysis(info: NSNotification) {
+        if let pressedButton = info.object as? KeyboardButton {
+            //keyboardType = .Decimal
+            if(!pressedButton.Key.contains(find: "Delete")) {
+            }
+        }
     }
-    @objc func swstate() {
-        keyboardType = .State
+    
+    @objc func DecimalKeyAnalysis(info: NSNotification) {
+        
+    }
+    
+    @objc func ImagineKeyAnalysis(info: NSNotification) {
+        //keyboardType = .State
     }
 }

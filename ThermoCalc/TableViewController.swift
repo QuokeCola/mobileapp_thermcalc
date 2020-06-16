@@ -63,10 +63,6 @@ class TableViewController: UITableViewController {
     
     override func viewDidLoad() {
         // A data for test.
-        Results = [Result(property1: "Hello", property2: "World", calculated_result: calculatedRes(p: "1", v: "1", T: "1", h: "1", u: "1", x: "1", State: "1", Substance: "Water"))]
-        for idx in 0...9 {
-            Results.append(Result(property1: "\(idx)", property2: "World", calculated_result: calculatedRes(p: "\(idx)", v: "1", T: "1", h: "1", u: "1", x: "1", State: "1", Substance: "Water")))
-        }
         super.viewDidLoad()
         
         // Picker View Configuration

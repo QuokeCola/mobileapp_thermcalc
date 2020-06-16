@@ -10,8 +10,8 @@ import UIKit
 
 class PlaceHolderButton: UIButton {
 
-    var defaultBG: UIColor = UIColor(red: 12/255, green: 13/255, blue: 18/255, alpha: 0.2)
-    var pressedBG: UIColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 0.9)
+    var defaultBG: UIColor = UIColor(red:229/255, green: 229/255, blue: 229/255, alpha: 1.0)
+    var pressedBG: UIColor = UIColor(displayP3Red: 51.0/255.0, green: 120.0/255.0, blue: 246.0/255.0, alpha: 1.0)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,7 +34,6 @@ class PlaceHolderButton: UIButton {
         layer.masksToBounds = false
         self.setTitleColor(UIColor.black, for: .normal)
         super.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
-        self.addTarget(self, action: #selector(touchButton(sender:)), for: .touchUpInside)
     }
     
     func selectButton() {
@@ -59,11 +58,4 @@ class PlaceHolderButton: UIButton {
         return AutoSize
     }
     
-    @objc func touchButton(sender: PlaceHolderButton) {
-        if sender.isSelected {
-            sender.deselectButton()
-        } else {
-            sender.selectButton()
-        }
-    }
 }

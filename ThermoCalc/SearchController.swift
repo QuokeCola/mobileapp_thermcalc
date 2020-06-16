@@ -11,13 +11,9 @@ import UIKit
 class SearchController: UISearchController {
     
     var decimalKeyboard: DecimalKeyboardView!
-    var placeHolderButtons = [PlaceHolderButton]()
-    var placeHolderTextFields = [PlaceHolderTextField]()
-    var placeHolderHeight = CGFloat(25.0)
-    var placeHolderY = CGFloat(0.0)
     var searchTextField: UITextField?
     var inputContent = [String?]()
-    var tagUpperBound = 20
+    var placeHolderView: PlaceHolderView!
     
     func manualInitialize() {
         let nib = UINib(nibName: "DecimalKeyboard", bundle: nil)
@@ -25,24 +21,32 @@ class SearchController: UISearchController {
         decimalKeyboard = objects.first as? DecimalKeyboardView
         
         let keyboardContainerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5))
+        
         keyboardContainerView.addSubview(decimalKeyboard)
         searchTextField = self.searchBar.value(forKey: "_searchField") as? UITextField
         searchTextField!.inputView = keyboardContainerView
-        searchTextField?.textColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
     }
     
     override func viewDidLoad() {
+        print("loaded")
         super.viewDidLoad()
         self.searchResultsUpdater = self
         self.searchBar.placeholder = "ENTER ANY THERMO STATE"
         self.searchBar.delegate = self
         self.obscuresBackgroundDuringPresentation = false
         self.searchBar.isExclusiveTouch = true
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(searchBarSizeChange), name: NSNotification.Name(rawValue: NotificationSearchBarSizeChangeKey), object: nil)
-        
         searchBar.autocorrectionType = .no
         
+        NotificationCenter.default.addObserver(self, selector: #selector(shouldHidePlaceHolderText), name: NSNotification.Name(rawValue: NotificationSearchBarIsEmpty), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleStateKeyPress), name: NSNotification.Name(rawValue: NotificationKeyboardStatePressedKey), object: nil)
+        
+        placeHolderView = PlaceHolderView(frame: (searchTextField?.frame)!)
+        placeHolderView.frame.size.width -= 28.0
+        placeHolderView.frame.origin = CGPoint(x: 28.0, y: 0.0)
+        placeHolderView.tag = 1
+        searchTextField?.addSubview(placeHolderView)
+        let index = self.searchTextField!.subviews.index(of: placeHolderView!)
+        searchTextField?.exchangeSubview(at: 0, withSubviewAt: index!)
         // decimalKeyboard.delegate = self
         // Do any additional setup after loading the view.
     }
@@ -52,83 +56,48 @@ class SearchController: UISearchController {
         // Dispose of any resources that can be recreated.
     }
     
+    @objc func shouldHidePlaceHolderText(info: NSNotification) {
+        if let placeHolderEmpty = info.object as? Bool {
+            if (placeHolderEmpty) {
+                searchBar.placeholder = "ENTER ANY THERMO STATE"
+            } else {
+                searchBar.placeholder = ""
+            }
+        }
+    }
+    
+    @objc func handleStateKeyPress(info: NSNotification) {
+        if let button = info.object as? KeyboardButton {
+            if(button.Key.contains(find: "Delete")) {
+                placeHolderView.layer.removeAllAnimations()
+                if placeHolderView.placeHolders.count != 0 {
+                    placeHolderView.removePlaceHolders(Index: placeHolderView.placeHolders.count - 1)
+                }
+            } else {
+                var titleString = ""
+                switch button.Key {
+                case "Pressure":
+                    titleString = "p:"
+                case "Spc.Vol":
+                    titleString = "v:"
+                case "Temp":
+                    titleString = "T:"
+                case "Int.Engy":
+                    titleString = "u:"
+                case "Enthalpy":
+                    titleString = "h:"
+                case "MassFac":
+                    titleString = "x:"
+                case "Entropy":
+                    titleString = "s:"
+                default:
+                    titleString = " "
+                }
+                placeHolderView.addPlaceHolderButton(placeHolderString: titleString)
+            }
+        }
+    }
     // When Searchbar Collapse, placeholders disappear.
-    
-    @objc func searchBarSizeChange(info:NSNotification) {
-        if let bounds = info.object as? CGRect {
-            let newHeight = max(bounds.height - (52.0 - placeHolderHeight),0.0)
-            if placeHolderButtons.count != 0 {
-                for i in 0...self.placeHolderButtons.count-1 {
-                    self.placeHolderButtons[i].frame.size = CGSize(width: placeHolderButtons[i].bounds.width, height: newHeight)
-                    self.placeHolderButtons[i].titleLabel?.alpha = max(3.0*newHeight/placeHolderHeight-2.0, 0.0)
-                    self.placeHolderButtons[i].alpha = min(4.0 * newHeight/placeHolderHeight - 1.0, 1.0)
-                }
-            }
-            if placeHolderTextFields.count != 0 {
-                for i in 0...self.placeHolderTextFields.count-1 {
-                    self.placeHolderTextFields[i].alpha = max(3.0*newHeight/placeHolderHeight-2.0, 0.0)
-                }
-            }
-        }
-    }
-}
-// PlaceHolder Functions
-extension SearchController {
-    /**
-     For the maxima situation, here should be only four (As two state and two unit).
-     */
-    func addPlaceHolderButton(placeHolderString: String, LocX: CGFloat) {
-        placeHolderY = (searchTextField!.bounds.height - placeHolderHeight)/2.0
-        let button = PlaceHolderButton(frame: CGRect(x: LocX, y: placeHolderY, width: 80.0, height: placeHolderHeight))
-        button.setTitle(placeHolderString, for: .normal)
-        self.placeHolderButtons.append(button)
-        self.placeHolderButtons[self.placeHolderButtons.count-1].tag = self.placeHolderButtons.count
-        self.searchTextField?.addSubview(placeHolderButtons[placeHolderButtons.count-1])
-        if(placeHolderButtons.count != 0) {
-            searchBar.placeholder = ""
-        } else {
-            searchBar.placeholder = "ENTER ANY THERMO STATE"
-        }
-    }
-    
-    func addPlaceHolderTextField(LocX: CGFloat) {
-        placeHolderY = CGFloat(0.0)
-        let newTextField = PlaceHolderTextField(frame: CGRect(x: LocX, y: placeHolderY, width: 80.0, height: searchTextField!.frame.height))
-        newTextField.text = ""
-        self.placeHolderTextFields.append(newTextField)
-        self.placeHolderTextFields[self.placeHolderTextFields.count-1].tag = tagUpperBound - self.placeHolderTextFields.count + 1
-        self.searchTextField?.addSubview(placeHolderTextFields[placeHolderTextFields.count-1])
-        self.placeHolderTextFields[self.placeHolderTextFields.count-1].becomeFirstResponder()
-    }
-    
-    func removePlaceHolderButton(Index: Int) {
-        if let removeButton = searchTextField?.viewWithTag(Index + 1) {
-            removeButton.removeFromSuperview()
-            placeHolderButtons.remove(at: Index)
-        }
-        if(placeHolderButtons.count != 0) {
-            searchBar.placeholder = ""
-        } else {
-            searchBar.placeholder = "ENTER ANY THERMO STATE"
-        }
-    }
-    
-    func removePlaceHolderTextField(Index: Int) {
-        if let removeTextField = searchTextField?.viewWithTag(tagUpperBound-Index) {
-            removeTextField.removeFromSuperview()
-            placeHolderTextFields.remove(at: Index)
-        }
-    }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
 
 extension SearchController: UISearchResultsUpdating {
