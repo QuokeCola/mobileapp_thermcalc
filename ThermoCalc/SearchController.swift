@@ -16,6 +16,8 @@ class SearchController: UISearchController {
     var placeHolderHeight = CGFloat(25.0)
     var placeHolderY = CGFloat(0.0)
     var searchTextField: UITextField?
+    var inputContent = [String?]()
+    var tagUpperBound = 20
     
     func manualInitialize() {
         let nib = UINib(nibName: "DecimalKeyboard", bundle: nil)
@@ -36,28 +38,31 @@ class SearchController: UISearchController {
         self.searchBar.delegate = self
         self.obscuresBackgroundDuringPresentation = false
         self.searchBar.isExclusiveTouch = true
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(searchBarSizeChange), name: NSNotification.Name(rawValue: NotificationSearchBarSizeChangeKey), object: nil)
         
         searchBar.autocorrectionType = .no
         
         // decimalKeyboard.delegate = self
         // Do any additional setup after loading the view.
-        
     }
     
     // When Searchbar Collapse, placeholders disappear.
     
     @objc func searchBarSizeChange(info:NSNotification) {
-        if placeHolderButtons.count == 0 {
-            return
-        }
         if let bounds = info.object as? CGRect {
             let newHeight = max(bounds.height - (52.0 - placeHolderHeight),0.0)
-            for i in 0...self.placeHolderButtons.count-1 {
-                self.placeHolderButtons[i].frame.size = CGSize(width: placeHolderButtons[i].bounds.width, height: newHeight)
-                self.placeHolderButtons[i].titleLabel?.alpha = max(3.0*newHeight/placeHolderHeight-2.0, 0.0)
-                self.placeHolderButtons[i].alpha = min(4.0 * newHeight/placeHolderHeight - 1.0, 1.0)
+            if placeHolderButtons.count != 0 {
+                for i in 0...self.placeHolderButtons.count-1 {
+                    self.placeHolderButtons[i].frame.size = CGSize(width: placeHolderButtons[i].bounds.width, height: newHeight)
+                    self.placeHolderButtons[i].titleLabel?.alpha = max(3.0*newHeight/placeHolderHeight-2.0, 0.0)
+                    self.placeHolderButtons[i].alpha = min(4.0 * newHeight/placeHolderHeight - 1.0, 1.0)
+                }
+            }
+            if placeHolderTextFields.count != 0 {
+                for i in 0...self.placeHolderTextFields.count-1 {
+                    self.placeHolderTextFields[i].alpha = max(3.0*newHeight/placeHolderHeight-2.0, 0.0)
+                }
             }
         }
     }
@@ -69,7 +74,6 @@ class SearchController: UISearchController {
         placeHolderY = (searchTextField!.bounds.height - placeHolderHeight)/2.0
         let button = PlaceHolderButton(frame: CGRect(x: LocX, y: placeHolderY, width: 80.0, height: placeHolderHeight))
         button.setTitle(placeHolderString, for: .normal)
-        button.addTarget(self, action: #selector(touchButton(sender:)), for: .touchUpInside)
         self.placeHolderButtons.append(button)
         self.placeHolderButtons[self.placeHolderButtons.count-1].tag = self.placeHolderButtons.count
         self.searchTextField?.addSubview(placeHolderButtons[placeHolderButtons.count-1])
@@ -80,14 +84,20 @@ class SearchController: UISearchController {
         }
     }
     
-    /**
-     Start from 1, as 0 is for the textfield.
-     If move 0, the textfield will be moved and there's no input view.
-     */
-    func removePlaceHolderButton(placeHolderTag: Int) {
-        if let removeButton = searchTextField?.viewWithTag(placeHolderTag) {
+    func addPlaceHolderTextField(LocX: CGFloat) {
+        placeHolderY = CGFloat(0.0)
+        let newTextField = PlaceHolderTextField(frame: CGRect(x: LocX, y: placeHolderY, width: 80.0, height: searchTextField!.frame.height))
+        newTextField.text = ""
+        self.placeHolderTextFields.append(newTextField)
+        self.placeHolderTextFields[self.placeHolderTextFields.count-1].tag = tagUpperBound - self.placeHolderTextFields.count + 1
+        self.searchTextField?.addSubview(placeHolderTextFields[placeHolderTextFields.count-1])
+        self.placeHolderTextFields[self.placeHolderTextFields.count-1].becomeFirstResponder()
+    }
+    
+    func removePlaceHolderButton(Index: Int) {
+        if let removeButton = searchTextField?.viewWithTag(Index + 1) {
             removeButton.removeFromSuperview()
-            placeHolderButtons.remove(at: placeHolderTag-1)
+            placeHolderButtons.remove(at: Index)
         }
         if(placeHolderButtons.count != 0) {
             searchBar.placeholder = ""
@@ -96,11 +106,10 @@ class SearchController: UISearchController {
         }
     }
     
-    @objc func touchButton(sender: PlaceHolderButton) {
-        if sender.isSelected {
-            sender.deselectButton()
-        } else {
-            sender.selectButton()
+    func removePlaceHolderTextField(Index: Int) {
+        if let removeTextField = searchTextField?.viewWithTag(tagUpperBound-Index) {
+            removeTextField.removeFromSuperview()
+            placeHolderTextFields.remove(at: Index)
         }
     }
     
@@ -148,6 +157,11 @@ extension SearchController: UISearchResultsUpdating {
     
     func isFiltering() -> Bool {
         return self.isActive && !searchBarIsEmpty()
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        for subView in (searchTextField?.subviews)! {
+            subView.resignFirstResponder()
+        }
     }
 }
 

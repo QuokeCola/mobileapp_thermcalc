@@ -34,6 +34,7 @@ class PlaceHolderButton: UIButton {
         layer.masksToBounds = false
         self.setTitleColor(UIColor.black, for: .normal)
         super.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
+        self.addTarget(self, action: #selector(touchButton(sender:)), for: .touchUpInside)
     }
     
     func selectButton() {
@@ -48,10 +49,21 @@ class PlaceHolderButton: UIButton {
         super.setTitle(title, for: state)
         self.sizeToFit()
     }
+    
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        var AutoSize = super.sizeThatFits(size)
-        AutoSize.height = self.bounds.size.height
-        AutoSize.width = AutoSize.width + 10.0
+        let TxtButton = UIButton(frame: .zero)
+        TxtButton.setTitle(self.titleLabel?.text, for: .normal)
+        TxtButton.titleLabel?.font = UIFont.systemFont(ofSize: 17.0)
+        TxtButton.sizeToFit()
+        let AutoSize = CGSize(width: TxtButton.bounds.size.width, height: self.bounds.size.height)
         return AutoSize
+    }
+    
+    @objc func touchButton(sender: PlaceHolderButton) {
+        if sender.isSelected {
+            sender.deselectButton()
+        } else {
+            sender.selectButton()
+        }
     }
 }

@@ -13,4 +13,4 @@ let NotificationSearchBarSearchKey = "com.QuokeCola.SearchBarSearchKey"
 let NotificationPickerViewCancelKey = "com.QuokeCola.PickerViewCancelKey"
 let NotificationPickerViewDoneKey = "com.QuokeCola.PickerViewDoneKey"
 let NotificationSearchBarSizeChangeKey = "com.QuokeCola.SizeChange"
-
+let NotificationSearchSubViewActivateKey = "com.QuokeCola.SFSubViewEditing"
