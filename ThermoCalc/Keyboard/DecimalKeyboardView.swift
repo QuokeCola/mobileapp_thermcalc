@@ -9,13 +9,18 @@
 import UIKit
 
 class DecimalKeyboardView: UIView {
-    
+    enum KeyboardType {
+        case Decimal
+        case State
+    }
     private var BGColor = UIColor(red: 214/255, green: 215/255, blue: 220/255, alpha: 0.0)
     private var imagineWordSet = [String](repeating: "Unit", count: 10)
     private var totalHeight = CGFloat(0.0)
     private var totalWidth  = CGFloat(0.0)
-    private var DecimalButton = [KeyboardButton?](repeating: nil, count: 10)
-    private var ImagineView = UIScrollView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: CGFloat(55.0)))
+    private var DecimalButton = [KeyboardButton?](repeating: nil, count: 12)
+    private var StateButton = [KeyboardButton?](repeating: nil, count: 8)
+    private var ImagineView = UIScrollView(frame: CGRect(x: UIScreen.main.bounds.width, y: 0.0, width: UIScreen.main.bounds.width, height: CGFloat(55.0)))
+    private var StateKeys:[String] = ["State","Pressure","Spc.Vol","Temp","Int.Engy","Enthalpy","MassFac"]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,7 +43,7 @@ class DecimalKeyboardView: UIView {
         self.ImagineView.delaysContentTouches = false
         self.ImagineView.showsVerticalScrollIndicator = false
         self.ImagineView.showsHorizontalScrollIndicator = false
-        ImagineView.subviews.map { $0.removeFromSuperview() }
+        _ = ImagineView.subviews.map { $0.removeFromSuperview() }
         var imagineButtons = [ImagineButton?](repeating: nil, count: imagineWordSet.count)
         let imagineButtonHeight = CGFloat(35.0)
         let imagineSpacingX = CGFloat(20.0)
@@ -56,15 +61,39 @@ class DecimalKeyboardView: UIView {
     }
     
     fileprivate func PortraitSetup() {
+        _ = self.subviews.map { $0.removeFromSuperview() }
+        var x = CGFloat(0.0)
+        var y = CGFloat(0.0)
         self.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
         self.backgroundColor = BGColor
         totalHeight = self.frame.height - getBottomHeight() - ImagineView.bounds.height
         totalWidth  = UIScreen.main.bounds.width
         
-        let buttonWidth  = totalWidth  * 0.28
-        let buttonHeight = totalHeight * 0.2
-        let spacingX = totalWidth * 0.04
-        let spacingY = totalHeight * 0.04
+        let stateButtonWidth = totalWidth * 0.28
+        let stateButtonHeight = (UIScreen.main.bounds.height * 0.5 - getBottomHeight()) * 0.25
+        let stateSpacingX = totalWidth * 0.04
+        let stateSpacingY = (UIScreen.main.bounds.height * 0.5 - getBottomHeight()) * 0.0625
+        
+        for i in 0...StateKeys.count-1 {
+            print(StateKeys[i])
+            x = (stateSpacingX + stateButtonWidth ) * CGFloat(i%3) + stateSpacingX
+            y = (stateSpacingY + stateButtonHeight) * CGFloat(i/3) + stateSpacingY
+            StateButton[i] = KeyboardButton(frame: CGRect(x: x, y: y, width: stateButtonWidth, height: stateButtonHeight))
+            StateButton[i]?.setTitle(StateKeys[i], for: .normal)
+            StateButton[i]?.Key = StateKeys[i]
+            self.addSubview(StateButton[i]!)
+        }
+        let StateDeleteButton = KeyboardButton(frame: CGRect(x: (stateSpacingX+stateButtonWidth)+stateSpacingX, y: (stateSpacingY+stateButtonHeight)*2+stateSpacingY, width: stateButtonWidth*2+stateSpacingX, height: stateButtonHeight))
+        StateDeleteButton.setImage(#imageLiteral(resourceName: "Backspace"), for: .normal)
+        StateDeleteButton.imageView?.tintColor = UIColor.black
+        StateDeleteButton.Key = "StateDelete"
+        StateDeleteButton.addTarget(self, action: #selector(swdecimal), for: .touchUpInside)
+        StateButton[7] = StateDeleteButton
+        self.addSubview(StateButton[7]!)
+        let decimalButtonWidth  = totalWidth  * 0.28
+        let decimalButtonHeight = totalHeight * 0.2
+        let decimalSpacingX = totalWidth * 0.04
+        let decimalSpacingY = totalHeight * 0.04
         
         // Set up buttons from 0 to 9
         for i in 0...9 {
@@ -74,29 +103,34 @@ class DecimalKeyboardView: UIView {
             let imagineHeight = self.ImagineView.bounds.height
             
             if (i == 0) {
-                x = buttonWidth + 2 * spacingX
-                y = 3*buttonHeight + 4 * spacingY + imagineHeight
+                x = decimalButtonWidth + 2 * decimalSpacingX + totalWidth
+                y = 3*decimalButtonHeight + 4 * decimalSpacingY + imagineHeight
             } else {
-                x = (spacingX + buttonWidth ) * CGFloat((i-1)%3) + spacingX
-                y = (spacingY + buttonHeight) * CGFloat((i-1)/3) + spacingY + imagineHeight
+                x = (decimalSpacingX + decimalButtonWidth ) * CGFloat((i-1)%3) + decimalSpacingX + totalWidth
+                y = (decimalSpacingY + decimalButtonHeight) * CGFloat((i-1)/3) + decimalSpacingY + imagineHeight
             }
-            DecimalButton[i] = KeyboardButton(frame: CGRect(x: x, y: y, width: buttonWidth, height: buttonHeight))
+            DecimalButton[i] = KeyboardButton(frame: CGRect(x: x, y: y, width: decimalButtonWidth, height: decimalButtonHeight))
             DecimalButton[i]?.setTitle("\(i)", for: .normal)
             DecimalButton[i]?.titleLabel!.font = UIFont.boldSystemFont(ofSize: (DecimalButton[i]?.bounds.height)! * 0.5)
+            DecimalButton[i]?.Key = "\(i)"
             self.addSubview(DecimalButton[i]!)
-            self.addSubview(ImagineView)
         }
+        self.addSubview(ImagineView)
         // Set up delete button and dot button
-        let DeleteButton = KeyboardButton(frame: CGRect(x: (spacingX+buttonWidth)*2+spacingX, y: (spacingY+buttonHeight)*3+spacingY+ImagineView.bounds.height, width: buttonWidth, height: buttonHeight))
-        DeleteButton.setImage(#imageLiteral(resourceName: "Backspace"), for: .normal)
-        DeleteButton.setTitleColor(UIColor.black, for: .normal)
-        DeleteButton.imageView?.tintColor = UIColor.black
-        let DotButton = KeyboardButton(frame: CGRect(x: spacingX, y: (spacingY+buttonHeight)*3+spacingY+ImagineView.bounds.height, width: buttonWidth, height: buttonHeight))
+        let DecimalDeleteButton = KeyboardButton(frame: CGRect(x: (decimalSpacingX+decimalButtonWidth)*2+decimalSpacingX+totalWidth, y: (decimalSpacingY+decimalButtonHeight)*3+decimalSpacingY+ImagineView.bounds.height, width: decimalButtonWidth, height: decimalButtonHeight))
+        DecimalDeleteButton.setImage(#imageLiteral(resourceName: "Backspace"), for: .normal)
+        DecimalDeleteButton.imageView?.tintColor = UIColor.black
+        DecimalDeleteButton.Key = "DecimalDelete"
+        DecimalDeleteButton.addTarget(self, action: #selector(swstate), for: .touchUpInside)
+        DecimalButton[10] = DecimalDeleteButton
+        let DotButton = KeyboardButton(frame: CGRect(x: decimalSpacingX + totalWidth, y: (decimalSpacingY+decimalButtonHeight)*3+decimalSpacingY+ImagineView.bounds.height, width: decimalButtonWidth, height: decimalButtonHeight))
         DotButton.setTitle(".", for: .normal)
         DotButton.setTitleColor(UIColor.black, for: .normal)
-        DotButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: buttonHeight*0.5)
-        self.addSubview(DeleteButton)
-        self.addSubview(DotButton)
+        DotButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: decimalButtonHeight*0.5)
+        DotButton.Key = "."
+        DecimalButton[11] = DotButton
+        self.addSubview(DecimalButton[10]!)
+        self.addSubview(DecimalButton[11]!)
     }
     
     /**
@@ -107,7 +141,6 @@ class DecimalKeyboardView: UIView {
         self.imagineWordSet = stringSet
         self.reloadImagineWords()
     }
-    
     /**
      Update the KeyboardPlacement.
      It should be used when rotating.
@@ -119,5 +152,55 @@ class DecimalKeyboardView: UIView {
             PortraitSetup()
             reloadImagineWords()
         }
+    }
+    var keyboardType:KeyboardType = .State{
+        didSet{
+            switch keyboardType {
+            case .Decimal:
+                if oldValue != keyboardType {
+                    UIView.animate(withDuration: 0.4, animations: {
+                        UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
+                        for i in 0...self.DecimalButton.count - 1 {
+                            var newFrameOrigin = self.DecimalButton[i]?.frame.origin
+                            newFrameOrigin!.x -= UIScreen.main.bounds.width
+                            self.DecimalButton[i]?.frame.origin = newFrameOrigin!
+                        }
+                        for i in 0...self.StateButton.count - 1 {
+                            var newFrameOrigin = self.StateButton[i]?.frame.origin
+                            newFrameOrigin!.x -= UIScreen.main.bounds.width
+                            self.StateButton[i]?.frame.origin = newFrameOrigin!
+                        }
+                        var newFrameOrigin = self.ImagineView.frame.origin
+                        newFrameOrigin.x -= UIScreen.main.bounds.width
+                        self.ImagineView.frame.origin = newFrameOrigin
+                    })
+                }
+            case .State:
+                if oldValue != keyboardType {
+                    UIView.animate(withDuration: 0.4, animations: {
+                        UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
+                        for i in 0...self.DecimalButton.count - 1 {
+                            var newFrameOrigin = self.DecimalButton[i]?.frame.origin
+                            newFrameOrigin!.x += UIScreen.main.bounds.width
+                            self.DecimalButton[i]?.frame.origin = newFrameOrigin!
+                        }
+                        for i in 0...self.StateButton.count - 1 {
+                            var newFrameOrigin = self.StateButton[i]?.frame.origin
+                            newFrameOrigin!.x += UIScreen.main.bounds.width
+                            self.StateButton[i]?.frame.origin = newFrameOrigin!
+                        }
+                        var newFrameOrigin = self.ImagineView.frame.origin
+                        newFrameOrigin.x += UIScreen.main.bounds.width
+                        self.ImagineView.frame.origin = newFrameOrigin
+                    })
+                }
+            }
+        }
+    }
+    @objc func swdecimal() {
+        keyboardType = .Decimal
+    }
+    @objc func swstate() {
+        keyboardType = .State
     }
 }

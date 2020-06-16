@@ -11,7 +11,7 @@ import UIKit
 class KeyboardButton: UIButton {
     var defaultBG: UIColor = .white
     var pressedBG: UIColor = UIColor(red: 90/255, green: 90/255, blue: 90/255, alpha: 0.3333333)
-
+    var Key = ""
     override init(frame: CGRect) {
         super.init(frame: frame)
         setButton()

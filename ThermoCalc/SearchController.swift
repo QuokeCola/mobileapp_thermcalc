@@ -28,11 +28,11 @@ class SearchController: UISearchController {
         keyboardContainerView.addSubview(decimalKeyboard)
         searchTextField = self.searchBar.value(forKey: "_searchField") as? UITextField
         searchTextField!.inputView = keyboardContainerView
+        searchTextField?.textColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ViewLoaded")
         self.searchResultsUpdater = self
         self.searchBar.placeholder = "ENTER ANY THERMO STATE"
         self.searchBar.delegate = self
@@ -45,6 +45,11 @@ class SearchController: UISearchController {
         
         // decimalKeyboard.delegate = self
         // Do any additional setup after loading the view.
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     // When Searchbar Collapse, placeholders disappear.
@@ -66,7 +71,9 @@ class SearchController: UISearchController {
             }
         }
     }
-    
+}
+// PlaceHolder Functions
+extension SearchController {
     /**
      For the maxima situation, here should be only four (As two state and two unit).
      */
@@ -111,11 +118,6 @@ class SearchController: UISearchController {
             removeTextField.removeFromSuperview()
             placeHolderTextFields.remove(at: Index)
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     /*

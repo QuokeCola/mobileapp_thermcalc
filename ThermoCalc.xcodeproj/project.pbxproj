@@ -18,7 +18,6 @@
 		D072D6D4243835DF00133EFA /* SubstancePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072D6D3243835DF00133EFA /* SubstancePicker.swift */; };
 		D072D6DA24383F4700133EFA /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072D6D924383F4700133EFA /* KeyboardButton.swift */; };
 		D072D6DC24383F7700133EFA /* DecimalKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072D6DB24383F7700133EFA /* DecimalKeyboardView.swift */; };
-		D072D6DE24383F7F00133EFA /* StateKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072D6DD24383F7F00133EFA /* StateKeyboard.swift */; };
 		D072D6E424383FC100133EFA /* DecimalKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = D072D6E324383FC100133EFA /* DecimalKeyboard.xib */; };
 		D072D6E624383FCF00133EFA /* StateKeyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = D072D6E524383FCF00133EFA /* StateKeyboard.xib */; };
 		D07AE5CC2429BF8800BFCC45 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AE5CB2429BF8800BFCC45 /* PickerView.swift */; };
@@ -46,7 +45,6 @@
 		D072D6D3243835DF00133EFA /* SubstancePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstancePicker.swift; sourceTree = "<group>"; };
 		D072D6D924383F4700133EFA /* KeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
 		D072D6DB24383F7700133EFA /* DecimalKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalKeyboardView.swift; sourceTree = "<group>"; };
-		D072D6DD24383F7F00133EFA /* StateKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateKeyboard.swift; sourceTree = "<group>"; };
 		D072D6E324383FC100133EFA /* DecimalKeyboard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DecimalKeyboard.xib; sourceTree = "<group>"; };
 		D072D6E524383FCF00133EFA /* StateKeyboard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StateKeyboard.xib; sourceTree = "<group>"; };
 		D07AE5CB2429BF8800BFCC45 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 				D072D6D924383F4700133EFA /* KeyboardButton.swift */,
 				D0ED29A724967E6900CE8BF0 /* ImagineButton.swift */,
 				D072D6DB24383F7700133EFA /* DecimalKeyboardView.swift */,
-				D072D6DD24383F7F00133EFA /* StateKeyboard.swift */,
 				D072D6E324383FC100133EFA /* DecimalKeyboard.xib */,
 				D072D6E524383FCF00133EFA /* StateKeyboard.xib */,
 				D05CE07124971BF1009DE240 /* PlaceHolderButton.swift */,
@@ -237,7 +234,6 @@
 				D0ED29A824967E6900CE8BF0 /* ImagineButton.swift in Sources */,
 				D072D6CE2438290600133EFA /* SearchController.swift in Sources */,
 				D0AB856C242861A300BB50A1 /* DataSourceStructure.swift in Sources */,
-				D072D6DE24383F7F00133EFA /* StateKeyboard.swift in Sources */,
 				D072D6DC24383F7700133EFA /* DecimalKeyboardView.swift in Sources */,
 				D06D5F73242662F600C2B2E7 /* TableViewController.swift in Sources */,
 				D08FC6F024936DD500A19EDE /* Extensions.swift in Sources */,
