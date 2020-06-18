@@ -19,16 +19,10 @@ class PlaceHolderTextField: UITextField {
     */
     func setup() {
         self.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
-
         self.addTarget(self, action: #selector(textFieldEditingChanged(textField:)), for: .editingChanged)
+        self.addTarget(self, action: #selector(selfActivated), for: .touchDown)
         self.font = UIFont.systemFont(ofSize: 17.0)
-        let nib = UINib(nibName: "DecimalKeyboard", bundle: nil)
-        let objects = nib.instantiate(withOwner: nil, options: nil)
-        let decimalKeyboard = objects.first as? DecimalKeyboardView
-
-        let keyboardContainerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5))
-        keyboardContainerView.addSubview(decimalKeyboard!)
-        self.inputView = keyboardContainerView
+        self.tintColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 0.9)
     }
     
     override init(frame: CGRect) {
@@ -59,5 +53,15 @@ class PlaceHolderTextField: UITextField {
         var newFrame = self.frame
         newFrame.size = CGSize(width: width, height: newFrame.size.height)
         self.frame = newFrame
+    }
+    
+    @objc func selfActivated() {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationSearchSubViewActivateKey), object: self)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationKeyboardSwitchDecimalKey), object: self)
+    }
+    
+    override func becomeFirstResponder() -> Bool {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationKeyboardSwitchDecimalKey), object: self)
+        return super.becomeFirstResponder()
     }
 }

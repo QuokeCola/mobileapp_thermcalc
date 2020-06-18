@@ -11,7 +11,14 @@ import UIKit
 class PlaceHolderButton: UIButton {
 
     var defaultBG: UIColor = UIColor(red:229/255, green: 229/255, blue: 229/255, alpha: 1.0)
-    var pressedBG: UIColor = UIColor(displayP3Red: 51.0/255.0, green: 120.0/255.0, blue: 246.0/255.0, alpha: 1.0)
+    var pressedBG: UIColor = UIColor(red: 49/255, green: 155/255, blue: 245/255, alpha: 1.0)
+    
+    enum PlaceHolderButtonType {
+        case Header
+        case Unit
+    }
+    
+    var placeHolderButtonType: PlaceHolderButtonType?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,10 +41,14 @@ class PlaceHolderButton: UIButton {
         layer.masksToBounds = false
         self.setTitleColor(UIColor.black, for: .normal)
         super.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
+        self.addTarget(self, action: #selector(selfActivated), for: .touchDown)
     }
     
     func selectButton() {
         self.isSelected = true
+        if(self.placeHolderButtonType == .Header) {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationKeyboardSwitchStateKey), object: self)
+        }
     }
     
     func deselectButton() {
@@ -58,4 +69,7 @@ class PlaceHolderButton: UIButton {
         return AutoSize
     }
     
+    @objc func selfActivated() {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationSearchSubViewActivateKey), object: self)
+    }
 }

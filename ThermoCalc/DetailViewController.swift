@@ -9,7 +9,7 @@
 import UIKit
 
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    var detailResult: Result? {
+    var detailResult: searchAttempt? {
         didSet {
             configureView()
         }

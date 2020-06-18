@@ -14,6 +14,7 @@ class SearchController: UISearchController {
     var searchTextField: UITextField?
     var inputContent = [String?]()
     var placeHolderView: PlaceHolderView!
+    var tempTextView: UITextView!
     
     func manualInitialize() {
         let nib = UINib(nibName: "DecimalKeyboard", bundle: nil)
@@ -25,6 +26,9 @@ class SearchController: UISearchController {
         keyboardContainerView.addSubview(decimalKeyboard)
         searchTextField = self.searchBar.value(forKey: "_searchField") as? UITextField
         searchTextField!.inputView = keyboardContainerView
+        tempTextView = UITextView(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0))
+        tempTextView.inputView = keyboardContainerView
+        self.searchBar.addSubview(tempTextView)
     }
     
     override func viewDidLoad() {
@@ -39,7 +43,8 @@ class SearchController: UISearchController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(shouldHidePlaceHolderText), name: NSNotification.Name(rawValue: NotificationSearchBarIsEmpty), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleStateKeyPress), name: NSNotification.Name(rawValue: NotificationKeyboardStatePressedKey), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSubViewClicked), name: NSNotification.Name(NotificationSearchSubViewActivateKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDecimalKeyPressed), name: NSNotification.Name(NotificationKeyboardDecimalPressedKey), object: nil)
         placeHolderView = PlaceHolderView(frame: (searchTextField?.frame)!)
         placeHolderView.frame.size.width -= 28.0
         placeHolderView.frame.origin = CGPoint(x: 28.0, y: 0.0)
@@ -48,7 +53,7 @@ class SearchController: UISearchController {
         let index = self.searchTextField!.subviews.index(of: placeHolderView!)
         searchTextField?.exchangeSubview(at: 0, withSubviewAt: index!)
         // decimalKeyboard.delegate = self
-        // Do any additional setup after loading the view.
+        // Do any additional setup after loading the view
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,8 +65,10 @@ class SearchController: UISearchController {
         if let placeHolderEmpty = info.object as? Bool {
             if (placeHolderEmpty) {
                 searchBar.placeholder = "ENTER ANY THERMO STATE"
+                searchTextField?.tintColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 0.9)
             } else {
                 searchBar.placeholder = ""
+                searchTextField?.tintColor = .clear
             }
         }
     }
@@ -93,11 +100,60 @@ class SearchController: UISearchController {
                 default:
                     titleString = " "
                 }
-                placeHolderView.addPlaceHolderButton(placeHolderString: titleString)
+                if let selectedIndex = placeHolderView.selectedIndex {
+                    if let view = placeHolderView.placeHolders[selectedIndex] as? PlaceHolderButton {
+                        view.setTitle(titleString, for: .normal)
+                        if(selectedIndex <= placeHolderView.placeHolders.count - 2) {
+                            if(placeHolderView.placeHolders[selectedIndex+1] is PlaceHolderButton) {
+                                placeHolderView.addPlaceHolderTextField(Keyboard: (searchTextField?.inputView)!, Index: selectedIndex+1)
+                                placeHolderView.selectComponent(Index: selectedIndex + 1)
+                            } else {
+                                placeHolderView.selectComponent(Index: selectedIndex + 1)
+                            }
+                        } else if (selectedIndex == placeHolderView.placeHolders.count - 1) {
+                            placeHolderView.addPlaceHolderTextField(Keyboard: (searchTextField?.inputView)!, Index: nil)
+                            placeHolderView.selectComponent(Index: selectedIndex + 1)
+                        }
+                    }
+                } else {
+                    placeHolderView.addPlaceHolderButton(placeHolderString: titleString, type: .Header)
+                    placeHolderView.addPlaceHolderTextField(Keyboard: (searchTextField?.inputView)!,Index: nil)
+                    placeHolderView.selectedIndex = placeHolderView.placeHolders.count - 1
+                }
             }
         }
     }
-    // When Searchbar Collapse, placeholders disappear.
+    
+    @objc func handleDecimalKeyPressed(info: NSNotification) {
+        if let button = info.object as? KeyboardButton {
+            if let index = placeHolderView.selectedIndex {
+                if let activeTextField = placeHolderView.placeHolders[index] as? PlaceHolderTextField {
+                    if(button.Key.contains(find: "Delete")) {
+                        if(activeTextField.text == "") {
+                            placeHolderView.removePlaceHolders(Index: index)
+                            placeHolderView.selectComponent(Index: max(index-1,0))
+                        } else {
+                            activeTextField.deleteBackward()
+                            placeHolderView.placeHolders[index] = activeTextField
+                            placeHolderView.refreshPlaceHolderView()
+                        }
+                    } else {
+                        activeTextField.insertText(button.Key)
+                        placeHolderView.placeHolders[index] = activeTextField
+                        placeHolderView.refreshPlaceHolderView()
+                    }
+                }
+            }
+        }
+    }
+    
+    @objc func handleSubViewClicked(info: NSNotification) {
+        self.isActive = true
+        if info.object is PlaceHolderButton {
+            tempTextView.becomeFirstResponder()
+        }
+    }
+    
 }
 
 extension SearchController: UISearchResultsUpdating {
@@ -112,7 +168,7 @@ extension SearchController: UISearchResultsUpdating {
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        searchFilterResults = Results.filter({(result:Result) -> Bool in
+        searchFilterResults = Results.filter({(result:searchAttempt) -> Bool in
             let splitedText = searchText.split(separator: ",")
             for subString in splitedText {
                 if (subString == "") {
@@ -129,16 +185,18 @@ extension SearchController: UISearchResultsUpdating {
     func isFiltering() -> Bool {
         return self.isActive && !searchBarIsEmpty()
     }
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        for subView in (searchTextField?.subviews)! {
-            subView.resignFirstResponder()
-        }
-    }
 }
 
 extension SearchController: UISearchBarDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("Event Recieved.")
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationSearchBarSearchKey), object: self)
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        for subview in self.placeHolderView.subviews {
+            subview.resignFirstResponder()
+        }
+        tempTextView.resignFirstResponder()
     }
 }

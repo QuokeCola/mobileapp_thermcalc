@@ -94,16 +94,19 @@ extension UITextField {
     override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         
         guard self.point(inside: point, with: event) else { return nil }
-        
+        guard !(self is PlaceHolderTextField) else {return self}
         for subview in subviews.reversed() {
             let convertedPoint = subview.convert(point, from: self)
             if let candidate = subview.hitTest(convertedPoint, with: event) {
                 if subview.tag != 0 {
+                    candidate.becomeFirstResponder()
                     return candidate
                 }
             }
         }
-        
+        if !(self is PlaceHolderTextField) {
+            return nil
+        }
         return self
     }
     

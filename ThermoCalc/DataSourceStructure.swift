@@ -22,10 +22,48 @@ struct calculatedRes {
     }
 }
 
-struct Result{
-    let SearchCondition = [searchCondition?](repeating: nil, count: 2)
-    let property1: String
-    let property2: String
+struct searchAttempt{
+    let SearchCondition = [searchCondition](repeating: searchCondition(property: nil, amount: "", unit: ""), count: 2)
+    var property1: String {
+        var header = ""
+        if let propertyHeader = SearchCondition[0].property {
+            switch propertyHeader{
+            case .p:
+                header = "p:"
+            case .v:
+                header = "v:"
+            case .t:
+                header = "t:"
+            case .u:
+                header = "u:"
+            case .h:
+                header = "h:"
+            case .s:
+                header = "s:"
+            }
+        }
+        return header+SearchCondition[0].amount+SearchCondition[0].unit
+    }
+    var property2: String {
+        var header = ""
+        if let propertyHeader = SearchCondition[1].property {
+            switch propertyHeader{
+            case .p:
+                header = "p:"
+            case .v:
+                header = "v:"
+            case .t:
+                header = "t:"
+            case .u:
+                header = "u:"
+            case .h:
+                header = "h:"
+            case .s:
+                header = "s:"
+            }
+        }
+        return header+SearchCondition[1].amount+SearchCondition[1].unit
+    }
     let calculated_result: calculatedRes
 }
 
@@ -39,41 +77,55 @@ enum substance_t {
     case Propane
 }
 
-var Results = [Result]()
-var searchFilterResults: [Result] = []
+var Results = [searchAttempt]()
+var searchFilterResults: [searchAttempt] = []
 
 struct searchCondition {
-    let state: state_t
+    let property: PropertyHeader?
     let amount: String
     let unit: String
 }
 
 fileprivate struct sat_dataSource_t{
-    let Temp: Float
-    let Pressure: Double
-    let vf: Double
-    let vg: Double
-    let uf: Float
-    let ug: Float
-    let hf: Float
-    let hg: Float
-    let sf: Float
-    let sg: Float
+    let Temp: PropertyData
+    let Pressure: PropertyData
+    let vf: PropertyData
+    let vg: PropertyData
+    let uf: PropertyData
+    let ug: PropertyData
+    let hf: PropertyData
+    let hg: PropertyData
+    let sf: PropertyData
+    let sg: PropertyData
 }
 
-struct state_t {
-    let p: Double
-    let t: Float
-    let v: Double
-    let u: Float
-    let h: Float
-    let s: Float
+enum PropertyHeader {
+    case p
+    case t
+    case v
+    case u
+    case h
+    case s
+}
+
+struct PropertyData {
+    var amount: Double
+    var Unit: String
+}
+
+struct State {
+    let Temp: PropertyData
+    let Pressure: PropertyData
+    let v: PropertyData
+    let u: PropertyData
+    let h: PropertyData
+    let s: PropertyData
 }
 
 fileprivate var Water_Sat_Temp_Table = [sat_dataSource_t]() // A2
 fileprivate var Water_Sat_Pres_Table = [sat_dataSource_t]() // A3
-fileprivate var Sup_Water_Vap_Table = [state_t]() //A4
-fileprivate var Com_Water_Liq_Table = [state_t]() //A5
+fileprivate var Sup_Water_Vap_Table = [State]() //A4
+fileprivate var Com_Water_Liq_Table = [State]() //A5
 
 func search(searchCommand: String) {
     //return SearchResult

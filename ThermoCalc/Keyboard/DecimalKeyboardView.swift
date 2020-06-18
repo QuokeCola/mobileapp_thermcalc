@@ -38,6 +38,8 @@ class DecimalKeyboardView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(StateKeyAnalysis), name: NSNotification.Name(rawValue: NotificationKeyboardStatePressedKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(DecimalKeyAnalysis(info:)), name: NSNotification.Name(rawValue: NotificationKeyboardDecimalPressedKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ImagineKeyAnalysis), name: NSNotification.Name(rawValue: NotificationKeyboardImaginePressedKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchDecimal), name: NSNotification.Name(rawValue: NotificationKeyboardSwitchDecimalKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchState), name: NSNotification.Name(rawValue: NotificationKeyboardSwitchStateKey), object: nil)
     }
     
     @IBAction func DecimalKeyPressed(sender: KeyboardButton) {
@@ -215,18 +217,20 @@ class DecimalKeyboardView: UIView {
     }
     
     @objc func StateKeyAnalysis(info: NSNotification) {
-        if let pressedButton = info.object as? KeyboardButton {
-            //keyboardType = .Decimal
-            if(!pressedButton.Key.contains(find: "Delete")) {
-            }
-        }
     }
     
     @objc func DecimalKeyAnalysis(info: NSNotification) {
-        
     }
     
     @objc func ImagineKeyAnalysis(info: NSNotification) {
         //keyboardType = .State
+    }
+    
+    @objc func handleSwitchDecimal(info: NSNotification) {
+        keyboardType = .Decimal
+    }
+    
+    @objc func handleSwitchState(info: NSNotification) {
+        keyboardType = .State
     }
 }
