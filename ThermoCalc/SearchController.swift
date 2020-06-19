@@ -218,7 +218,7 @@ class SearchController: UISearchController {
     
     @objc func handleImagineViewClicked(info: NSNotification) {
         if let pressedKeyboardButton = info.object as? ImagineButton {
-            if let currentTextField = placeHolderView.placeHolders[placeHolderView.selectedIndex!] as? PlaceHolderTextField {
+            if placeHolderView.placeHolders[placeHolderView.selectedIndex!] is PlaceHolderTextField {
                 if placeHolderView.selectedIndex! == placeHolderView.placeHolders.count-1 {
                     placeHolderView.addPlaceHolderButton(placeHolderString: (pressedKeyboardButton.titleLabel?.text)!, type: .Unit, index: nil)
                     var containsInterView = false
