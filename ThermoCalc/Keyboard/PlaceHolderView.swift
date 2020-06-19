@@ -192,6 +192,9 @@ class PlaceHolderView: UIView {
                 } else {
                     placeHolderX += placeHolders[i].frame.size.width
                 }
+                if button.placeHolderButtonType == .Header {
+                    placeHolderX += 10.0
+                }
             } else {
                 placeHolderX += placeHolders[i].frame.size.width
             }
