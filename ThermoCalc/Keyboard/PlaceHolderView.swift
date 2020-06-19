@@ -17,14 +17,86 @@ class PlaceHolderView: UIView {
         // Drawing code
     }
     */
-    var placeHolders = [UIView]()
+    
+    /**
+     When the Unit placeholder is in the front, there will be no entry for add Header and amount. So Add a animated placeholder indicator before it.
+     */
+    var placeHolders = [UIView]() {
+        didSet {
+            if placeHolders.count == 0{
+                return
+            }
+            for i in 0...placeHolders.count - 1 {
+                guard let UnitButton = self.placeHolders[i] as? PlaceHolderButton else {continue}
+                if UnitButton.placeHolderButtonType == .Unit {
+                    if i != 0 {
+                        guard placeHolders[i-1] is InterView else {continue}
+                        let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
+                        self.addPlaceHolderButton(placeHolderString: " ", type: .Header, index: i)
+                        if let button = self.placeHolders[i] as? PlaceHolderButton {
+                            button.deselectButton()
+                        }
+                        self.placeHolders[i].alpha = 0.5
+                        UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                            self.placeHolders[i].alpha = 0.5
+                            self.placeHolders[i].subviews[0].frame.size.width = 10.0
+                        })
+                    } else {
+                        let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
+                        self.addPlaceHolderButton(placeHolderString: " ", type: .Header, index: i)
+                        if let button = self.placeHolders[i] as? PlaceHolderButton {
+                            button.deselectButton()
+                        }
+                        self.placeHolders[i].alpha = 0.5
+                        UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                            self.placeHolders[i].alpha = 0.5
+                            self.placeHolders[i].subviews[0].frame.size.width = 10.0
+                        })
+                    }
+                }
+            }
+            for i in 0...placeHolders.count - 1 {
+                if self.placeHolders[i] is PlaceHolderTextField {
+                    if i != 0 {
+                        guard let previousButton = placeHolders[i-1] as? PlaceHolderButton else {continue}
+                        if previousButton.placeHolderButtonType == .Unit {
+                            let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
+                            self.addPlaceHolderButton(placeHolderString: " ", type: .Header, index: i)
+                            if let button = self.placeHolders[i] as? PlaceHolderButton {
+                                button.deselectButton()
+                            }
+                            self.placeHolders[i].alpha = 0.5
+                            UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                                self.placeHolders[i].alpha = 0.5
+                                self.placeHolders[i].subviews[0].frame.size.width = 10.0
+                            })
+                        }
+                    } else {
+                        let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
+                        self.addPlaceHolderButton(placeHolderString: " ", type: .Header, index: i)
+                        if let button = self.placeHolders[i] as? PlaceHolderButton {
+                            button.deselectButton()
+                        }
+                        UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                            self.placeHolders[i].alpha = 0.5
+                            self.placeHolders[i].subviews[0].frame.size.width = 10.0
+                        })
+                    }
+                }
+            }
+            self.refreshPlaceHolderView()
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationPlaceHolderIsEmpty), object: placeHolders.count == 0)
+        }
+    }
     var placeHolderHeight = CGFloat(25.0)
     var placeHolderY = CGFloat(0.0)
     var tagUpperBound = 20
     
     func setup() {
         backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
+        self.alpha = 1.0
         NotificationCenter.default.addObserver(self, selector: #selector(searchBarSizeChange), name: NSNotification.Name(rawValue: NotificationSearchBarSizeChangeKey), object: nil)
+        self.clipsToBounds = true
     }
     
     override init(frame: CGRect) {
@@ -34,7 +106,6 @@ class PlaceHolderView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
     }
     
     override func layoutSubviews() {
@@ -52,7 +123,6 @@ class PlaceHolderView: UIView {
                         button.frame.size = CGSize(width: placeHolders[i].bounds.width, height: newButtonHeight)
                         button.titleLabel?.alpha = max(3.0*newButtonHeight/placeHolderHeight-2.0, 0.0)
                         button.alpha = min(4.0 * newButtonHeight/placeHolderHeight - 1.0, 1.0)
-                        placeHolders[i] = button
                     }
                     if let textField = placeHolders[i] as? PlaceHolderTextField {
                         textField.frame.size = CGSize(width: placeHolders[i].bounds.width, height: newTextFieldHeight)
@@ -66,19 +136,19 @@ class PlaceHolderView: UIView {
     /**
      For the maxima situation, here should be only four (As two state and two unit).
      */
-    func addPlaceHolderButton(placeHolderString: String, type: PlaceHolderButton.PlaceHolderButtonType) {
+    func addPlaceHolderButton(placeHolderString: String, type: PlaceHolderButton.PlaceHolderButtonType, index: Int?) {
         placeHolderY = (self.bounds.height - placeHolderHeight)/2.0
-        var placeHolderX = CGFloat(0.0)
-        for view in placeHolders {
-            placeHolderX += view.frame.size.width
-        }
+        let placeHolderX = CGFloat(0.0)
         let button = PlaceHolderButton(frame: CGRect(x: placeHolderX, y: placeHolderY, width: 80.0, height: placeHolderHeight))
         button.setTitle(placeHolderString, for: .normal)
         button.placeHolderButtonType = type
-        self.placeHolders.append(button)
-        self.placeHolders[self.placeHolders.count-1].tag = self.placeHolders.count
-        self.addSubview(placeHolders[placeHolders.count-1])
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationSearchBarIsEmpty), object: placeHolders.count == 0)
+        if index == nil {
+            self.placeHolders.append(button)
+        } else {
+            self.placeHolders.insert(button, at: index!)
+        }
+        self.refreshPlaceHolderView()
+        
     }
     
     func addPlaceHolderTextField(Keyboard: UIView, Index: Int?) {
@@ -87,44 +157,51 @@ class PlaceHolderView: UIView {
         let newTextField = PlaceHolderTextField(frame: CGRect(x: placeHolderX, y: placeHolderY, width: 80.0, height: self.frame.height))
         newTextField.text = ""
         newTextField.inputView = Keyboard
+        newTextField.sizeToFit()
         if let index = Index {
             self.placeHolders.insert(newTextField, at: index)
-            self.placeHolders[index].tag = index + 1
-            for i in index+1...placeHolders.count-1 {
-                placeHolders[i].tag += 1
-            }
+            self.addSubview(placeHolders[index])
         } else {
             self.placeHolders.append(newTextField)
-            self.placeHolders[self.placeHolders.count-1].tag = self.placeHolders.count
+            self.addSubview(placeHolders[placeHolders.count-1])
         }
         self.refreshPlaceHolderView()
-        self.addSubview(placeHolders[placeHolders.count-1])
         self.placeHolders[self.placeHolders.count-1].becomeFirstResponder()
     }
     
     func removePlaceHolders(Index: Int) {
-        let leftMovement = placeHolders[Index].frame.size.width
-        if (Index < self.placeHolders.count - 1) {
-            for i in (Index + 1)...self.placeHolders.count-1 {
-                self.placeHolders[i].frame.origin.x -= leftMovement
-                self.placeHolders[i].tag -= 1
-            }
-        }
-        self.placeHolders[Index].removeFromSuperview()
         self.placeHolders.remove(at: Index)
-
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationSearchBarIsEmpty), object: placeHolders.count == 0)
         if placeHolders.count == 0 {
             selectedIndex = nil
         }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationPlaceHolderIsEmpty), object: placeHolders.count == 0)
+        self.refreshPlaceHolderView()
     }
     
     func refreshPlaceHolderView() {
+        self.subviews.forEach({ $0.removeFromSuperview() })
         placeHolderY = CGFloat(0.0)
         var placeHolderX = CGFloat(0.0)
+        if placeHolders.count == 0 {return}
         for i in 0...placeHolders.count-1 {
             placeHolders[i].frame.origin.x = placeHolderX
-            placeHolderX += placeHolders[i].frame.size.width
+            placeHolders[i].tag = i + 1
+            if let button = placeHolders[i] as? PlaceHolderButton {
+                if button.titleLabel?.text == " " {
+                    placeHolderX += 30.0
+                } else {
+                    placeHolderX += placeHolders[i].frame.size.width
+                }
+            } else {
+                placeHolderX += placeHolders[i].frame.size.width
+            }
+            self.addSubview(placeHolders[i])
+        }
+        self.frame.size.width = placeHolderX
+        if self.frame.size.width > (superview?.frame.size.width)! {
+            self.frame.origin.x = (superview?.frame.size.width)! - self.frame.size.width
+        } else {
+            self.frame.origin.x = 28.0
         }
     }
 
@@ -140,30 +217,59 @@ class PlaceHolderView: UIView {
                 if let textField = subview as?  PlaceHolderTextField {
                     self.selectComponent(Index: textField.tag-1)
                 }
+                if let interView = subview as? InterView {
+                    self.selectComponent(Index: interView.tag-1)
+                }
                 return candidate
             }
         }
         return self
     }
     
-    func selectComponent(Index: Int) {
+    func selectComponent(Index: Int?) {
+        guard let index = Index else {
+            selectedIndex = nil
+            return
+        }
+        if placeHolders.count == 0 {return}
         for i in 0...placeHolders.count-1 {
-            if i != Index {
+            if i != index {
                 if let Button = placeHolders[i] as? PlaceHolderButton {
                     Button.deselectButton()
-                    placeHolders[i] = Button
+                    if Button.titleLabel?.text == " "{
+                        Button.alpha = 0.5
+                        let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
+                        UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                            Button.alpha = 0.5
+                            Button.frame.size.width = 10.0
+                        })
+                    }
                 }
                 placeHolders[i].resignFirstResponder()
             } else {
                 if let Button = placeHolders[i] as? PlaceHolderButton {
                     Button.selectButton()
+                    if Button.titleLabel?.text == " " {
+                        Button.layer.removeAllAnimations()
+                        Button.sizeToFit()
+                        Button.alpha = 1.0
+                    }
                     placeHolders[i] = Button
+
                 }
                 placeHolders[i].becomeFirstResponder()
             }
         }
-        selectedIndex = Index
+        selectedIndex = index
     }
     
-
+    func addInterView(Keyboard: UIView, index: Int?) {
+        let interView = InterView(frame: self.frame)
+        interView.setupKeyboard(Keyboard: Keyboard)
+        guard let Index = index else {
+            placeHolders.append(interView)
+            return
+        }
+        placeHolders.insert(interView, at: Index)
+    }
 }

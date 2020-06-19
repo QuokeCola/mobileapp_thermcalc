@@ -11,7 +11,7 @@ import UIKit
 class PlaceHolderButton: UIButton {
 
     var defaultBG: UIColor = UIColor(red:229/255, green: 229/255, blue: 229/255, alpha: 1.0)
-    var pressedBG: UIColor = UIColor(red: 49/255, green: 155/255, blue: 245/255, alpha: 1.0)
+    var pressedBG: UIColor = UIColor(red: 49/255, green: 155/255, blue: 245/255, alpha: 0.75)
     
     enum PlaceHolderButtonType {
         case Header
@@ -46,8 +46,14 @@ class PlaceHolderButton: UIButton {
     
     func selectButton() {
         self.isSelected = true
+        self.layer.removeAllAnimations()
+        for subview in self.subviews {
+            subview.layer.removeAllAnimations()
+        }
         if(self.placeHolderButtonType == .Header) {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationKeyboardSwitchStateKey), object: self)
+        } else {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationKeyboardSwitchDecimalKey), object: self)
         }
     }
     

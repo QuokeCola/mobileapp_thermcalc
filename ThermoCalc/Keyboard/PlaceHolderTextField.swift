@@ -48,6 +48,12 @@ class PlaceHolderTextField: UITextField {
         return txtField.frame.size.width
     }
     
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        var newSize = self.frame.size
+        newSize.width = getWidth(text: self.text!)
+        return newSize
+    }
+    
     @objc func textFieldEditingChanged(textField: UITextField) {
         let width = getWidth(text: self.text!)
         var newFrame = self.frame

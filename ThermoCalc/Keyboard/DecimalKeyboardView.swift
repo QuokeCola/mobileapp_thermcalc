@@ -178,6 +178,12 @@ class DecimalKeyboardView: UIView {
             switch keyboardType {
             case .Decimal:
                 if oldValue != keyboardType {
+                    for i in 0...self.DecimalButton.count - 1 {
+                        self.DecimalButton[i]?.isEnabled = false
+                    }
+                    for i in 0...self.StateButton.count - 1 {
+                        self.StateButton[i]?.isEnabled = false
+                    }
                     UIView.animate(withDuration: 0.4, animations: {
                         for i in 0...self.DecimalButton.count - 1 {
                             var newFrameOrigin = self.DecimalButton[i]?.frame.origin
@@ -192,10 +198,23 @@ class DecimalKeyboardView: UIView {
                         var newFrameOrigin = self.ImagineView.frame.origin
                         newFrameOrigin.x -= UIScreen.main.bounds.width
                         self.ImagineView.frame.origin = newFrameOrigin
+                    }, completion: {(finished:Bool) in
+                        for i in 0...self.DecimalButton.count - 1 {
+                            self.DecimalButton[i]?.isEnabled = true
+                        }
+                        for i in 0...self.StateButton.count - 1 {
+                            self.StateButton[i]?.isEnabled = true
+                        }
                     })
                 }
             case .State:
                 if oldValue != keyboardType {
+                    for i in 0...self.DecimalButton.count - 1 {
+                        self.DecimalButton[i]?.isEnabled = false
+                    }
+                    for i in 0...self.StateButton.count - 1 {
+                        self.StateButton[i]?.isEnabled = false
+                    }
                     UIView.animate(withDuration: 0.4, animations: {
                         for i in 0...self.DecimalButton.count - 1 {
                             var newFrameOrigin = self.DecimalButton[i]?.frame.origin
@@ -210,6 +229,13 @@ class DecimalKeyboardView: UIView {
                         var newFrameOrigin = self.ImagineView.frame.origin
                         newFrameOrigin.x += UIScreen.main.bounds.width
                         self.ImagineView.frame.origin = newFrameOrigin
+                    }, completion: {(finished:Bool) in
+                        for i in 0...self.DecimalButton.count - 1 {
+                            self.DecimalButton[i]?.isEnabled = true
+                        }
+                        for i in 0...self.StateButton.count - 1 {
+                            self.StateButton[i]?.isEnabled = true
+                        }
                     })
                 }
             }

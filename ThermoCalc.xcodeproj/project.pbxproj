@@ -24,6 +24,7 @@
 		D08FC6F024936DD500A19EDE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08FC6EF24936DD500A19EDE /* Extensions.swift */; };
 		D0AB856C242861A300BB50A1 /* DataSourceStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB856B242861A300BB50A1 /* DataSourceStructure.swift */; };
 		D0AB856E242865D300BB50A1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB856D242865D300BB50A1 /* DetailViewController.swift */; };
+		D0CB37B8249D121800E01954 /* InterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CB37B7249D121800E01954 /* InterView.swift */; };
 		D0ED29A824967E6900CE8BF0 /* ImagineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ED29A724967E6900CE8BF0 /* ImagineButton.swift */; };
 		D0FBBA91249798AE00BE0DEE /* PlaceHolderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FBBA90249798AE00BE0DEE /* PlaceHolderTextField.swift */; };
 		D0FBBA932498F0A000BE0DEE /* PlaceHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FBBA922498F0A000BE0DEE /* PlaceHolderView.swift */; };
@@ -58,6 +59,7 @@
 		D093971E24306B450014D3F4 /* 3D_touch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3D_touch.png; sourceTree = "<group>"; };
 		D0AB856B242861A300BB50A1 /* DataSourceStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceStructure.swift; sourceTree = "<group>"; };
 		D0AB856D242865D300BB50A1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		D0CB37B7249D121800E01954 /* InterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterView.swift; sourceTree = "<group>"; };
 		D0ED29A724967E6900CE8BF0 /* ImagineButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagineButton.swift; sourceTree = "<group>"; };
 		D0FBBA90249798AE00BE0DEE /* PlaceHolderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextField.swift; sourceTree = "<group>"; };
 		D0FBBA922498F0A000BE0DEE /* PlaceHolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderView.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				D05CE07124971BF1009DE240 /* PlaceHolderButton.swift */,
 				D0FBBA90249798AE00BE0DEE /* PlaceHolderTextField.swift */,
 				D0FBBA922498F0A000BE0DEE /* PlaceHolderView.swift */,
+				D0CB37B7249D121800E01954 /* InterView.swift */,
 			);
 			path = Keyboard;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 				D06D5F73242662F600C2B2E7 /* TableViewController.swift in Sources */,
 				D08FC6F024936DD500A19EDE /* Extensions.swift in Sources */,
 				D07AE5CC2429BF8800BFCC45 /* PickerView.swift in Sources */,
+				D0CB37B8249D121800E01954 /* InterView.swift in Sources */,
 				D0FBBA91249798AE00BE0DEE /* PlaceHolderTextField.swift in Sources */,
 				D05CE07224971BF1009DE240 /* PlaceHolderButton.swift in Sources */,
 				D072D6DA24383F4700133EFA /* KeyboardButton.swift in Sources */,
