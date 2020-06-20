@@ -58,8 +58,20 @@ class PlaceHolderView: UIView {
             for i in 0...placeHolders.count - 1 {
                 if self.placeHolders[i] is PlaceHolderTextField {
                     if i != 0 {
-                        guard let previousButton = placeHolders[i-1] as? PlaceHolderButton else {continue}
-                        if previousButton.placeHolderButtonType == .Unit {
+                        if let previousButton = placeHolders[i-1] as? PlaceHolderButton {
+                            if previousButton.placeHolderButtonType == .Unit {
+                                let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
+                                self.addPlaceHolderButton(placeHolderString: " ", type: .Header, index: i)
+                                if let button = self.placeHolders[i] as? PlaceHolderButton {
+                                    button.deselectButton()
+                                }
+                                self.placeHolders[i].alpha = 0.5
+                                UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                                    self.placeHolders[i].alpha = 0.5
+                                    self.placeHolders[i].subviews[0].frame.size.width = 10.0
+                                })
+                            }
+                        } else if placeHolders[i-1] is InterView {
                             let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
                             self.addPlaceHolderButton(placeHolderString: " ", type: .Header, index: i)
                             if let button = self.placeHolders[i] as? PlaceHolderButton {
@@ -71,6 +83,7 @@ class PlaceHolderView: UIView {
                                 self.placeHolders[i].subviews[0].frame.size.width = 10.0
                             })
                         }
+                        
                     } else {
                         let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
                         self.addPlaceHolderButton(placeHolderString: " ", type: .Header, index: i)
@@ -170,6 +183,7 @@ class PlaceHolderView: UIView {
     }
     
     func removePlaceHolders(Index: Int) {
+        self.placeHolders[Index].removeFromSuperview()
         self.placeHolders.remove(at: Index)
         if placeHolders.count == 0 {
             selectedIndex = nil
@@ -179,7 +193,6 @@ class PlaceHolderView: UIView {
     }
     
     func refreshPlaceHolderView() {
-        self.subviews.forEach({ $0.removeFromSuperview() })
         placeHolderY = CGFloat(0.0)
         var placeHolderX = CGFloat(0.0)
         if placeHolders.count == 0 {return}
@@ -200,11 +213,27 @@ class PlaceHolderView: UIView {
             }
             self.addSubview(placeHolders[i])
         }
-        self.frame.size.width = placeHolderX
-        if self.frame.size.width > (superview?.frame.size.width)! {
-            self.frame.origin.x = (superview?.frame.size.width)! - self.frame.size.width
+        self.frame.size.width = placeHolderX + 10.0
+        
+        if self.frame.size.width > CGFloat((superview?.frame.size.width)! - 28.0) {
+            if let index = selectedIndex {
+                if(index < placeHolders.count) {
+                    if (self.frame.size.width - placeHolders[index].frame.minX) > CGFloat((superview?.frame.size.width)! - 28.0) {
+                        UIView.animate(withDuration: 0.3, animations: {
+                            self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0
+                        })
+                    } else {
+                        UIView.animate(withDuration: 0.3, animations: {
+                            self.frame.origin.x = (self.superview?.frame.size.width)! - self.frame.size.width
+                        })
+                    }
+                }
+            }
+
         } else {
-            self.frame.origin.x = 28.0
+            UIView.animate(withDuration: 0.3, animations: {
+                self.frame.origin.x = 28.0
+            })
         }
     }
 
@@ -257,13 +286,22 @@ class PlaceHolderView: UIView {
                         Button.sizeToFit()
                         Button.alpha = 1.0
                     }
-                    placeHolders[i] = Button
-
+                    Button.becomeFirstResponder()
+                } else if let Textfield = placeHolders[i] as? PlaceHolderTextField {
+                    Textfield.tintColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 0.9)
+                    _ = Textfield.becomeFirstResponder()
+                } else if let interView = placeHolders[i] as? InterView {
+                    interView.textView.tintColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 0.9)
+                    _ = interView.becomeFirstResponder()
                 }
-                placeHolders[i].becomeFirstResponder()
             }
         }
         selectedIndex = index
+        if (self.frame.size.width - placeHolders[index].frame.minX) > CGFloat((superview?.frame.size.width)! - 28.0) {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0
+            })
+        }
     }
     
     func addInterView(Keyboard: UIView, index: Int?) {

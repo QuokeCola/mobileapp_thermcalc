@@ -76,6 +76,7 @@ class SearchController: UISearchController {
                 searchTextField?.tintColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 0.9)
             } else {
                 searchBar.placeholder = ""
+                searchTextField?.tintColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 0.9)
                 searchTextField?.tintColor = .clear
             }
         }
@@ -145,14 +146,25 @@ class SearchController: UISearchController {
                                     placeHolderView.addPlaceHolderTextField(Keyboard: (searchTextField?.inputView)!,Index: nil)
                                     placeHolderView.selectComponent(Index: selectedIndex + 2)
                                 } else {
+                                    nextItem.layer.removeAllAnimations()
+                                    for nextItemSubview in nextItem.subviews {
+                                        nextItemSubview.layer.removeAllAnimations()
+                                    }
+                                    nextItem.alpha = 1.0
                                     nextItem.setTitle(titleString, for: .normal)
                                     if selectedIndex < placeHolderView.placeHolders.count - 2{
                                         if placeHolderView.placeHolders[selectedIndex + 2] is PlaceHolderTextField {
+                                            placeHolderView.selectComponent(Index: selectedIndex+2)
                                             return
                                         } else {
                                             placeHolderView.addPlaceHolderTextField(Keyboard: (searchTextField?.inputView)!, Index: selectedIndex + 2)
+                                            placeHolderView.selectComponent(Index: selectedIndex+2)
                                         }
                                     }
+                                }
+                            } else {
+                                if placeHolderView.placeHolders[selectedIndex+1] is PlaceHolderTextField {
+                                    placeHolderView.addPlaceHolderButton(placeHolderString: titleString, type: .Header, index: selectedIndex + 1)
                                 }
                             }
                         } else {
@@ -173,6 +185,9 @@ class SearchController: UISearchController {
     @objc func handleDecimalKeyPressed(info: NSNotification) {
         if let button = info.object as? KeyboardButton {
             if let index = placeHolderView.selectedIndex {
+                if index >= placeHolderView.placeHolders.count {
+                    return
+                }
                 if let activeTextField = placeHolderView.placeHolders[index] as? PlaceHolderTextField {
                     if(button.Key.contains(find: "Delete")) {
                         if(activeTextField.text == "") {
@@ -185,8 +200,6 @@ class SearchController: UISearchController {
                         }
                     } else {
                         activeTextField.insertText(button.Key)
-                        placeHolderView.placeHolders[index] = activeTextField
-                        placeHolderView.placeHolders[index].becomeFirstResponder()
                         placeHolderView.refreshPlaceHolderView()
                     }
                 } else if let currentbutton = placeHolderView.placeHolders[index] as? PlaceHolderButton {
@@ -194,8 +207,27 @@ class SearchController: UISearchController {
                         if index < placeHolderView.placeHolders.count - 1{
                             placeHolderView.removePlaceHolders(Index: index+1)
                         }
+                        print(index)
                         placeHolderView.removePlaceHolders(Index: index)
                         placeHolderView.selectComponent(Index: index - 1)
+                    } else {
+                        if index > 0 {
+                            if placeHolderView.placeHolders[index - 1] is PlaceHolderTextField {
+                                placeHolderView.selectComponent(Index: index - 1)
+                            } else {
+                                placeHolderView.addPlaceHolderTextField(Keyboard: (searchTextField?.inputView)!, Index: index)
+                                placeHolderView.selectComponent(Index: index)
+                            }
+                            guard let selectedIndex = placeHolderView.selectedIndex else {return}
+                            if let textfield = placeHolderView.placeHolders[selectedIndex] as? PlaceHolderTextField {
+                                textfield.insertText(button.Key)
+                            }
+                        } else {
+                            placeHolderView.addPlaceHolderTextField(Keyboard: (searchTextField?.inputView)!, Index: 0)
+                            placeHolderView.selectComponent(Index: 0)
+                            let textfield = placeHolderView.placeHolders[0] as! PlaceHolderTextField
+                            textfield.insertText(button.Key)
+                        }
                     }
                 }
             }
@@ -212,6 +244,10 @@ class SearchController: UISearchController {
                 if placeHolderView.placeHolders[placeHolderView.placeHolders.count - 1] is PlaceHolderButton {
                     tempTextView.becomeFirstResponder()
                 }
+            } else if !(info.object is PlaceHolderTextField) && placeHolderView.placeHolders.count == 0{
+                searchTextField?.becomeFirstResponder()
+            } else if let textfield = info.object as? PlaceHolderTextField {
+                _ = textfield.becomeFirstResponder()
             }
         }
     }
@@ -229,6 +265,7 @@ class SearchController: UISearchController {
                     }
                     if !containsInterView {
                         placeHolderView.addInterView(Keyboard: (searchTextField?.inputView)!, index: nil)
+                       
                     }
                     placeHolderView.selectComponent(Index: placeHolderView.placeHolders.count - 1)
                 } else {
@@ -300,7 +337,7 @@ class SearchController: UISearchController {
                         }
                     } else {
                         placeHolderView.addInterView(Keyboard: (searchTextField?.inputView)!, index: nil)
-                        placeHolderView.selectComponent(Index: placeHolderView.selectedIndex! + 2)
+                        placeHolderView.selectComponent(Index: placeHolderView.placeHolders.count - 1)
                     }
                 }
             }
@@ -337,7 +374,7 @@ extension SearchController: UISearchResultsUpdating {
     }
     
     func isFiltering() -> Bool {
-        return self.isActive && !searchBarIsEmpty()
+        return self.isActive && (placeHolderView.placeHolders.count != 0)
     }
 }
 
@@ -350,6 +387,11 @@ extension SearchController: UISearchBarDelegate{
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         for subview in self.placeHolderView.subviews {
             subview.resignFirstResponder()
+            if let itv = subview as? InterView {
+                for subitv in itv.subviews {
+                    subitv.resignFirstResponder()
+                }
+            }
         }
         tempTextView.resignFirstResponder()
     }

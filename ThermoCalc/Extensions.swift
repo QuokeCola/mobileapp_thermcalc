@@ -100,13 +100,17 @@ extension UITextField {
             if let candidate = subview.hitTest(convertedPoint, with: event) {
                 if subview.tag != 0 {
                     candidate.becomeFirstResponder()
-                    print(candidate)
                     return candidate
                 }
             }
         }
         if !(self is PlaceHolderTextField) {
             NotificationCenter.default.post(name: NSNotification.Name(NotificationSearchSubViewActivateKey), object: self)
+            if let phv = self.subviews[0] as? PlaceHolderView {
+                if phv.placeHolders.count == 0 {
+                    return self
+                }
+            }
             return nil
         }
         return self
