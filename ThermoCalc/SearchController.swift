@@ -354,15 +354,15 @@ extension SearchController {
                 currentButton.setTitle((button.titleLabel?.text)!, for: .normal)
                 var containsInterView = false
                 for view in placeHolderView.placeHolders {
-                    if view.tag == currentButton.tag+1 {
-                        break
-                    }
                     if view is InterView {
                         containsInterView = true
                     }
+                    if view.tag == currentButton.tag+1 {
+                        break
+                    }
                 }
                 if !(containsInterView) {
-                    if placeHolderView.selectedIndex! + 2 < placeHolderView.placeHolders.count {
+                    if placeHolderView.selectedIndex! < placeHolderView.placeHolders.count-2 {
                         if placeHolderView.placeHolders[placeHolderView.selectedIndex! + 2] is InterView {
                             placeHolderView.selectComponent(Index: placeHolderView.selectedIndex! + 2)
                             return
