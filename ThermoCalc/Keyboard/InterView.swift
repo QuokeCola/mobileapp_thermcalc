@@ -41,7 +41,6 @@ class InterView: UIView {
     }
 
     override func becomeFirstResponder() -> Bool {
-        print("SwitchKey posted.")
         NotificationCenter.default.post(name: NSNotification.Name(NotificationKeyboardSwitchStateKey), object: self)
         self.textView.becomeFirstResponder()
         return false

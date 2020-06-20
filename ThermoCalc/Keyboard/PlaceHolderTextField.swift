@@ -59,12 +59,9 @@ class PlaceHolderTextField: UITextField {
         var newFrame = self.frame
         newFrame.size = CGSize(width: width, height: newFrame.size.height)
         self.frame = newFrame
-        print(self.isFirstResponder)
     }
     
     @objc func selfActivated() {
-        print("self touched")
-        print(self.isFirstResponder)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationSearchSubViewActivateKey), object: self)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationKeyboardSwitchDecimalKey), object: self)
     }

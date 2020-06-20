@@ -15,6 +15,7 @@ class SearchController: UISearchController {
     var inputContent = [String?]()
     var placeHolderView: PlaceHolderView!
     var tempTextView: UITextView!
+    var maskView: UIView!
     
     func manualInitialize() {
         let nib = UINib(nibName: "DecimalKeyboard", bundle: nil)
@@ -33,6 +34,7 @@ class SearchController: UISearchController {
     }
     
     override func viewDidLoad() {
+        // SearchBar Configuration
         super.viewDidLoad()
         self.searchResultsUpdater = self
         self.searchBar.placeholder = "ENTER ANY THERMO STATE"
@@ -42,11 +44,8 @@ class SearchController: UISearchController {
         self.searchBar.clipsToBounds = true
         self.searchBar.autocorrectionType = .no
         self.searchBar.layer.masksToBounds = true
-        NotificationCenter.default.addObserver(self, selector: #selector(shouldHidePlaceHolderText), name: NSNotification.Name(rawValue: NotificationPlaceHolderIsEmpty), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleStateKeyPress), name: NSNotification.Name(rawValue: NotificationKeyboardStatePressedKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleSubViewClicked), name: NSNotification.Name(NotificationSearchSubViewActivateKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleDecimalKeyPressed), name: NSNotification.Name(NotificationKeyboardDecimalPressedKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleImagineViewClicked), name: NSNotification.Name(rawValue: NotificationKeyboardImaginePressedKey), object: nil)
+        
+        // Placeholder View configuration
         placeHolderView = PlaceHolderView(frame: (searchTextField?.frame)!)
         placeHolderView.frame.size.width -= 28.0
         placeHolderView.frame.origin = CGPoint(x: 28.0, y: 0.0)
@@ -54,7 +53,9 @@ class SearchController: UISearchController {
         searchTextField?.addSubview(placeHolderView)
         let index = self.searchTextField!.subviews.index(of: placeHolderView!)
         searchTextField?.exchangeSubview(at: 0, withSubviewAt: index!)
-        let maskView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 28.0, height: (searchTextField?.frame.height)!))
+        
+        // Maskview, for cover the placeholderview when it goes under search icon.
+        maskView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 28.0, height: (searchTextField?.frame.height)!))
         maskView.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1.0)
         maskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         maskView.layer.cornerRadius = 10.0
@@ -62,6 +63,14 @@ class SearchController: UISearchController {
         searchTextField?.addSubview(maskView)
         // decimalKeyboard.delegate = self
         // Do any additional setup after loading the view
+        
+        // NotificationCenter for Keypress.
+        NotificationCenter.default.addObserver(self, selector: #selector(shouldHidePlaceHolderText), name: NSNotification.Name(rawValue: NotificationPlaceHolderIsEmpty), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleStateKeyPress), name: NSNotification.Name(rawValue: NotificationKeyboardStatePressedKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSubViewClicked), name: NSNotification.Name(NotificationSearchSubViewActivateKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDecimalKeyPressed), name: NSNotification.Name(NotificationKeyboardDecimalPressedKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleImagineViewClicked), name: NSNotification.Name(rawValue: NotificationKeyboardImaginePressedKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(searchBarSizeChange), name: NSNotification.Name(rawValue: NotificationSearchBarSizeChangeKey), object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -69,6 +78,7 @@ class SearchController: UISearchController {
         // Dispose of any resources that can be recreated.
     }
     
+    // If placeholderView is empty then show the string.
     @objc func shouldHidePlaceHolderText(info: NSNotification) {
         if let placeHolderEmpty = info.object as? Bool {
             if (placeHolderEmpty) {
@@ -81,7 +91,10 @@ class SearchController: UISearchController {
             }
         }
     }
-    
+}
+
+// Handle Key input and the action of placeholder view.
+extension SearchController {
     @objc func handleStateKeyPress(info: NSNotification) {
         if let button = info.object as? KeyboardButton {
             if(button.Key.contains(find: "Delete")) {
@@ -207,7 +220,6 @@ class SearchController: UISearchController {
                         if index < placeHolderView.placeHolders.count - 1{
                             placeHolderView.removePlaceHolders(Index: index+1)
                         }
-                        print(index)
                         placeHolderView.removePlaceHolders(Index: index)
                         placeHolderView.selectComponent(Index: index - 1)
                     } else {
@@ -253,28 +265,33 @@ class SearchController: UISearchController {
     }
     
     @objc func handleImagineViewClicked(info: NSNotification) {
-        if let pressedKeyboardButton = info.object as? ImagineButton {
+        if let button = info.object as? ImagineButton {
             if placeHolderView.placeHolders[placeHolderView.selectedIndex!] is PlaceHolderTextField {
                 if placeHolderView.selectedIndex! == placeHolderView.placeHolders.count-1 {
-                    placeHolderView.addPlaceHolderButton(placeHolderString: (pressedKeyboardButton.titleLabel?.text)!, type: .Unit, index: nil)
+                    placeHolderView.addPlaceHolderButton(placeHolderString: (button.titleLabel?.text)!, type: .Unit, index: nil)
                     var containsInterView = false
                     for view in placeHolderView.placeHolders {
+                        if view.tag == self.placeHolderView.placeHolders[placeHolderView.selectedIndex!].tag {
+                            break
+                        }
                         if view is InterView {
                             containsInterView = true
                         }
                     }
                     if !containsInterView {
                         placeHolderView.addInterView(Keyboard: (searchTextField?.inputView)!, index: nil)
-                       
                     }
                     placeHolderView.selectComponent(Index: placeHolderView.placeHolders.count - 1)
                 } else {
-                    if let nextItem = placeHolderView.placeHolders[placeHolderView.selectedIndex!+1] as? PlaceHolderButton {
-                        if nextItem.placeHolderButtonType == .Unit {
-                            nextItem.setTitle((pressedKeyboardButton.titleLabel?.text)!, for: .normal)
+                    if let nextButton = placeHolderView.placeHolders[placeHolderView.selectedIndex!+1] as? PlaceHolderButton {
+                        if nextButton.placeHolderButtonType == .Unit {
+                            nextButton.setTitle((button.titleLabel?.text)!, for: .normal)
                             var containsInterView = false
-                            for view in placeHolderView.placeHolders {
-                                if view is InterView {
+                            for placeHolder in placeHolderView.placeHolders {
+                                if view.tag == placeHolderView.placeHolders[placeHolderView.selectedIndex!+1].tag {
+                                    break
+                                }
+                                if placeHolder is InterView {
                                     containsInterView = true
                                 }
                             }
@@ -292,10 +309,13 @@ class SearchController: UISearchController {
                                     placeHolderView.selectComponent(Index: placeHolderView.selectedIndex! + 2)
                                 }
                             }
-                        } else if nextItem.placeHolderButtonType == .Header {
-                            placeHolderView.addPlaceHolderButton(placeHolderString: (pressedKeyboardButton.titleLabel?.text)!, type: .Unit, index: placeHolderView.selectedIndex! + 1)
+                        } else if nextButton.placeHolderButtonType == .Header {
+                            placeHolderView.addPlaceHolderButton(placeHolderString: (button.titleLabel?.text)!, type: .Unit, index: placeHolderView.selectedIndex! + 1)
                             var containsInterView = false
                             for view in placeHolderView.placeHolders {
+                                if view.tag == placeHolderView.placeHolders[placeHolderView.selectedIndex!+1].tag {
+                                    break
+                                }
                                 if view is InterView {
                                     containsInterView = true
                                 }
@@ -319,9 +339,12 @@ class SearchController: UISearchController {
                     }
                 }
             } else if let currentButton = placeHolderView.placeHolders[placeHolderView.selectedIndex!] as? PlaceHolderButton {
-                currentButton.setTitle((pressedKeyboardButton.titleLabel?.text)!, for: .normal)
+                currentButton.setTitle((button.titleLabel?.text)!, for: .normal)
                 var containsInterView = false
                 for view in placeHolderView.placeHolders {
+                    if view.tag == currentButton.tag+1 {
+                        break
+                    }
                     if view is InterView {
                         containsInterView = true
                     }
@@ -394,5 +417,12 @@ extension SearchController: UISearchBarDelegate{
             }
         }
         tempTextView.resignFirstResponder()
+    }
+    
+    @objc func searchBarSizeChange(info:NSNotification) {
+        if let bounds = info.object as? CGRect {
+            let newTextFieldHeight = max(bounds.height - (52.0 - searchTextField!.bounds.height), 0.0)
+            maskView.frame.size.height = newTextFieldHeight
+        }
     }
 }

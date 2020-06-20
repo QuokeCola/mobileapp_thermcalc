@@ -219,11 +219,11 @@ class PlaceHolderView: UIView {
             if let index = selectedIndex {
                 if(index < placeHolders.count) {
                     if (self.frame.size.width - placeHolders[index].frame.minX) > CGFloat((superview?.frame.size.width)! - 28.0) {
-                        UIView.animate(withDuration: 0.3, animations: {
+                        UIView.animate(withDuration: 0.1, animations: {
                             self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0
                         })
                     } else {
-                        UIView.animate(withDuration: 0.3, animations: {
+                        UIView.animate(withDuration: 0.1, animations: {
                             self.frame.origin.x = (self.superview?.frame.size.width)! - self.frame.size.width
                         })
                     }
@@ -231,7 +231,7 @@ class PlaceHolderView: UIView {
             }
 
         } else {
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: 0.1, animations: {
                 self.frame.origin.x = 28.0
             })
         }
@@ -297,14 +297,25 @@ class PlaceHolderView: UIView {
             }
         }
         selectedIndex = index
-        if (self.frame.size.width - placeHolders[index].frame.minX) > CGFloat((superview?.frame.size.width)! - 28.0) {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0
-            })
+        if self.frame.size.width > CGFloat((superview?.frame.size.width)! - 28.0) {
+            if (self.frame.size.width - placeHolders[index].frame.minX) > CGFloat((superview?.frame.size.width)! - 28.0) {
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0
+                })
+            } else {
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.frame.origin.x = (self.superview?.frame.size.width)! - self.frame.size.width
+                })
+            }
         }
     }
     
     func addInterView(Keyboard: UIView, index: Int?) {
+        for subView in placeHolders.reversed() {
+            if subView is InterView {
+                removePlaceHolders(Index: placeHolders.lastIndex(of: subView)!)
+            }
+        }
         let interView = InterView(frame: self.frame)
         interView.setupKeyboard(Keyboard: Keyboard)
         guard let Index = index else {
