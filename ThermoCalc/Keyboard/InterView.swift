@@ -28,6 +28,7 @@ class InterView: UIView {
         Frame.origin.x = label.frame.width
         textView = UITextView(frame: Frame)
         textView.backgroundColor = UIColor.clear
+        textView.font = UIFont.systemFont(ofSize: 17.0)
         self.addSubview(textView)
         self.frame.size.width = label.frame.width + textView.frame.width
     }
@@ -47,5 +48,6 @@ class InterView: UIView {
     }
     func textViewSelected() {
         NotificationCenter.default.post(name: NSNotification.Name(NotificationKeyboardSwitchStateKey), object: self)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationSearchSubViewActivateKey), object: self)
     }
 }

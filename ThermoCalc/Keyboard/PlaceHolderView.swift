@@ -184,6 +184,7 @@ class PlaceHolderView: UIView {
     
     func removePlaceHolders(Index: Int) {
         self.placeHolders[Index].removeFromSuperview()
+        self.placeHolders[Index].resignFirstResponder()
         self.placeHolders.remove(at: Index)
         if placeHolders.count == 0 {
             selectedIndex = nil

@@ -92,7 +92,6 @@ public extension UIDevice {
 extension UITextField {
     
     override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        
         guard self.point(inside: point, with: event) else { return nil }
         guard !(self is PlaceHolderTextField) else {return self}
         for subview in subviews.reversed() {
@@ -111,7 +110,7 @@ extension UITextField {
                     return self
                 }
             }
-            return nil
+            //return nil
         }
         return self
     }

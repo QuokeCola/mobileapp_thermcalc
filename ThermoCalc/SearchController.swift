@@ -247,20 +247,32 @@ extension SearchController {
     }
     
     @objc func handleSubViewClicked(info: NSNotification) {
-        self.isActive = true
         if info.object is PlaceHolderButton {
+            self.isActive = true
+            self.searchBar.resignFirstResponder()
             tempTextView.becomeFirstResponder()
         } else if info.object is UITextField {
             if !(info.object is PlaceHolderTextField) && placeHolderView.placeHolders.count != 0 {
+                self.isActive = true
+                self.searchBar.resignFirstResponder()
                 placeHolderView.selectComponent(Index: placeHolderView.placeHolders.count - 1)
                 if placeHolderView.placeHolders[placeHolderView.placeHolders.count - 1] is PlaceHolderButton {
+                    self.searchBar.resignFirstResponder()
                     tempTextView.becomeFirstResponder()
                 }
             } else if !(info.object is PlaceHolderTextField) && placeHolderView.placeHolders.count == 0{
-                searchTextField?.becomeFirstResponder()
+                self.searchBar.becomeFirstResponder()
+                //self.isActive = true
             } else if let textfield = info.object as? PlaceHolderTextField {
+                self.isActive = true
+                self.searchBar.resignFirstResponder()
                 _ = textfield.becomeFirstResponder()
             }
+        } else if info.object is InterView {
+            let view = info.object as! InterView
+            self.searchBar.becomeFirstResponder()
+            self.isActive = true
+            placeHolderView.selectComponent(Index: view.tag - 1)
         }
     }
     
@@ -425,4 +437,5 @@ extension SearchController: UISearchBarDelegate{
             maskView.frame.size.height = newTextFieldHeight
         }
     }
+    
 }
