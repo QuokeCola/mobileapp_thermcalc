@@ -31,7 +31,7 @@ The App is also compatible to iPad, with providing a large view.
 <div div align=center><img src="ThermoCalc/ScreenShots/iPad.png" width = "30%" height = "30%" /></div>
 
 # Progress
-- [ ] UI Configuration halfdone.
+- [x] UI Configuration almost done
 
 - [ ] Datasource setup halfdone.
 
