@@ -286,6 +286,7 @@ extension SearchController {
                 if placeHolderView.selectedIndex! == placeHolderView.placeHolders.count-1 {
                     placeHolderView.addPlaceHolderButton(placeHolderString: (button.titleLabel?.text)!, type: .Unit, index: nil)
                     var containsInterView = false
+                    var HeaderButtonCount = 0
                     for view in placeHolderView.placeHolders {
                         if view.tag == self.placeHolderView.placeHolders[placeHolderView.selectedIndex!].tag {
                             break
@@ -293,6 +294,14 @@ extension SearchController {
                         if view is InterView {
                             containsInterView = true
                         }
+                        if let button = view as? PlaceHolderButton {
+                            if button.placeHolderButtonType == .Header {
+                                HeaderButtonCount += 1
+                            }
+                        }
+                    }
+                    if HeaderButtonCount >= 2 {
+                        containsInterView = true
                     }
                     if !containsInterView {
                         placeHolderView.addInterView(Keyboard: (searchTextField?.inputView)!, index: nil)
@@ -303,6 +312,7 @@ extension SearchController {
                         if nextButton.placeHolderButtonType == .Unit {
                             nextButton.setTitle((button.titleLabel?.text)!, for: .normal)
                             var containsInterView = false
+                            var HeaderButtonCount = 0
                             for placeHolder in placeHolderView.placeHolders {
                                 if view.tag == placeHolderView.placeHolders[placeHolderView.selectedIndex!+1].tag {
                                     break
@@ -310,6 +320,14 @@ extension SearchController {
                                 if placeHolder is InterView {
                                     containsInterView = true
                                 }
+                                if let button = view as? PlaceHolderButton {
+                                    if button.placeHolderButtonType == .Header {
+                                        HeaderButtonCount += 1
+                                    }
+                                }
+                            }
+                            if HeaderButtonCount >= 2 {
+                                containsInterView = true
                             }
                             if !(containsInterView) {
                                 if placeHolderView.selectedIndex! + 2 < placeHolderView.placeHolders.count {
@@ -357,13 +375,22 @@ extension SearchController {
             } else if let currentButton = placeHolderView.placeHolders[placeHolderView.selectedIndex!] as? PlaceHolderButton {
                 currentButton.setTitle((button.titleLabel?.text)!, for: .normal)
                 var containsInterView = false
+                var HeaderButtonCount = 0
                 for view in placeHolderView.placeHolders {
                     if view is InterView {
                         containsInterView = true
                     }
-                    if view.tag == currentButton.tag+1 {
+                    if let button = view as? PlaceHolderButton {
+                        if button.placeHolderButtonType == .Header {
+                            HeaderButtonCount += 1
+                        }
+                    }
+                    if view.tag == currentButton.tag + 1 {
                         break
                     }
+                }
+                if HeaderButtonCount >= 2 {
+                    containsInterView = true
                 }
                 if !(containsInterView) {
                     if placeHolderView.selectedIndex! < placeHolderView.placeHolders.count-2 {

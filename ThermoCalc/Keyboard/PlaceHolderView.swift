@@ -248,7 +248,7 @@ class PlaceHolderView: UIView {
                 if(index < placeHolders.count) {
                     if (self.frame.size.width - placeHolders[index].frame.minX) > CGFloat((superview?.frame.size.width)! - 28.0) {
                         UIView.animate(withDuration: 0.1, animations: {
-                            self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0
+                            self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0 + 30.0
                         })
                     } else {
                         UIView.animate(withDuration: 0.1, animations: {
@@ -328,7 +328,7 @@ class PlaceHolderView: UIView {
         if self.frame.size.width > CGFloat((superview?.frame.size.width)! - 28.0) {
             if (self.frame.size.width - placeHolders[index].frame.minX) > CGFloat((superview?.frame.size.width)! - 28.0) {
                 UIView.animate(withDuration: 0.2, animations: {
-                    self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0
+                    self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0 + 30.0
                 })
             } else {
                 UIView.animate(withDuration: 0.2, animations: {
