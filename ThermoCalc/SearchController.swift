@@ -62,6 +62,8 @@ class SearchController: UISearchController {
         maskView.layer.cornerRadius = 10.0
         maskView.alpha = 0.0
         searchTextField?.addSubview(maskView)
+        searchTextField?.textColor = UIColor.clear
+        searchTextField?.clearButtonMode = .never
         UIView.animate(withDuration: 0.5, animations: {self.maskView.alpha = 1.0})
         // decimalKeyboard.delegate = self
         // Do any additional setup after loading the view

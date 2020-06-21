@@ -148,7 +148,7 @@ class TableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         if(searchController.isFiltering()) {
             if(indexPath.section == 0) {
-                cell.textLabel!.text = searchController.searchBar.text
+                cell.textLabel!.text = searchController.placeHolderView.searchText
                 cell.detailTextLabel?.text = "Searching..."// TODO: add calculated Results.
             } else {
                 let result = searchFilterResults[indexPath.row]

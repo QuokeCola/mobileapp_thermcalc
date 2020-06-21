@@ -11,6 +11,8 @@ import UIKit
 class PlaceHolderView: UIView {
     var selectedIndex: Int?
     let fullHeight = CGFloat(36.0)
+    var searchText: String = ""
+    
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -199,6 +201,26 @@ class PlaceHolderView: UIView {
     }
     
     func refreshPlaceHolderView() {
+        searchText = ""
+        for subview in placeHolders {
+            if let button = subview as? PlaceHolderButton {
+                if button.placeHolderButtonType == .Header {
+                    guard let titleString = button.titleLabel?.text else {continue}
+                    searchText.append(titleString)
+                } else if button.placeHolderButtonType == .Unit {
+                    guard let titleString = button.titleLabel?.text else {continue}
+                    searchText.append(titleString)
+                }
+            } else if let txtfield = subview as? PlaceHolderTextField {
+                guard let titleString = txtfield.text else {continue}
+                searchText.append(titleString)
+            } else if subview is InterView {
+                searchText.append(", ")
+            }
+        }
+        if let fatherView = self.superview?.superview?.superview as? UISearchBar {
+            fatherView.text = searchText
+        }
         placeHolderY = CGFloat(0.0)
         var placeHolderX = CGFloat(0.0)
         if placeHolders.count == 0 {return}
