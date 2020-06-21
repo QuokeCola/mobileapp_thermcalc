@@ -10,6 +10,7 @@ import UIKit
 
 class PlaceHolderView: UIView {
     var selectedIndex: Int?
+    let fullHeight = CGFloat(36.0)
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -128,21 +129,25 @@ class PlaceHolderView: UIView {
     
     @objc func searchBarSizeChange(info:NSNotification) {
         if let bounds = info.object as? CGRect {
-            let newButtonHeight = max(bounds.height - (52.0 - placeHolderHeight),0.0)
-            let newTextFieldHeight = max(bounds.height - (52.0 - self.bounds.height), 0.0)
-            if placeHolders.count != 0 {
-                for i in 0...self.placeHolders.count-1 {
-                    if let button = placeHolders[i] as? PlaceHolderButton {
-                        button.frame.size = CGSize(width: placeHolders[i].bounds.width, height: newButtonHeight)
-                        button.titleLabel?.alpha = max(3.0*newButtonHeight/placeHolderHeight-2.0, 0.0)
-                        button.alpha = min(4.0 * newButtonHeight/placeHolderHeight - 1.0, 1.0)
-                    }
-                    if let textField = placeHolders[i] as? PlaceHolderTextField {
-                        textField.frame.size = CGSize(width: placeHolders[i].bounds.width, height: newTextFieldHeight)
-                        textField.alpha = max(2.0 * newTextFieldHeight/self.bounds.height - 1.0, 0.0)
-                    }
-                }
-            }
+            // Best Effect, but requires a lot resources. iPhone XS will stuck when drag more than 10 times. So adjust the overall alpha, which will not cause a lot resources taken.
+//            let newButtonHeight = max(bounds.height - (52.0 - placeHolderHeight),0.0)
+//            let newTextFieldHeight = max(bounds.height - (52.0 - self.bounds.height), 0.0)
+//            if placeHolders.count != 0 {
+//                for i in 0...self.placeHolders.count-1 {
+//                    if let button = placeHolders[i] as? PlaceHolderButton {
+//                        button.frame.size = CGSize(width: placeHolders[i].bounds.width, height: newButtonHeight)
+//                        button.titleLabel?.alpha = max(3.0*newButtonHeight/placeHolderHeight-2.0, 0.0)
+//                        button.alpha = min(4.0 * newButtonHeight/placeHolderHeight - 1.0, 1.0)
+//                    }
+//                    if let textField = placeHolders[i] as? PlaceHolderTextField {
+//                        textField.frame.size = CGSize(width: placeHolders[i].bounds.width, height: newTextFieldHeight)
+//                        textField.alpha = max(2.0 * newTextFieldHeight/self.bounds.height - 1.0, 0.0)
+//                    }
+//                }
+//            }
+            let newHeight = max(bounds.height - (52.0 - self.bounds.height), 0.0)
+            self.frame.origin.y = (bounds.height - 52.0)/2.0
+            self.alpha = max(4.0 * newHeight/fullHeight - 3.0, 0.0)
         }
     }
     
@@ -150,7 +155,7 @@ class PlaceHolderView: UIView {
      For the maxima situation, here should be only four (As two state and two unit).
      */
     func addPlaceHolderButton(placeHolderString: String, type: PlaceHolderButton.PlaceHolderButtonType, index: Int?) {
-        placeHolderY = (self.bounds.height - placeHolderHeight)/2.0
+        placeHolderY = (fullHeight - placeHolderHeight)/2.0
         let placeHolderX = CGFloat(0.0)
         let button = PlaceHolderButton(frame: CGRect(x: placeHolderX, y: placeHolderY, width: 80.0, height: placeHolderHeight))
         button.setTitle(placeHolderString, for: .normal)
@@ -167,7 +172,7 @@ class PlaceHolderView: UIView {
     func addPlaceHolderTextField(Keyboard: UIView, Index: Int?) {
         placeHolderY = CGFloat(0.0)
         let placeHolderX = CGFloat(0.0)
-        let newTextField = PlaceHolderTextField(frame: CGRect(x: placeHolderX, y: placeHolderY, width: 80.0, height: self.frame.height))
+        let newTextField = PlaceHolderTextField(frame: CGRect(x: placeHolderX, y: placeHolderY, width: 80.0, height: fullHeight))
         newTextField.text = ""
         newTextField.inputView = Keyboard
         newTextField.sizeToFit()

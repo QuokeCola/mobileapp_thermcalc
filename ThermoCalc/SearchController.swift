@@ -30,6 +30,7 @@ class SearchController: UISearchController {
         searchTextField?.clipsToBounds = true
         tempTextView = UITextView(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0))
         tempTextView.inputView = keyboardContainerView
+        self.searchBar.placeholder = "ENTER ANY THERMO STATE"
         self.searchBar.addSubview(tempTextView)
     }
     
@@ -59,8 +60,9 @@ class SearchController: UISearchController {
         maskView.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1.0)
         maskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         maskView.layer.cornerRadius = 10.0
-        
+        maskView.alpha = 0.0
         searchTextField?.addSubview(maskView)
+        UIView.animate(withDuration: 0.5, animations: {self.maskView.alpha = 1.0})
         // decimalKeyboard.delegate = self
         // Do any additional setup after loading the view
         
@@ -262,7 +264,7 @@ extension SearchController {
                 }
             } else if !(info.object is PlaceHolderTextField) && placeHolderView.placeHolders.count == 0{
                 self.searchBar.becomeFirstResponder()
-                //self.isActive = true
+                self.isActive = true
             } else if let textfield = info.object as? PlaceHolderTextField {
                 self.isActive = true
                 self.searchBar.resignFirstResponder()
@@ -432,10 +434,7 @@ extension SearchController: UISearchBarDelegate{
     }
     
     @objc func searchBarSizeChange(info:NSNotification) {
-        if let bounds = info.object as? CGRect {
-            let newTextFieldHeight = max(bounds.height - (52.0 - searchTextField!.bounds.height), 0.0)
-            maskView.frame.size.height = newTextFieldHeight
-        }
+        maskView.frame.size.height = searchTextField!.bounds.height
     }
     
 }
