@@ -112,6 +112,11 @@ extension UITextField {
             }
             //return nil
         }
+        if point.x < 50.0 {
+            self.tag = 1
+        } else {
+            self.tag = 2
+        }
         return self
     }
     

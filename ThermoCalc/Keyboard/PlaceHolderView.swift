@@ -157,8 +157,39 @@ class PlaceHolderView: UIView {
      For the maxima situation, here should be only four (As two state and two unit).
      */
     func addPlaceHolderButton(placeHolderString: String, type: PlaceHolderButton.PlaceHolderButtonType, index: Int?) {
+        var placeHolderX = CGFloat(0.0)
+        if let Index = index {
+            for i in 0...Index{
+                if let button = placeHolders[i] as? PlaceHolderButton {
+                    if button.titleLabel?.text == " " {
+                        placeHolderX += 30.0
+                    } else {
+                        placeHolderX += placeHolders[i].frame.size.width
+                    }
+                    if button.placeHolderButtonType == .Header {
+                        placeHolderX += 10.0
+                    }
+                } else {
+                    placeHolderX += placeHolders[i].frame.size.width
+                }
+            }
+        } else {
+            for subview in self.subviews {
+                if let button = subview as? PlaceHolderButton {
+                    if button.titleLabel?.text == " " {
+                        placeHolderX += 30.0
+                    } else {
+                        placeHolderX += button.frame.size.width
+                    }
+                    if button.placeHolderButtonType == .Header {
+                        placeHolderX += 10.0
+                    }
+                } else {
+                    placeHolderX += subview.frame.size.width
+                }
+            }
+        }
         placeHolderY = (fullHeight - placeHolderHeight)/2.0
-        let placeHolderX = CGFloat(0.0)
         let button = PlaceHolderButton(frame: CGRect(x: placeHolderX, y: placeHolderY, width: 80.0, height: placeHolderHeight))
         button.setTitle(placeHolderString, for: .normal)
         button.placeHolderButtonType = type
@@ -172,8 +203,25 @@ class PlaceHolderView: UIView {
     }
     
     func addPlaceHolderTextField(Keyboard: UIView, Index: Int?) {
+        var placeHolderX = CGFloat(0.0)
+        if let index = Index {
+            for i in 0...index{
+                if let button = placeHolders[i] as? PlaceHolderButton {
+                    if button.titleLabel?.text == " " {
+                        placeHolderX += 30.0
+                    } else {
+                        placeHolderX += placeHolders[i].frame.size.width
+                    }
+                    if button.placeHolderButtonType == .Header {
+                        placeHolderX += 10.0
+                    }
+                } else {
+                    placeHolderX += placeHolders[i].frame.size.width
+                }
+            }
+        }
         placeHolderY = CGFloat(0.0)
-        let placeHolderX = CGFloat(0.0)
+
         let newTextField = PlaceHolderTextField(frame: CGRect(x: placeHolderX, y: placeHolderY, width: 80.0, height: fullHeight))
         newTextField.text = ""
         newTextField.inputView = Keyboard
@@ -225,7 +273,9 @@ class PlaceHolderView: UIView {
         var placeHolderX = CGFloat(0.0)
         if placeHolders.count == 0 {return}
         for i in 0...placeHolders.count-1 {
-            placeHolders[i].frame.origin.x = placeHolderX
+            UIView.animate(withDuration: 0.1) {
+                self.placeHolders[i].frame.origin.x = placeHolderX
+            }
             placeHolders[i].tag = i + 1
             if let button = placeHolders[i] as? PlaceHolderButton {
                 if button.titleLabel?.text == " " {
@@ -241,6 +291,7 @@ class PlaceHolderView: UIView {
             }
             self.addSubview(placeHolders[i])
         }
+
         self.frame.size.width = placeHolderX + 10.0
         
         if self.frame.size.width > CGFloat((superview?.frame.size.width)! - 28.0) {
@@ -326,7 +377,11 @@ class PlaceHolderView: UIView {
         }
         selectedIndex = index
         if self.frame.size.width > CGFloat((superview?.frame.size.width)! - 28.0) {
-            if (self.frame.size.width - placeHolders[index].frame.minX) > CGFloat((superview?.frame.size.width)! - 28.0) {
+            if (index == 0) {
+                UIView.animate(withDuration: 0.2) {
+                    self.frame.origin.x = 28.0
+                }
+            } else if (self.frame.size.width - placeHolders[index].frame.minX) > CGFloat((superview?.frame.size.width)! - 28.0) {
                 UIView.animate(withDuration: 0.2, animations: {
                     self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0 + 30.0
                 })

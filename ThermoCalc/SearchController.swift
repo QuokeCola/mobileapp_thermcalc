@@ -259,11 +259,22 @@ extension SearchController {
             if !(info.object is PlaceHolderTextField) && placeHolderView.placeHolders.count != 0 {
                 self.isActive = true
                 self.searchBar.resignFirstResponder()
-                placeHolderView.selectComponent(Index: placeHolderView.placeHolders.count - 1)
-                if placeHolderView.placeHolders[placeHolderView.placeHolders.count - 1] is PlaceHolderButton {
-                    self.searchBar.resignFirstResponder()
-                    tempTextView.becomeFirstResponder()
+                if let txtView = info.object as? UITextField {
+                    if txtView.tag == 1{
+                        placeHolderView.selectComponent(Index: 0)
+                        if placeHolderView.placeHolders[0] is PlaceHolderButton {
+                            self.searchBar.resignFirstResponder()
+                            tempTextView.becomeFirstResponder()
+                        }
+                    } else if txtView.tag == 2{
+                        placeHolderView.selectComponent(Index: placeHolderView.placeHolders.count - 1)
+                        if placeHolderView.placeHolders[placeHolderView.placeHolders.count - 1] is PlaceHolderButton {
+                            self.searchBar.resignFirstResponder()
+                            tempTextView.becomeFirstResponder()
+                        }
+                    }
                 }
+
             } else if !(info.object is PlaceHolderTextField) && placeHolderView.placeHolders.count == 0{
                 self.searchBar.becomeFirstResponder()
                 self.isActive = true
