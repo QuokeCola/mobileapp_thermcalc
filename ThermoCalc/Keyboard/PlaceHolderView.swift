@@ -375,6 +375,7 @@ class PlaceHolderView: UIView {
                             Button.sizeToFit()
                             Button.alpha = 1.0
                         }
+
                     }
                     Button.becomeFirstResponder()
                 } else if let Textfield = placeHolders[i] as? PlaceHolderTextField {

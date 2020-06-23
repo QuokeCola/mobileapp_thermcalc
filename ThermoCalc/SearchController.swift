@@ -20,20 +20,26 @@ class SearchController: UISearchController {
     var bgview: UIVisualEffectView!
     
     func manualInitialize() {
-        let nib = UINib(nibName: "DecimalKeyboard", bundle: nil)
-        let objects = nib.instantiate(withOwner: nil, options: nil)
-        decimalKeyboard = objects.first as? DecimalKeyboardView
-        
-        let keyboardContainerView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5))
+//        let nib = UINib(nibName: "DecimalKeyboard", bundle: nil)
+//        let objects = nib.instantiate(withOwner: nil, options: nil)
+        decimalKeyboard = DecimalKeyboardView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5))
+        //decimalKeyboard = objects.first as? DecimalKeyboardView
+
+        let keyboardContainerView = KBContainerView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5))
         
         keyboardContainerView.addSubview(decimalKeyboard)
+        //keyboardContainerView.autoresizingMask = .flexibleHeight
+        //keyboardContainerView.autoresizingMask = [.flexibleBottomMargin, .flexibleHeight]
         searchTextField = self.searchBar.value(forKey: "_searchField") as? UITextField
+
         searchTextField!.inputView = keyboardContainerView
+        
         searchTextField?.clipsToBounds = true
         tempTextView = UITextView(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0))
         tempTextView.inputView = keyboardContainerView
         self.searchBar.placeholder = "ENTER ANY THERMO STATE"
         self.searchBar.addSubview(tempTextView)
+        
     }
     
     override func viewDidLoad() {
@@ -93,6 +99,7 @@ class SearchController: UISearchController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleDecimalKeyPressed), name: NSNotification.Name(NotificationKeyboardDecimalPressedKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleImagineViewClicked), name: NSNotification.Name(rawValue: NotificationKeyboardImaginePressedKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(searchBarSizeChange), name: NSNotification.Name(rawValue: NotificationSearchBarSizeChangeKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateKBRotationFrame), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -117,6 +124,10 @@ class SearchController: UISearchController {
 
 // Handle Key input and the action of placeholder view.
 extension SearchController {
+    @objc func updateKBRotationFrame() {
+        searchTextField?.inputView?.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5)
+    }
+    
     @objc func handleStateKeyPress(info: NSNotification) {
         if let button = info.object as? KeyboardButton {
             if(button.Key.contains(find: "Delete")) {

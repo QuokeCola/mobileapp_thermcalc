@@ -32,6 +32,18 @@ The App is also compatible to iPad, with providing a large view.
 
 <div div align=center><img src="ThermoCalc/ScreenShots/iPad.png" width = "30%" height = "30%" /></div>
 
+Dynamic keyboard could switch the keyboard type between State input and Decimal Input in portrait mode. 
+
+<div div align=center><img src="ThermoCalc/ScreenShots/Dynamic Keyboard.gif" width = "30%" height = "30%" /></div>
+
+Deleting the Header button always make people forget about input the header. This dynamic button indicator could allows you to touch it and set the header.
+
+<div div align=center><img src="ThermoCalc/ScreenShots/Indicator.gif" width = "30%" height = "30%" /></div>
+
+Horizontal view is designed for landscape orientation of iPhone and all iPads, the keyboard is more straight forward and inproves the efficiency.
+
+<div div align=center><img src="ThermoCalc/ScreenShots/Landscape.gif" width = "100%" height = "100%" /></div>
+
 # Progress
 - [x] UI Configuration almost done
 
