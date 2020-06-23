@@ -41,6 +41,7 @@ class PlaceHolderView: UIView {
                         }
                         self.placeHolders[i].alpha = 0.5
                         UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                            UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                             self.placeHolders[i].alpha = 0.5
                             self.placeHolders[i].subviews[0].frame.size.width = 10.0
                         })
@@ -52,6 +53,7 @@ class PlaceHolderView: UIView {
                         }
                         self.placeHolders[i].alpha = 0.5
                         UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                            UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                             self.placeHolders[i].alpha = 0.5
                             self.placeHolders[i].subviews[0].frame.size.width = 10.0
                         })
@@ -70,6 +72,7 @@ class PlaceHolderView: UIView {
                                 }
                                 self.placeHolders[i].alpha = 0.5
                                 UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                                    UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                                     self.placeHolders[i].alpha = 0.5
                                     self.placeHolders[i].subviews[0].frame.size.width = 10.0
                                 })
@@ -82,6 +85,7 @@ class PlaceHolderView: UIView {
                             }
                             self.placeHolders[i].alpha = 0.5
                             UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                                UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                                 self.placeHolders[i].alpha = 0.5
                                 self.placeHolders[i].subviews[0].frame.size.width = 10.0
                             })
@@ -94,6 +98,7 @@ class PlaceHolderView: UIView {
                             button.deselectButton()
                         }
                         UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                            UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                             self.placeHolders[i].alpha = 0.5
                             self.placeHolders[i].subviews[0].frame.size.width = 10.0
                         })
@@ -131,24 +136,23 @@ class PlaceHolderView: UIView {
     
     @objc func searchBarSizeChange(info:NSNotification) {
         if let bounds = info.object as? CGRect {
-            // Best Effect, but requires a lot resources. iPhone XS will stuck when drag more than 10 times. So adjust the overall alpha, which will not cause a lot resources taken.
-//            let newButtonHeight = max(bounds.height - (52.0 - placeHolderHeight),0.0)
-//            let newTextFieldHeight = max(bounds.height - (52.0 - self.bounds.height), 0.0)
-//            if placeHolders.count != 0 {
-//                for i in 0...self.placeHolders.count-1 {
-//                    if let button = placeHolders[i] as? PlaceHolderButton {
-//                        button.frame.size = CGSize(width: placeHolders[i].bounds.width, height: newButtonHeight)
-//                        button.titleLabel?.alpha = max(3.0*newButtonHeight/placeHolderHeight-2.0, 0.0)
-//                        button.alpha = min(4.0 * newButtonHeight/placeHolderHeight - 1.0, 1.0)
-//                    }
-//                    if let textField = placeHolders[i] as? PlaceHolderTextField {
-//                        textField.frame.size = CGSize(width: placeHolders[i].bounds.width, height: newTextFieldHeight)
-//                        textField.alpha = max(2.0 * newTextFieldHeight/self.bounds.height - 1.0, 0.0)
-//                    }
-//                }
-//            }
+            // Best Effect, but requires a lot resources. iPhone XS will stuck when drag more than 10 times. So adjust the overall alpha, which will not cause a lot resources taken. Using calculated height is because that if using flexible height when the first time it collapse, the second time the height will be larger. It's because the button's position doesnot change but the height reaches to 0, and for the second time the button want to uncollapse, the
+            //            let newButtonHeight = max(bounds.height - (52.0 - placeHolderHeight),0.0)
+            //            let newTextFieldHeight = max(bounds.height - (52.0 - self.bounds.height), 0.0)
+            //            if placeHolders.count != 0 {
+            //                for i in 0...self.placeHolders.count-1 {
+            //                    if let button = placeHolders[i] as? PlaceHolderButton {
+            //                        button.frame.size = CGSize(width: placeHolders[i].bounds.width, height: newButtonHeight)
+            //                        button.titleLabel?.alpha = max(3.0*newButtonHeight/placeHolderHeight-2.0, 0.0)
+            //                        button.alpha = min(4.0 * newButtonHeight/placeHolderHeight - 1.0, 1.0)
+            //                    }
+            //                    if let textField = placeHolders[i] as? PlaceHolderTextField {
+            //                        textField.frame.size = CGSize(width: placeHolders[i].bounds.width, height: newTextFieldHeight)
+            //                        textField.alpha = max(2.0 * newTextFieldHeight/self.bounds.height - 1.0, 0.0)
+            //                    }
+            //                }
+            //            }
             let newHeight = max(bounds.height - (52.0 - self.bounds.height), 0.0)
-            self.frame.origin.y = (bounds.height - 52.0)/2.0
             self.alpha = max(4.0 * newHeight/fullHeight - 3.0, 0.0)
         }
     }
@@ -274,6 +278,7 @@ class PlaceHolderView: UIView {
         if placeHolders.count == 0 {return}
         for i in 0...placeHolders.count-1 {
             UIView.animate(withDuration: 0.1) {
+                UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                 self.placeHolders[i].frame.origin.x = placeHolderX
             }
             placeHolders[i].tag = i + 1
@@ -299,10 +304,12 @@ class PlaceHolderView: UIView {
                 if(index < placeHolders.count) {
                     if (self.frame.size.width - placeHolders[index].frame.minX) > CGFloat((superview?.frame.size.width)! - 28.0) {
                         UIView.animate(withDuration: 0.1, animations: {
+                            UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                             self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0 + 30.0
                         })
                     } else {
                         UIView.animate(withDuration: 0.1, animations: {
+                            UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                             self.frame.origin.x = (self.superview?.frame.size.width)! - self.frame.size.width
                         })
                     }
@@ -311,6 +318,7 @@ class PlaceHolderView: UIView {
 
         } else {
             UIView.animate(withDuration: 0.1, animations: {
+                UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                 self.frame.origin.x = 28.0
             })
         }
@@ -351,6 +359,7 @@ class PlaceHolderView: UIView {
                         Button.alpha = 0.5
                         let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
                         UIView.animate(withDuration: 1.5, delay: 0, options: opts, animations: {
+                            UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                             Button.alpha = 0.5
                             Button.frame.size.width = 10.0
                         })
@@ -361,9 +370,11 @@ class PlaceHolderView: UIView {
                 if let Button = placeHolders[i] as? PlaceHolderButton {
                     Button.selectButton()
                     if Button.titleLabel?.text == " " {
-                        Button.layer.removeAllAnimations()
-                        Button.sizeToFit()
-                        Button.alpha = 1.0
+                        
+                        UIView.animate(withDuration: 0.2) {
+                            Button.sizeToFit()
+                            Button.alpha = 1.0
+                        }
                     }
                     Button.becomeFirstResponder()
                 } else if let Textfield = placeHolders[i] as? PlaceHolderTextField {
@@ -379,14 +390,17 @@ class PlaceHolderView: UIView {
         if self.frame.size.width > CGFloat((superview?.frame.size.width)! - 28.0) {
             if (index == 0) {
                 UIView.animate(withDuration: 0.2) {
+                    UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                     self.frame.origin.x = 28.0
                 }
             } else if (self.frame.size.width - placeHolders[index].frame.minX) > CGFloat((superview?.frame.size.width)! - 28.0) {
                 UIView.animate(withDuration: 0.2, animations: {
+                    UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                     self.frame.origin.x = -self.placeHolders[index].frame.minX + 28.0 + 30.0
                 })
             } else {
                 UIView.animate(withDuration: 0.2, animations: {
+                    UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
                     self.frame.origin.x = (self.superview?.frame.size.width)! - self.frame.size.width
                 })
             }

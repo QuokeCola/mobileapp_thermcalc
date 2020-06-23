@@ -50,4 +50,9 @@ class InterView: UIView {
         NotificationCenter.default.post(name: NSNotification.Name(NotificationKeyboardSwitchStateKey), object: self)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationSearchSubViewActivateKey), object: self)
     }
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard self.point(inside: point, with: event) else { return nil }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotificationSearchSubViewActivateKey), object: self)
+        return self
+    }
 }

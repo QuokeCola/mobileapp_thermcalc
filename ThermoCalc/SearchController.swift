@@ -50,6 +50,7 @@ class SearchController: UISearchController {
         
         // Placeholder View configuration
         placeHolderView = PlaceHolderView(frame: (searchTextField?.frame)!)
+        placeHolderView.autoresizingMask = [.flexibleTopMargin, .flexibleBottomMargin]
         placeHolderView.frame.size.width -= 28.0
         placeHolderView.frame.origin = CGPoint(x: 28.0, y: 0.0)
         placeHolderView.tag = 1
@@ -58,10 +59,11 @@ class SearchController: UISearchController {
         searchTextField?.exchangeSubview(at: 0, withSubviewAt: index!)
         
         // Maskview, for cover the placeholderview when it goes under search icon.
-        maskView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 45.0, height: (searchTextField?.frame.height)!))
+        maskView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 28.0, height: (searchTextField?.frame.height)!))
+        maskView.layer.masksToBounds = true
+        maskView.autoresizingMask = .flexibleHeight
         maskView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         maskView.layer.cornerRadius = 10.0
-        maskView.layer.masksToBounds = true
         
         blureffect = UIBlurEffect(style: UIBlurEffectStyle.light)
         bgview = UIVisualEffectView(effect: nil)
@@ -78,11 +80,12 @@ class SearchController: UISearchController {
         maskView.layer.mask = gradientLayer
         maskView.addSubview(bgview)
         maskView.alpha = 0.0
+        
         searchTextField?.addSubview(maskView)
         searchTextField?.textColor = UIColor.clear
         searchTextField?.clearButtonMode = .never
         UIView.animate(withDuration: 0.5, animations: {self.maskView.alpha = 1.0})
-        print(maskView.alpha)
+        
         // NotificationCenter for Keypress.
         NotificationCenter.default.addObserver(self, selector: #selector(shouldHidePlaceHolderText), name: NSNotification.Name(rawValue: NotificationPlaceHolderIsEmpty), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleStateKeyPress), name: NSNotification.Name(rawValue: NotificationKeyboardStatePressedKey), object: nil)
@@ -486,11 +489,14 @@ extension SearchController: UISearchBarDelegate{
             }
         }
         tempTextView.resignFirstResponder()
+        UIView.animate(withDuration: 0.5) {
+            UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
+            self.placeHolderView.frame.origin.x = 28.0
+        }
     }
     
     @objc func searchBarSizeChange(info:NSNotification) {
-        maskView.frame.size.height = searchTextField!.bounds.height
-        maskView.alpha = placeHolderView.alpha
+        //maskView.alpha = placeHolderView.alpha
     }
     
 }
