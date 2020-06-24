@@ -28,12 +28,13 @@ class SearchController: UISearchController {
         //keyboardContainerView.autoresizingMask = .flexibleHeight
         //keyboardContainerView.autoresizingMask = [.flexibleBottomMargin, .flexibleHeight]
         searchTextField = self.searchBar.value(forKey: "_searchField") as? UITextField
-
         searchTextField!.inputView = keyboardContainerView
-        
         searchTextField?.clipsToBounds = true
+        searchTextField?.autocorrectionType = .no
+        
         tempTextView = UITextView(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: 0.0))
         tempTextView.inputView = keyboardContainerView
+        tempTextView.autocorrectionType = .no
         self.searchBar.placeholder = "ENTER ANY THERMO STATE"
         self.searchBar.addSubview(tempTextView)
         

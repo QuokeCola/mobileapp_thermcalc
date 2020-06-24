@@ -23,6 +23,7 @@ class PlaceHolderTextField: UITextField {
         self.addTarget(self, action: #selector(selfActivated), for: .touchDown)
         self.font = UIFont.systemFont(ofSize: 17.0)
         self.tintColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 0.9)
+        self.autocorrectionType = .no
     }
     
     override init(frame: CGRect) {
@@ -32,7 +33,6 @@ class PlaceHolderTextField: UITextField {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
     }
     
     override func awakeFromNib() {

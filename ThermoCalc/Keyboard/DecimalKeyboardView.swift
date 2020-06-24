@@ -24,7 +24,6 @@ class DecimalKeyboardView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        updateKeyboardPlacement()
         NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchDecimal), name: NSNotification.Name(rawValue: NotificationKeyboardSwitchDecimalKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchState), name: NSNotification.Name(rawValue: NotificationKeyboardSwitchStateKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateKeyboardPlacement), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
@@ -36,7 +35,6 @@ class DecimalKeyboardView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        updateKeyboardPlacement()
         NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchDecimal), name: NSNotification.Name(rawValue: NotificationKeyboardSwitchDecimalKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchState), name: NSNotification.Name(rawValue: NotificationKeyboardSwitchStateKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateKeyboardPlacement), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
@@ -52,6 +50,10 @@ class DecimalKeyboardView: UIView {
     
     @IBAction func StateKeyPressed(sender: KeyboardButton) {
         NotificationCenter.default.post(name: NSNotification.Name(NotificationKeyboardStatePressedKey), object: sender)
+    }
+    
+    override func didMoveToSuperview() {
+        updateKeyboardPlacement()
     }
     
     // Set up imagine box.
@@ -291,7 +293,7 @@ class DecimalKeyboardView: UIView {
      It should be used when rotating.
      */
     @objc func updateKeyboardPlacement() {
-        if(UIDevice.modelName.contains(find: "iPad") || UIApplication.shared.statusBarOrientation == .landscapeLeft || UIApplication.shared.statusBarOrientation == .landscapeRight) {
+        if((superview?.frame.size.width)! > CGFloat(700.0)) {
             LandscapeSetup()
             reloadImagineWords()
         } else {
@@ -311,7 +313,7 @@ class DecimalKeyboardView: UIView {
                         self.StateButton[i]?.isEnabled = false
                         
                     }
-                    if(UIDevice.modelName.contains(find: "iPad") || UIApplication.shared.statusBarOrientation == .landscapeLeft || UIApplication.shared.statusBarOrientation == .landscapeRight) {
+                    if((superview?.frame.size.width)! > CGFloat(700.0)) {
                         for i in 0...self.StateButton.count - 2 {
                             self.StateButton[i]?.alpha = 0.5
                         }
@@ -353,7 +355,7 @@ class DecimalKeyboardView: UIView {
                     for i in 0...self.StateButton.count - 1 {
                         self.StateButton[i]?.isEnabled = false
                     }
-                    if(UIDevice.modelName.contains(find: "iPad") || UIApplication.shared.statusBarOrientation == .landscapeLeft || UIApplication.shared.statusBarOrientation == .landscapeRight) {
+                    if((superview?.frame.size.width)! > CGFloat(700.0)) {
                         for i in 0...self.DecimalButton.count - 1 {
                             self.DecimalButton[i]?.alpha = 0.5
                         }

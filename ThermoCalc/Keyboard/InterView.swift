@@ -29,6 +29,7 @@ class InterView: UIView {
         textView = UITextView(frame: Frame)
         textView.backgroundColor = UIColor.clear
         textView.font = UIFont.systemFont(ofSize: 17.0)
+        textView.autocorrectionType = .no
         self.addSubview(textView)
         self.frame.size.width = label.frame.width + textView.frame.width
     }
