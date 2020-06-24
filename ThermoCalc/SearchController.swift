@@ -20,11 +20,8 @@ class SearchController: UISearchController {
     var bgview: UIVisualEffectView!
     
     func manualInitialize() {
-//        let nib = UINib(nibName: "DecimalKeyboard", bundle: nil)
-//        let objects = nib.instantiate(withOwner: nil, options: nil)
+        
         decimalKeyboard = DecimalKeyboardView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5))
-        //decimalKeyboard = objects.first as? DecimalKeyboardView
-
         let keyboardContainerView = KBContainerView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5))
         
         keyboardContainerView.addSubview(decimalKeyboard)
@@ -99,7 +96,7 @@ class SearchController: UISearchController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleDecimalKeyPressed), name: NSNotification.Name(NotificationKeyboardDecimalPressedKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleImagineViewClicked), name: NSNotification.Name(rawValue: NotificationKeyboardImaginePressedKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(searchBarSizeChange), name: NSNotification.Name(rawValue: NotificationSearchBarSizeChangeKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateKBRotationFrame), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(RotationAlphaReset), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -124,8 +121,8 @@ class SearchController: UISearchController {
 
 // Handle Key input and the action of placeholder view.
 extension SearchController {
-    @objc func updateKBRotationFrame() {
-        searchTextField?.inputView?.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5)
+    @objc func RotationAlphaReset() {
+        placeHolderView.alpha = 1.0
     }
     
     @objc func handleStateKeyPress(info: NSNotification) {

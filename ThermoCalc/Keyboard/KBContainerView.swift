@@ -20,14 +20,31 @@ class KBContainerView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateFrame), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    @objc func updateFrame() {
-        self.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5)
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        guard let superview = superview else { return }
+        
+        var lastView: UIView! = self
+        while lastView.superview != nil {
+            lastView = lastView.superview
+        }
+        
+        NSLayoutConstraint.activate([
+            heightAnchor.constraint(equalTo: lastView.heightAnchor, multiplier: 0.5, constant: 0),
+            widthAnchor.constraint(equalTo: superview.widthAnchor),
+            centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+            bottomAnchor.constraint(equalTo: superview.bottomAnchor)
+            ])
     }
 }

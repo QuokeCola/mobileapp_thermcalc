@@ -261,9 +261,15 @@ class DecimalKeyboardView: UIView {
         StateButton[7]?.frame = (DecimalButton[10]?.frame)!
         
         if keyboardType == .State {
+            for button in DecimalButton {
+                button?.alpha = 0.5
+            }
             DecimalButton[10]?.alpha = 0.0
             StateButton[7]?.alpha = 1.0
         } else {
+            for button in StateButton {
+                button?.alpha = 0.5
+            }
             DecimalButton[10]?.alpha = 1.0
             StateButton[7]?.alpha = 0.0
         }
@@ -303,11 +309,16 @@ class DecimalKeyboardView: UIView {
                     }
                     for i in 0...self.StateButton.count - 1 {
                         self.StateButton[i]?.isEnabled = false
+                        
                     }
                     if(UIDevice.modelName.contains(find: "iPad") || UIApplication.shared.statusBarOrientation == .landscapeLeft || UIApplication.shared.statusBarOrientation == .landscapeRight) {
+                        for i in 0...self.StateButton.count - 2 {
+                            self.StateButton[i]?.alpha = 0.5
+                        }
                         for i in 0...self.DecimalButton.count - 1 {
                             self.DecimalButton[i]?.isEnabled = true
                             self.ImagineView.isUserInteractionEnabled = true
+                            self.DecimalButton[i]?.alpha = 1.0
                         }
                         DecimalButton[10]?.alpha = 1.0
                         StateButton[7]?.alpha = 0.0
@@ -343,9 +354,13 @@ class DecimalKeyboardView: UIView {
                         self.StateButton[i]?.isEnabled = false
                     }
                     if(UIDevice.modelName.contains(find: "iPad") || UIApplication.shared.statusBarOrientation == .landscapeLeft || UIApplication.shared.statusBarOrientation == .landscapeRight) {
+                        for i in 0...self.DecimalButton.count - 1 {
+                            self.DecimalButton[i]?.alpha = 0.5
+                        }
                         for i in 0...self.StateButton.count - 1 {
                             self.StateButton[i]?.isEnabled = true
                             self.ImagineView.isUserInteractionEnabled = false
+                            self.StateButton[i]?.alpha = 1.0
                         }
                         DecimalButton[10]?.alpha = 0.0
                         StateButton[7]?.alpha = 1.0
