@@ -469,7 +469,11 @@ extension SearchController: UISearchResultsUpdating {
                 if (subString == "") {
                     continue
                 }
-                if (!result.calculated_result.get_result().lowercased().contains(String(subString).trimmingCharacters(in: .whitespaces).lowercased())) {
+                if let calculatedRes = result.calculated_result?.get_result() {
+                    if !calculatedRes.lowercased().contains(find: subString.lowercased()) {
+                        return false
+                    }
+                } else {
                     return false
                 }
             }

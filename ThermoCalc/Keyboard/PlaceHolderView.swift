@@ -13,9 +13,10 @@ class PlaceHolderView: UIView {
     let fullHeight = CGFloat(36.0)
     var searchText: String = ""
     
+    var SearchAttempt = searchAttempt(SearchCondition: [searchCondition](repeating: searchCondition(property: nil, amount: "", unit: ""), count: 2), substance: Substance,calculated_result: nil)
     /*
     // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
+     // An empty implementation adversely affects performance durinvarnimation.
     override func draw(_ rect: CGRect) {
         // Drawing code
     }
@@ -29,9 +30,18 @@ class PlaceHolderView: UIView {
             if placeHolders.count == 0{
                 return
             }
+            var existsHeader = false
+            var existsUnit = false
+            var existsTextfield = false
             for i in 0...placeHolders.count - 1 {
-                guard let UnitButton = self.placeHolders[i] as? PlaceHolderButton else {continue}
-                if UnitButton.placeHolderButtonType == .Unit {
+                guard let button = self.placeHolders[i] as? PlaceHolderButton else {continue}
+                if button.placeHolderButtonType == .Unit {
+                    if (!existsUnit) {
+                        existsUnit = true
+                        SearchAttempt.SearchCondition[0].unit = (button.titleLabel?.text)!
+                    } else {
+                        SearchAttempt.SearchCondition[1].unit = (button.titleLabel?.text)!
+                    }
                     if i != 0 {
                         guard placeHolders[i-1] is InterView else {continue}
                         let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
@@ -58,10 +68,27 @@ class PlaceHolderView: UIView {
                             self.placeHolders[i].subviews[0].frame.size.width = 10.0
                         })
                     }
+                } else if button.placeHolderButtonType == .Header {
+                    if (!existsHeader) {
+                        existsHeader = true
+                        if button.titleLabel?.text != " " {
+                            SearchAttempt.SearchCondition[0].unit = (button.titleLabel?.text)!
+                        }
+                    } else {
+                        if button.titleLabel?.text != " " {
+                            SearchAttempt.SearchCondition[0].unit = (button.titleLabel?.text)!
+                        }
+                    }
                 }
             }
             for i in 0...placeHolders.count - 1 {
-                if self.placeHolders[i] is PlaceHolderTextField {
+                if let textfield = self.placeHolders[i] as? PlaceHolderTextField {
+                    if (!existsTextfield) {
+                        existsTextfield = true
+                        SearchAttempt.SearchCondition[0].amount = textfield.text ?? ""
+                    } else {
+                        SearchAttempt.SearchCondition[1].amount = textfield.text ?? ""
+                    }
                     if i != 0 {
                         if let previousButton = placeHolders[i-1] as? PlaceHolderButton {
                             if previousButton.placeHolderButtonType == .Unit {

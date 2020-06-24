@@ -68,19 +68,19 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Property", for: indexPath)
         if(indexPath.section == 0) {
-            cell.textLabel!.text = detailResult?.calculated_result.State
+            cell.textLabel!.text = detailResult?.calculated_result?.State
         } else if (indexPath.section == 1) {
-            cell.textLabel!.text = detailResult?.calculated_result.p
+            cell.textLabel!.text = detailResult?.calculated_result?.p
         } else if (indexPath.section == 2) {
-            cell.textLabel!.text = detailResult?.calculated_result.v
+            cell.textLabel!.text = detailResult?.calculated_result?.v
         } else if (indexPath.section == 3) {
-            cell.textLabel!.text = detailResult?.calculated_result.T
+            cell.textLabel!.text = detailResult?.calculated_result?.T
         } else if (indexPath.section == 4) {
-            cell.textLabel!.text = detailResult?.calculated_result.u
+            cell.textLabel!.text = detailResult?.calculated_result?.u
         } else if (indexPath.section == 5) {
-            cell.textLabel!.text = detailResult?.calculated_result.h
+            cell.textLabel!.text = detailResult?.calculated_result?.h
         } else if (indexPath.section == 6) {
-            cell.textLabel!.text = detailResult?.calculated_result.x
+            cell.textLabel!.text = detailResult?.calculated_result?.x
         } else {
             cell.textLabel!.text = "NULL"
         }

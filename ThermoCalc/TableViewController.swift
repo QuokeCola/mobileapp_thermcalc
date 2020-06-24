@@ -31,8 +31,6 @@ class TableViewController: UITableViewController {
         }
         self.title = MainViewTitle
     }
-    
-    var Substance: substance_t = .Water
     private var MovingOffset = CGFloat(0.0)
     
     @IBOutlet var PickerViewTextField: SubstancePicker!
@@ -65,6 +63,9 @@ class TableViewController: UITableViewController {
         // A data for test.
         super.viewDidLoad()
         
+        for i in 0...20 {
+            Results.append(searchAttempt(SearchCondition: [searchCondition](repeating: searchCondition(property: .p, amount: "\(i)", unit: "Unit"), count: 2), substance: Substance, calculated_result: calculatedRes(p: "\(i)", v: "\(i)", T: "\(i)", h: "\(i)", u: "\(i)", x: "1.0", State: "Liquid", Substance: "Water")))
+        }
         // Picker View Configuration
         NotificationCenter.default.addObserver(self, selector: #selector(self.cancelBtnClicked), name: NSNotification.Name(rawValue: NotificationPickerViewCancelKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.doneBtnClicked), name: NSNotification.Name(rawValue: NotificationPickerViewDoneKey), object: nil)
@@ -152,13 +153,18 @@ class TableViewController: UITableViewController {
                 cell.detailTextLabel?.text = "Searching..."// TODO: add calculated Results.
             } else {
                 let result = searchFilterResults[indexPath.row]
-                cell.textLabel!.text = result.calculated_result.Substance+": "+result.property1+", "+result.property2
-                cell.detailTextLabel!.text = result.calculated_result.get_result()
+                if let calculateRes = result.calculated_result {
+                    cell.textLabel!.text = calculateRes.Substance+": "+result.property1+", "+result.property2
+                    cell.detailTextLabel!.text = calculateRes.get_result()
+                }
+                
             }
         } else {
             let result = Results[indexPath.row]
-            cell.textLabel!.text = result.calculated_result.Substance+": "+result.property1+", "+result.property2
-            cell.detailTextLabel!.text = result.calculated_result.get_result()
+            if let calculateRes = result.calculated_result {
+                cell.textLabel!.text = calculateRes.Substance+": "+result.property1+", "+result.property2
+                cell.detailTextLabel!.text = calculateRes.get_result()
+            }
         }
         return cell
     }

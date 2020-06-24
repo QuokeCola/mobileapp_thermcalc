@@ -23,7 +23,7 @@ struct calculatedRes {
 }
 
 struct searchAttempt{
-    let SearchCondition = [searchCondition](repeating: searchCondition(property: nil, amount: "", unit: ""), count: 2)
+    var SearchCondition = [searchCondition]()
     var property1: String {
         var header = ""
         if let propertyHeader = SearchCondition[0].property {
@@ -64,7 +64,8 @@ struct searchAttempt{
         }
         return header+SearchCondition[1].amount+SearchCondition[1].unit
     }
-    let calculated_result: calculatedRes
+    var substance : substance_t
+    let calculated_result: calculatedRes?
 }
 
 enum substance_t {
@@ -77,13 +78,14 @@ enum substance_t {
     case Propane
 }
 
+var Substance: substance_t = .Water
 var Results = [searchAttempt]()
 var searchFilterResults: [searchAttempt] = []
 
 struct searchCondition {
-    let property: PropertyHeader?
-    let amount: String
-    let unit: String
+    var property: PropertyHeader?
+    var amount: String
+    var unit: String
 }
 
 fileprivate struct sat_dataSource_t{
