@@ -43,7 +43,7 @@ class PlaceHolderView: UIView {
                         SearchAttempt.SearchCondition[1].unit = (button.titleLabel?.text)!
                     }
                     if i != 0 {
-                        guard placeHolders[i-1] is InterView else {continue}
+                        guard placeHolders[i-1] is divisionView else {continue}
                         let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
                         self.addPlaceHolderButton(placeHolderString: " ", type: .Header, index: i)
                         if let button = self.placeHolders[i] as? PlaceHolderButton {
@@ -104,7 +104,7 @@ class PlaceHolderView: UIView {
                                     self.placeHolders[i].subviews[0].frame.size.width = 10.0
                                 })
                             }
-                        } else if placeHolders[i-1] is InterView {
+                        } else if placeHolders[i-1] is divisionView {
                             let opts: UIViewAnimationOptions = [.autoreverse , .repeat]
                             self.addPlaceHolderButton(placeHolderString: " ", type: .Header, index: i)
                             if let button = self.placeHolders[i] as? PlaceHolderButton {
@@ -293,7 +293,7 @@ class PlaceHolderView: UIView {
             } else if let txtfield = subview as? PlaceHolderTextField {
                 guard let titleString = txtfield.text else {continue}
                 searchText.append(titleString)
-            } else if subview is InterView {
+            } else if subview is divisionView {
                 searchText.append(", ")
             }
         }
@@ -363,7 +363,7 @@ class PlaceHolderView: UIView {
                 if let textField = subview as?  PlaceHolderTextField {
                     self.selectComponent(Index: textField.tag-1)
                 }
-                if let interView = subview as? InterView {
+                if let interView = subview as? divisionView {
                     self.selectComponent(Index: interView.tag-1)
                 }
                 return candidate
@@ -408,7 +408,7 @@ class PlaceHolderView: UIView {
                 } else if let Textfield = placeHolders[i] as? PlaceHolderTextField {
                     Textfield.tintColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 0.9)
                     _ = Textfield.becomeFirstResponder()
-                } else if let interView = placeHolders[i] as? InterView {
+                } else if let interView = placeHolders[i] as? divisionView {
                     interView.textView.tintColor = UIColor(red: 49/255, green: 112/255, blue: 228/255, alpha: 0.9)
                     _ = interView.becomeFirstResponder()
                 }
@@ -437,11 +437,11 @@ class PlaceHolderView: UIView {
     
     func addInterView(Keyboard: UIView, index: Int?) {
         for subView in placeHolders.reversed() {
-            if subView is InterView {
+            if subView is divisionView {
                 removePlaceHolders(Index: placeHolders.lastIndex(of: subView)!)
             }
         }
-        let interView = InterView(frame: self.frame)
+        let interView = divisionView(frame: self.frame)
         interView.setupKeyboard(Keyboard: Keyboard)
         guard let Index = index else {
             placeHolders.append(interView)

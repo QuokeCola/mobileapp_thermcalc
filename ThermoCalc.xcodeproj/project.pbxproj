@@ -17,13 +17,13 @@
 		D072D6D02438319400133EFA /* NotificationCenterKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072D6CF2438319400133EFA /* NotificationCenterKeys.swift */; };
 		D072D6D4243835DF00133EFA /* SubstancePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072D6D3243835DF00133EFA /* SubstancePicker.swift */; };
 		D072D6DA24383F4700133EFA /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072D6D924383F4700133EFA /* KeyboardButton.swift */; };
-		D072D6DC24383F7700133EFA /* DecimalKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072D6DB24383F7700133EFA /* DecimalKeyboardView.swift */; };
+		D072D6DC24383F7700133EFA /* KeyboardComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D072D6DB24383F7700133EFA /* KeyboardComponents.swift */; };
 		D07AE5CC2429BF8800BFCC45 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AE5CB2429BF8800BFCC45 /* PickerView.swift */; };
 		D08FC6F024936DD500A19EDE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08FC6EF24936DD500A19EDE /* Extensions.swift */; };
 		D090543824A25C5700A27F1A /* KBContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D090543724A25C5700A27F1A /* KBContainerView.swift */; };
 		D0AB856C242861A300BB50A1 /* DataSourceStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB856B242861A300BB50A1 /* DataSourceStructure.swift */; };
 		D0AB856E242865D300BB50A1 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB856D242865D300BB50A1 /* DetailViewController.swift */; };
-		D0CB37B8249D121800E01954 /* InterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CB37B7249D121800E01954 /* InterView.swift */; };
+		D0CB37B8249D121800E01954 /* divisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CB37B7249D121800E01954 /* divisionView.swift */; };
 		D0ED29A824967E6900CE8BF0 /* ImagineButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ED29A724967E6900CE8BF0 /* ImagineButton.swift */; };
 		D0FBBA91249798AE00BE0DEE /* PlaceHolderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FBBA90249798AE00BE0DEE /* PlaceHolderTextField.swift */; };
 		D0FBBA932498F0A000BE0DEE /* PlaceHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FBBA922498F0A000BE0DEE /* PlaceHolderView.swift */; };
@@ -45,7 +45,7 @@
 		D072D6CF2438319400133EFA /* NotificationCenterKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterKeys.swift; sourceTree = "<group>"; };
 		D072D6D3243835DF00133EFA /* SubstancePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubstancePicker.swift; sourceTree = "<group>"; };
 		D072D6D924383F4700133EFA /* KeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
-		D072D6DB24383F7700133EFA /* DecimalKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalKeyboardView.swift; sourceTree = "<group>"; };
+		D072D6DB24383F7700133EFA /* KeyboardComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardComponents.swift; sourceTree = "<group>"; };
 		D07AE5CB2429BF8800BFCC45 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		D08FC6EF24936DD500A19EDE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D090543724A25C5700A27F1A /* KBContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KBContainerView.swift; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 		D093971E24306B450014D3F4 /* 3D_touch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3D_touch.png; sourceTree = "<group>"; };
 		D0AB856B242861A300BB50A1 /* DataSourceStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceStructure.swift; sourceTree = "<group>"; };
 		D0AB856D242865D300BB50A1 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		D0CB37B7249D121800E01954 /* InterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterView.swift; sourceTree = "<group>"; };
+		D0CB37B7249D121800E01954 /* divisionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = divisionView.swift; sourceTree = "<group>"; };
 		D0ED29A724967E6900CE8BF0 /* ImagineButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagineButton.swift; sourceTree = "<group>"; };
 		D0FBBA90249798AE00BE0DEE /* PlaceHolderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextField.swift; sourceTree = "<group>"; };
 		D0FBBA922498F0A000BE0DEE /* PlaceHolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderView.swift; sourceTree = "<group>"; };
@@ -106,6 +106,7 @@
 		D050C0392420D3D500A6ACB8 /* ThermoCalc */ = {
 			isa = PBXGroup;
 			children = (
+				D05A675624A3A50E00E12B0C /* PlaceHolderView */,
 				D072D6D624383EAD00133EFA /* Keyboard */,
 				D093971824306B350014D3F4 /* ScreenShots */,
 				D03A1C3E243061A700AE8FA6 /* DataSource */,
@@ -125,6 +126,17 @@
 			path = ThermoCalc;
 			sourceTree = "<group>";
 		};
+		D05A675624A3A50E00E12B0C /* PlaceHolderView */ = {
+			isa = PBXGroup;
+			children = (
+				D05CE07124971BF1009DE240 /* PlaceHolderButton.swift */,
+				D0FBBA90249798AE00BE0DEE /* PlaceHolderTextField.swift */,
+				D0FBBA922498F0A000BE0DEE /* PlaceHolderView.swift */,
+				D0CB37B7249D121800E01954 /* divisionView.swift */,
+			);
+			path = PlaceHolderView;
+			sourceTree = "<group>";
+		};
 		D072D6D524383B3400133EFA /* PickerComponents */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,11 +151,7 @@
 			children = (
 				D072D6D924383F4700133EFA /* KeyboardButton.swift */,
 				D0ED29A724967E6900CE8BF0 /* ImagineButton.swift */,
-				D072D6DB24383F7700133EFA /* DecimalKeyboardView.swift */,
-				D05CE07124971BF1009DE240 /* PlaceHolderButton.swift */,
-				D0FBBA90249798AE00BE0DEE /* PlaceHolderTextField.swift */,
-				D0FBBA922498F0A000BE0DEE /* PlaceHolderView.swift */,
-				D0CB37B7249D121800E01954 /* InterView.swift */,
+				D072D6DB24383F7700133EFA /* KeyboardComponents.swift */,
 				D090543724A25C5700A27F1A /* KBContainerView.swift */,
 			);
 			path = Keyboard;
@@ -242,12 +250,12 @@
 				D0ED29A824967E6900CE8BF0 /* ImagineButton.swift in Sources */,
 				D072D6CE2438290600133EFA /* SearchController.swift in Sources */,
 				D0AB856C242861A300BB50A1 /* DataSourceStructure.swift in Sources */,
-				D072D6DC24383F7700133EFA /* DecimalKeyboardView.swift in Sources */,
+				D072D6DC24383F7700133EFA /* KeyboardComponents.swift in Sources */,
 				D06D5F73242662F600C2B2E7 /* TableViewController.swift in Sources */,
 				D08FC6F024936DD500A19EDE /* Extensions.swift in Sources */,
 				D090543824A25C5700A27F1A /* KBContainerView.swift in Sources */,
 				D07AE5CC2429BF8800BFCC45 /* PickerView.swift in Sources */,
-				D0CB37B8249D121800E01954 /* InterView.swift in Sources */,
+				D0CB37B8249D121800E01954 /* divisionView.swift in Sources */,
 				D0FBBA91249798AE00BE0DEE /* PlaceHolderTextField.swift in Sources */,
 				D05CE07224971BF1009DE240 /* PlaceHolderButton.swift in Sources */,
 				D072D6DA24383F4700133EFA /* KeyboardButton.swift in Sources */,

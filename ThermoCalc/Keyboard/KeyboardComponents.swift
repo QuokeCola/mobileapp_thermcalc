@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DecimalKeyboardView: UIView {
+class KeyboardComponents: UIView {
     enum KeyboardType {
         case Decimal
         case State
@@ -19,14 +19,13 @@ class DecimalKeyboardView: UIView {
     private var totalWidth  = CGFloat(0.0)
     private var DecimalButton = [KeyboardButton?](repeating: nil, count: 12)
     private var StateButton = [KeyboardButton?](repeating: nil, count: 8)
-    private var ImagineView = UIScrollView(frame: CGRect(x: UIScreen.main.bounds.width, y: 0.0, width: UIScreen.main.bounds.width, height: CGFloat(55.0)))
+    private var ImagineView = UIScrollView(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: 50.0))
     private var StateKeys:[String] = ["Pressure","Spc.Vol","Temp","Int.Engy","Enthalpy","MassFac","Entropy"]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchDecimal), name: NSNotification.Name(rawValue: NotificationKeyboardSwitchDecimalKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchState), name: NSNotification.Name(rawValue: NotificationKeyboardSwitchStateKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateKeyboardPlacement), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -37,7 +36,6 @@ class DecimalKeyboardView: UIView {
         super.awakeFromNib()
         NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchDecimal), name: NSNotification.Name(rawValue: NotificationKeyboardSwitchDecimalKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleSwitchState), name: NSNotification.Name(rawValue: NotificationKeyboardSwitchStateKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateKeyboardPlacement), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
     @IBAction func DecimalKeyPressed(sender: KeyboardButton) {
@@ -53,6 +51,7 @@ class DecimalKeyboardView: UIView {
     }
     
     override func didMoveToSuperview() {
+        super.didMoveToSuperview()
         updateKeyboardPlacement()
     }
     
@@ -84,15 +83,17 @@ class DecimalKeyboardView: UIView {
         _ = self.subviews.map { $0.removeFromSuperview() }
         var x = CGFloat(0.0)
         var y = CGFloat(0.0)
-        self.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
         self.backgroundColor = BGColor
+        
+        ImagineView.frame.size.width = self.frame.width
+        
         totalHeight = self.frame.height - getBottomHeight() - ImagineView.bounds.height
-        totalWidth  = UIScreen.main.bounds.width
+        totalWidth  = self.frame.width
         
         let stateButtonWidth = totalWidth * 0.28
-        let stateButtonHeight = (UIScreen.main.bounds.height * 0.5 - getBottomHeight()) * 0.25
+        let stateButtonHeight = (self.frame.height - getBottomHeight()) * 0.25
         let stateSpacingX = totalWidth * 0.04
-        let stateSpacingY = (UIScreen.main.bounds.height * 0.5 - getBottomHeight()) * 0.0625
+        let stateSpacingY = (self.frame.height - getBottomHeight()) * 0.0625
         
         for i in 0...StateKeys.count-1 {
             x = (stateSpacingX + stateButtonWidth ) * CGFloat(i%3) + stateSpacingX
@@ -164,16 +165,16 @@ class DecimalKeyboardView: UIView {
         if self.keyboardType == .Decimal {
             for i in 0...self.DecimalButton.count - 1 {
                 var newFrameOrigin = self.DecimalButton[i]?.frame.origin
-                newFrameOrigin!.x -= UIScreen.main.bounds.width
+                newFrameOrigin!.x -= totalWidth
                 self.DecimalButton[i]?.frame.origin = newFrameOrigin!
             }
             for i in 0...self.StateButton.count - 1 {
                 var newFrameOrigin = self.StateButton[i]?.frame.origin
-                newFrameOrigin!.x -= UIScreen.main.bounds.width
+                newFrameOrigin!.x -= totalWidth
                 self.StateButton[i]?.frame.origin = newFrameOrigin!
             }
             var newFrameOrigin = self.ImagineView.frame.origin
-            newFrameOrigin.x -= UIScreen.main.bounds.width
+            newFrameOrigin.x -= totalWidth
             self.ImagineView.frame.origin = newFrameOrigin
             for i in 0...self.DecimalButton.count - 1 {
                 self.DecimalButton[i]?.isEnabled = true
@@ -186,15 +187,14 @@ class DecimalKeyboardView: UIView {
         _ = self.subviews.map { $0.removeFromSuperview() }
         var x = CGFloat(0.0)
         var y = CGFloat(0.0)
-        self.frame = CGRect(x: getLeftRightSpace(), y: 0.0, width: UIScreen.main.bounds.width-2*getLeftRightSpace(), height: UIScreen.main.bounds.height * 0.5)
         self.backgroundColor = BGColor
         totalHeight = self.frame.height - getBottomHeight() - ImagineView.bounds.height
-        totalWidth  = UIScreen.main.bounds.width * 0.5-getLeftRightSpace()
+        totalWidth  = self.frame.width * 0.5-getLeftRightSpace()
         
         let stateButtonWidth = totalWidth * 0.28
-        let stateButtonHeight = (UIScreen.main.bounds.height * 0.5 - getBottomHeight()) * 0.25
+        let stateButtonHeight = (self.frame.height - getBottomHeight()) * 0.25
         let stateSpacingX = totalWidth * 0.04
-        let stateSpacingY = (UIScreen.main.bounds.height * 0.5 - getBottomHeight()) * 0.0625
+        let stateSpacingY = (self.frame.height - getBottomHeight()) * 0.0625
         
         for i in 0...StateKeys.count-1 {
             x = (stateSpacingX + stateButtonWidth ) * CGFloat(i%3) + stateSpacingX
@@ -275,6 +275,7 @@ class DecimalKeyboardView: UIView {
             DecimalButton[10]?.alpha = 1.0
             StateButton[7]?.alpha = 0.0
         }
+        self.frame.origin.x = getLeftRightSpace()
         self.addSubview(StateButton[7]!)
         self.addSubview(DecimalButton[10]!)
         self.addSubview(DecimalButton[11]!)
@@ -293,7 +294,7 @@ class DecimalKeyboardView: UIView {
      It should be used when rotating.
      */
     @objc func updateKeyboardPlacement() {
-        if((superview?.frame.size.width)! > CGFloat(700.0)) {
+        if(self.frame.width > CGFloat(700.0)) {
             LandscapeSetup()
             reloadImagineWords()
         } else {
@@ -301,6 +302,7 @@ class DecimalKeyboardView: UIView {
             reloadImagineWords()
         }
     }
+    
     var keyboardType:KeyboardType = .State{
         didSet{
             switch keyboardType {
@@ -313,7 +315,7 @@ class DecimalKeyboardView: UIView {
                         self.StateButton[i]?.isEnabled = false
                         
                     }
-                    if((superview?.frame.size.width)! > CGFloat(700.0)) {
+                    if(self.frame.size.width > CGFloat(700.0)) {
                         for i in 0...self.StateButton.count - 2 {
                             self.StateButton[i]?.alpha = 0.5
                         }
@@ -328,16 +330,17 @@ class DecimalKeyboardView: UIView {
                         UIView.animate(withDuration: 0.4, animations: {
                             for i in 0...self.DecimalButton.count - 1 {
                                 var newFrameOrigin = self.DecimalButton[i]?.frame.origin
-                                newFrameOrigin!.x -= UIScreen.main.bounds.width
+                            
+                                newFrameOrigin!.x -= self.frame.width
                                 self.DecimalButton[i]?.frame.origin = newFrameOrigin!
                             }
                             for i in 0...self.StateButton.count - 1 {
                                 var newFrameOrigin = self.StateButton[i]?.frame.origin
-                                newFrameOrigin!.x -= UIScreen.main.bounds.width
+                                newFrameOrigin!.x -= self.frame.width
                                 self.StateButton[i]?.frame.origin = newFrameOrigin!
                             }
                             var newFrameOrigin = self.ImagineView.frame.origin
-                            newFrameOrigin.x -= UIScreen.main.bounds.width
+                            newFrameOrigin.x -= self.frame.width
                             self.ImagineView.frame.origin = newFrameOrigin
                         }, completion: {(finished:Bool) in
                             for i in 0...self.DecimalButton.count - 1 {
@@ -355,7 +358,7 @@ class DecimalKeyboardView: UIView {
                     for i in 0...self.StateButton.count - 1 {
                         self.StateButton[i]?.isEnabled = false
                     }
-                    if((superview?.frame.size.width)! > CGFloat(700.0)) {
+                    if(self.frame.size.width > CGFloat(700.0)) {
                         for i in 0...self.DecimalButton.count - 1 {
                             self.DecimalButton[i]?.alpha = 0.5
                         }
@@ -370,16 +373,16 @@ class DecimalKeyboardView: UIView {
                         UIView.animate(withDuration: 0.4, animations: {
                             for i in 0...self.DecimalButton.count - 1 {
                                 var newFrameOrigin = self.DecimalButton[i]?.frame.origin
-                                newFrameOrigin!.x += UIScreen.main.bounds.width
+                                newFrameOrigin!.x += self.frame.width
                                 self.DecimalButton[i]?.frame.origin = newFrameOrigin!
                             }
                             for i in 0...self.StateButton.count - 1 {
                                 var newFrameOrigin = self.StateButton[i]?.frame.origin
-                                newFrameOrigin!.x += UIScreen.main.bounds.width
+                                newFrameOrigin!.x += self.frame.width
                                 self.StateButton[i]?.frame.origin = newFrameOrigin!
                             }
                             var newFrameOrigin = self.ImagineView.frame.origin
-                            newFrameOrigin.x += UIScreen.main.bounds.width
+                            newFrameOrigin.x += self.frame.width
                             self.ImagineView.frame.origin = newFrameOrigin
                         }, completion: {(finished:Bool) in
                             for i in 0...self.StateButton.count - 1 {
@@ -399,5 +402,9 @@ class DecimalKeyboardView: UIView {
     
     @objc func handleSwitchState(info: NSNotification) {
         keyboardType = .State
+    }
+    
+    override func layoutSubviews() {
+        self.updateKeyboardPlacement()
     }
 }

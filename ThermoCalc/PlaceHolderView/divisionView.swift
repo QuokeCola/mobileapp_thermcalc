@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InterView: UIView {
+class divisionView: UIView {
     var textView: UITextView!
     var label: UILabel!
     func setupKeyboard(Keyboard: UIView) {

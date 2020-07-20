@@ -17,11 +17,14 @@ class KBContainerView: UIView {
         // Drawing code
     }
     */
+    var keyboardComponents: KeyboardComponents!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.translatesAutoresizingMaskIntoConstraints = false
+        keyboardComponents = KeyboardComponents(frame: frame)
+        self.addSubview(keyboardComponents)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -46,5 +49,10 @@ class KBContainerView: UIView {
             centerXAnchor.constraint(equalTo: superview.centerXAnchor),
             bottomAnchor.constraint(equalTo: superview.bottomAnchor)
             ])
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        keyboardComponents.frame = self.frame
     }
 }

@@ -64,7 +64,7 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
         
         for i in 0...20 {
-            Results.append(searchAttempt(SearchCondition: [searchCondition](repeating: searchCondition(property: .p, amount: "\(i)", unit: "Unit"), count: 2), substance: Substance, calculated_result: calculatedRes(p: "\(i)", v: "\(i)", T: "\(i)", h: "\(i)", u: "\(i)", x: "1.0", State: "Liquid", Substance: "Water")))
+            Results.append(searchAttempt(SearchCondition: [searchCondition](repeating: searchCondition(property: .p, amount: "\(i)", unit: "Unit"), count: 2), substance: Substance, calculated_result: calculatedRes(p: "\(i)", v: "\(i)", T: "\(i)", h: "\(i)", u: "\(i)", x: "1.0", State: "Liquid")))
         }
         // Picker View Configuration
         NotificationCenter.default.addObserver(self, selector: #selector(self.cancelBtnClicked), name: NSNotification.Name(rawValue: NotificationPickerViewCancelKey), object: nil)
@@ -154,7 +154,24 @@ class TableViewController: UITableViewController {
             } else {
                 let result = searchFilterResults[indexPath.row]
                 if let calculateRes = result.calculated_result {
-                    cell.textLabel!.text = calculateRes.Substance+": "+result.property1+", "+result.property2
+                    var SubstanceStr = ""
+                    switch result.substance {
+                    case .Air:
+                        SubstanceStr = "Air"
+                    case .Ammonia:
+                        SubstanceStr = "Ammonia"
+                    case .Nitrogen:
+                        SubstanceStr = "Nitrogen"
+                    case .Propane:
+                        SubstanceStr = "Propane"
+                    case .Refrigerant_134a:
+                        SubstanceStr = "R134a"
+                    case .Refrigerant_22:
+                        SubstanceStr = "R22"
+                    case .Water:
+                        SubstanceStr = "Water"
+                    }
+                    cell.textLabel!.text = SubstanceStr + ": "+result.property1+", "+result.property2
                     cell.detailTextLabel!.text = calculateRes.get_result()
                 }
                 
@@ -162,7 +179,24 @@ class TableViewController: UITableViewController {
         } else {
             let result = Results[indexPath.row]
             if let calculateRes = result.calculated_result {
-                cell.textLabel!.text = calculateRes.Substance+": "+result.property1+", "+result.property2
+                var SubstanceStr = ""
+                switch result.substance {
+                case .Air:
+                    SubstanceStr = "Air"
+                case .Ammonia:
+                    SubstanceStr = "Ammonia"
+                case .Nitrogen:
+                    SubstanceStr = "Nitrogen"
+                case .Propane:
+                    SubstanceStr = "Propane"
+                case .Refrigerant_134a:
+                    SubstanceStr = "R134a"
+                case .Refrigerant_22:
+                    SubstanceStr = "R22"
+                case .Water:
+                    SubstanceStr = "Water"
+                }
+                cell.textLabel!.text = SubstanceStr+": "+result.property1+", "+result.property2
                 cell.detailTextLabel!.text = calculateRes.get_result()
             }
         }
@@ -272,6 +306,7 @@ class TableViewController: UITableViewController {
             if(!UIDevice.current.model.contains("iPad")) {
                 show(controller, sender: self)
             } else {
+                print(UIApplication.shared.keyWindow?.frame.size)
                 let navcontroller = splitViewController?.viewControllers[(splitViewController?.viewControllers.count)!-1] as! UINavigationController
                 navcontroller.viewControllers[0] = controller
                 splitViewController?.viewControllers[(splitViewController?.viewControllers.count)!-1] = navcontroller

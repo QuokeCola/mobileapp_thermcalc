@@ -10,7 +10,6 @@ import UIKit
 
 class SearchController: UISearchController {
     
-    var decimalKeyboard: DecimalKeyboardView!
     var searchTextField: UITextField?
     var inputContent = [String?]()
     var placeHolderView: PlaceHolderView!
@@ -21,12 +20,7 @@ class SearchController: UISearchController {
     
     func manualInitialize() {
         
-        decimalKeyboard = DecimalKeyboardView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5))
         let keyboardContainerView = KBContainerView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5))
-        
-        keyboardContainerView.addSubview(decimalKeyboard)
-        //keyboardContainerView.autoresizingMask = .flexibleHeight
-        //keyboardContainerView.autoresizingMask = [.flexibleBottomMargin, .flexibleHeight]
         searchTextField = self.searchBar.value(forKey: "_searchField") as? UITextField
         searchTextField!.inputView = keyboardContainerView
         searchTextField?.clipsToBounds = true
@@ -96,7 +90,6 @@ class SearchController: UISearchController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleSubViewClicked), name: NSNotification.Name(NotificationSearchSubViewActivateKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleDecimalKeyPressed), name: NSNotification.Name(NotificationKeyboardDecimalPressedKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleImagineViewClicked), name: NSNotification.Name(rawValue: NotificationKeyboardImaginePressedKey), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(searchBarSizeChange), name: NSNotification.Name(rawValue: NotificationSearchBarSizeChangeKey), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(RotationAlphaReset), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
@@ -135,7 +128,7 @@ extension SearchController {
                 } else {
                     guard let selectedIndex = placeHolderView.selectedIndex else {return}
                     // If it's interview, selected the previous unit buttom
-                    if placeHolderView.placeHolders[selectedIndex] is InterView {
+                    if placeHolderView.placeHolders[selectedIndex] is divisionView {
                         placeHolderView.selectComponent(Index: selectedIndex-1)
                         return
                     }
@@ -171,7 +164,7 @@ extension SearchController {
                     if let view = placeHolderView.placeHolders[selectedIndex] as? PlaceHolderButton {
                         view.setTitle(titleString, for: .normal)
                         if(selectedIndex <= placeHolderView.placeHolders.count - 2) {
-                            if(placeHolderView.placeHolders[selectedIndex+1] is PlaceHolderButton || placeHolderView.placeHolders[selectedIndex+1] is InterView) {
+                            if(placeHolderView.placeHolders[selectedIndex+1] is PlaceHolderButton || placeHolderView.placeHolders[selectedIndex+1] is divisionView) {
                                 placeHolderView.addPlaceHolderTextField(Keyboard: (searchTextField?.inputView)!, Index: selectedIndex+1)
                                 placeHolderView.selectComponent(Index: selectedIndex + 1)
                             } else {
@@ -182,7 +175,7 @@ extension SearchController {
                             placeHolderView.selectComponent(Index: selectedIndex + 1)
                             return
                         }
-                    } else if placeHolderView.placeHolders[selectedIndex] is InterView {
+                    } else if placeHolderView.placeHolders[selectedIndex] is divisionView {
                         if selectedIndex < placeHolderView.placeHolders.count - 1 {
                             if let nextItem = placeHolderView.placeHolders[selectedIndex+1] as? PlaceHolderButton {
                                 if nextItem.placeHolderButtonType == .Unit {
@@ -310,8 +303,8 @@ extension SearchController {
                 self.searchBar.resignFirstResponder()
                 _ = textfield.becomeFirstResponder()
             }
-        } else if info.object is InterView {
-            let view = info.object as! InterView
+        } else if info.object is divisionView {
+            let view = info.object as! divisionView
             self.searchBar.becomeFirstResponder()
             self.isActive = true
             placeHolderView.selectComponent(Index: view.tag - 1)
@@ -329,7 +322,7 @@ extension SearchController {
                         if view.tag == self.placeHolderView.placeHolders[placeHolderView.selectedIndex!].tag {
                             break
                         }
-                        if view is InterView {
+                        if view is divisionView {
                             containsInterView = true
                         }
                         if let button = view as? PlaceHolderButton {
@@ -355,7 +348,7 @@ extension SearchController {
                                 if view.tag == placeHolderView.placeHolders[placeHolderView.selectedIndex!+1].tag {
                                     break
                                 }
-                                if placeHolder is InterView {
+                                if placeHolder is divisionView {
                                     containsInterView = true
                                 }
                                 if let button = view as? PlaceHolderButton {
@@ -369,7 +362,7 @@ extension SearchController {
                             }
                             if !(containsInterView) {
                                 if placeHolderView.selectedIndex! + 2 < placeHolderView.placeHolders.count {
-                                    if placeHolderView.placeHolders[placeHolderView.selectedIndex! + 2] is InterView {
+                                    if placeHolderView.placeHolders[placeHolderView.selectedIndex! + 2] is divisionView {
                                         placeHolderView.selectComponent(Index: placeHolderView.selectedIndex! + 2)
                                         return
                                     } else {
@@ -388,13 +381,13 @@ extension SearchController {
                                 if view.tag == placeHolderView.placeHolders[placeHolderView.selectedIndex!+1].tag {
                                     break
                                 }
-                                if view is InterView {
+                                if view is divisionView {
                                     containsInterView = true
                                 }
                             }
                             if !(containsInterView) {
                                 if placeHolderView.selectedIndex! + 2 < placeHolderView.placeHolders.count {
-                                    if placeHolderView.placeHolders[placeHolderView.selectedIndex! + 2] is InterView {
+                                    if placeHolderView.placeHolders[placeHolderView.selectedIndex! + 2] is divisionView {
                                         placeHolderView.selectComponent(Index: placeHolderView.selectedIndex! + 2)
                                         return
                                     } else {
@@ -415,7 +408,7 @@ extension SearchController {
                 var containsInterView = false
                 var HeaderButtonCount = 0
                 for view in placeHolderView.placeHolders {
-                    if view is InterView {
+                    if view is divisionView {
                         containsInterView = true
                     }
                     if let button = view as? PlaceHolderButton {
@@ -432,7 +425,7 @@ extension SearchController {
                 }
                 if !(containsInterView) {
                     if placeHolderView.selectedIndex! < placeHolderView.placeHolders.count-2 {
-                        if placeHolderView.placeHolders[placeHolderView.selectedIndex! + 2] is InterView {
+                        if placeHolderView.placeHolders[placeHolderView.selectedIndex! + 2] is divisionView {
                             placeHolderView.selectComponent(Index: placeHolderView.selectedIndex! + 2)
                             return
                         } else {
@@ -495,7 +488,7 @@ extension SearchController: UISearchBarDelegate{
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         for subview in self.placeHolderView.subviews {
             subview.resignFirstResponder()
-            if let itv = subview as? InterView {
+            if let itv = subview as? divisionView {
                 for subitv in itv.subviews {
                     subitv.resignFirstResponder()
                 }
@@ -506,10 +499,6 @@ extension SearchController: UISearchBarDelegate{
             UIView.setAnimationCurve(UIViewAnimationCurve(rawValue: 7)!)
             self.placeHolderView.frame.origin.x = 28.0
         }
-    }
-    
-    @objc func searchBarSizeChange(info:NSNotification) {
-        //maskView.alpha = placeHolderView.alpha
     }
     
 }
