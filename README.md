@@ -8,7 +8,7 @@ Just enter e.g."p=1bar, v=0.012m^3/kg" then press enter, you could get the answe
 
 The keyboard is modified and it is smart.
 
-The Main Menu is simple, like all apple stock apps.
+The Main Menu is simple.
 
 <div div align=center><img src="ThermoCalc/ScreenShots/main_screen.png" width = "30%" height = "30%" /></div>
 
