@@ -2,7 +2,7 @@
 An iOS APP that could calculate certain state of certain substance.
 It's based on the text books chart, with a linearly Linear interpolation.
 
-As I wrote this app on macOS High Sierra, it is developed on XCode10.2, iOS 12, and is compable with iOS 11 (As I tested). The code is theorically compable with iOS 13 but I have never upgrade my system and xcode to test it. If someone could help me update it to newest swift or test the code on iOS 13 machine?
+As I wrote this app on macOS High Sierra, it is developed on XCode10.2, iOS 12, and is compable with iOS 11 (As I tested). The code is theorically compable with iOS 13.
 # Usage
 Just enter e.g."p=1bar, v=0.012m^3/kg" then press enter, you could get the answer.
 
